@@ -1,9 +1,11 @@
 ﻿using System;
+using Microsoft.Practices.Unity;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System.Reflection;
 
 namespace CheckersUI
 {
@@ -18,8 +20,8 @@ namespace CheckersUI
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -29,20 +31,27 @@ namespace CheckersUI
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            var assembly = Assembly.Load(new AssemblyName(nameof(CheckersUI)));
+            
+            var container = new UnityContainer();
+            container.RegisterTypes(assembly.GetTypes());
+            
+            var mainPage = container.Resolve<MainPage>();
+
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-            Frame rootFrame = Window.Current.Content as Frame;
+            var rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                rootFrame = container.Resolve<Frame>();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -62,7 +71,7 @@ namespace CheckersUI
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Content = mainPage;
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
