@@ -109,7 +109,7 @@
   <ItemGroup>
     <Content Include="Assets\BlackChecker.png" />
     <Content Include="Assets\CheckerBoard.png" />
-    <Content Include="Assets\RedChecker.png" />
+    <Content Include="Assets\WhiteChecker.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -133,6 +133,7 @@
     <Reference Include="Checkers">
       <HintPath>..\..\Checkers\Checkers\bin\Debug\Checkers.dll</HintPath>
     </Reference>
+    <Reference Include="FSharp.Core, Version=3.47.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
