@@ -1,7 +1,8 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
-    "Unity": "4.0.1"
+    "Unity": "4.0.1",
+    "VSDiagnostics": "1.9.4"
   },
   "frameworks": {
     "uap10.0": {}

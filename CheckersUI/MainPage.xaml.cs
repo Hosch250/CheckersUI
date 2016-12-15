@@ -9,7 +9,7 @@ namespace CheckersUI
 {
     public sealed partial class MainPage
     {
-        private static Dictionary<Piece, Uri> pieceToUriMap = new Dictionary<Piece, Uri>
+        private static Dictionary<Piece, Uri> PieceToUriMap = new Dictionary<Piece, Uri>
             {
                 {Piece.WhiteChecker().Value, new Uri("ms-appx:///Assets/WhiteChecker.png", UriKind.Absolute)},
                 {Piece.WhiteKing().Value, new Uri("ms-appx:///Assets/WhiteKing.png", UriKind.Absolute)},
@@ -37,7 +37,7 @@ namespace CheckersUI
                     }
 
                     var bitmapImage = new BitmapImage();
-                    bitmapImage.UriSource = pieceToUriMap[piece.Value];
+                    bitmapImage.UriSource = PieceToUriMap[piece.Value];
 
                     var image = new Image();
                     image.Source = bitmapImage;

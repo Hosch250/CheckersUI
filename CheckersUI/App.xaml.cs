@@ -37,6 +37,8 @@ namespace CheckersUI
             container.RegisterTypes(assembly.GetTypes());
             
             var mainPage = container.Resolve<MainPage>();
+            container.RegisterInstance(typeof(MainPage), mainPage);
+            mainPage.DataContext = container.Resolve<MainPageViewModel>();
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -64,7 +66,7 @@ namespace CheckersUI
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (!e.PrelaunchActivated)
             {
                 if (rootFrame.Content == null)
                 {
