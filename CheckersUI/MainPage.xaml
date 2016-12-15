@@ -9,7 +9,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Border Height="641" Width="641" BorderThickness="1" BorderBrush="Black">
-            <Grid Name="Board">
+            <Grid Name="Board" PointerPressed="Board_PointerPressed">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />

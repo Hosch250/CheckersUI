@@ -12,8 +12,10 @@ namespace CheckersUI
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
+        private UnityContainer _container;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -32,13 +34,14 @@ namespace CheckersUI
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             var assembly = Assembly.Load(new AssemblyName(nameof(CheckersUI)));
-            
-            var container = new UnityContainer();
-            container.RegisterTypes(assembly.GetTypes());
-            
-            var mainPage = container.Resolve<MainPage>();
-            container.RegisterInstance(typeof(MainPage), mainPage);
-            mainPage.DataContext = container.Resolve<MainPageViewModel>();
+
+            _container?.Dispose();
+            _container = new UnityContainer();
+            _container.RegisterTypes(assembly.GetTypes());
+
+            var mainPage = _container.Resolve<MainPage>();
+            _container.RegisterInstance(typeof(MainPage), mainPage);
+            mainPage.DataContext = _container.Resolve<MainPageViewModel>();
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -53,7 +56,7 @@ namespace CheckersUI
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = container.Resolve<Frame>();
+                rootFrame = _container.Resolve<Frame>();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -85,7 +88,7 @@ namespace CheckersUI
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
@@ -102,6 +105,8 @@ namespace CheckersUI
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+
+            _container.Dispose();
         }
     }
 }

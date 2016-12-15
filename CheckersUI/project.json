@@ -1,8 +1,10 @@
 ﻿{
   "dependencies": {
+    "Gu.Analyzers": "0.1.9.15-dev",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Unity": "4.0.1",
-    "VSDiagnostics": "1.9.4"
+    "VSDiagnostics": "1.9.4",
+    "WpfAnalyzers": "0.2.4-dev"
   },
   "frameworks": {
     "uap10.0": {}
