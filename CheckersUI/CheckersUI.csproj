@@ -108,8 +108,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BlackChecker.png" />
+    <Content Include="Assets\BlackKing.png" />
     <Content Include="Assets\CheckerBoard.png" />
     <Content Include="Assets\WhiteChecker.png" />
+    <Content Include="Assets\WhiteKing.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

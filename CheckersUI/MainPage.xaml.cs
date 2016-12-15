@@ -2,7 +2,6 @@
 using Microsoft.FSharp.Core;
 using System;
 using System.Collections.Generic;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -10,12 +9,12 @@ namespace CheckersUI
 {
     public sealed partial class MainPage
     {
-        private static Dictionary<Tuple<Player, PieceType>, Uri> pieceToUriMap = new Dictionary<Tuple<Player, PieceType>, Uri>
+        private static Dictionary<Piece, Uri> pieceToUriMap = new Dictionary<Piece, Uri>
             {
-                {Tuple.Create(Player.White, PieceType.Checker), new Uri("ms-appx:///Assets/WhiteChecker.png", UriKind.Absolute)},
-                {Tuple.Create(Player.White, PieceType.King), new Uri("ms-appx:///Assets/WhiteKing.png", UriKind.Absolute)},
-                {Tuple.Create(Player.Black, PieceType.Checker), new Uri("ms-appx:///Assets/BlackChecker.png", UriKind.Absolute)},
-                {Tuple.Create(Player.Black, PieceType.King), new Uri("ms-appx:///Assets/BlackKing.png", UriKind.Absolute)}
+                {Piece.WhiteChecker().Value, new Uri("ms-appx:///Assets/WhiteChecker.png", UriKind.Absolute)},
+                {Piece.WhiteKing().Value, new Uri("ms-appx:///Assets/WhiteKing.png", UriKind.Absolute)},
+                {Piece.BlackChecker().Value, new Uri("ms-appx:///Assets/BlackChecker.png", UriKind.Absolute)},
+                {Piece.BlackKing().Value, new Uri("ms-appx:///Assets/BlackKing.png", UriKind.Absolute)}
             };
 
         public MainPage()
@@ -38,7 +37,7 @@ namespace CheckersUI
                     }
 
                     var bitmapImage = new BitmapImage();
-                    bitmapImage.UriSource = pieceToUriMap[Tuple.Create(piece.Value.Player, piece.Value.PieceType)];
+                    bitmapImage.UriSource = pieceToUriMap[piece.Value];
 
                     var image = new Image();
                     image.Source = bitmapImage;
