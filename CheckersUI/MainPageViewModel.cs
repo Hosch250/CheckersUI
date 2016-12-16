@@ -1,11 +1,7 @@
 ﻿using Checkers;
 using Microsoft.FSharp.Core;
-using System.Linq;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using static Checkers.Types;
-using static Checkers.PublicAPI;
 
 namespace CheckersUI
 {
@@ -16,11 +12,11 @@ namespace CheckersUI
         public MainPageViewModel(MainPage page)
         {
             _page = page;
-            GameController = new GameController.GameController(Board.defaultBoard, Player.White);
+            GameController = new GameController.GameController(Board.defaultBoard, Types.Player.White);
         }
 
-        private string PlayerToString(Player player) =>
-            player.IsWhite ? nameof(Player.White) : nameof(Player.Black);
+        private string PlayerToString(Types.Player player) =>
+            player.IsWhite ? nameof(Types.Player.White) : nameof(Types.Player.Black);
         
         private GameController.GameController _gameController;
         public GameController.GameController GameController
@@ -38,8 +34,8 @@ namespace CheckersUI
             }
         }
 
-        private Coord _selection;
-        public Coord Selection
+        private Types.Coord _selection;
+        public Types.Coord Selection
         {
             get
             {
@@ -51,9 +47,9 @@ namespace CheckersUI
                 {
                     _selection = value;
                 }
-                else if (_selection != null && isValidMove(_selection, value, GameController))
+                else if (_selection != null && PublicAPI.isValidMove(_selection, value, GameController))
                 {
-                    GameController = move(_selection, value, GameController).Value;
+                    GameController = PublicAPI.move(_selection, value, GameController).Value;
                     _selection = null;
                 }
                 else if (GameController.Board[value.Row][value.Column] == FSharpOption<Piece.Piece>.None)
@@ -71,8 +67,8 @@ namespace CheckersUI
         {
             get
             {
-                var winningPlayer = isWon(GameController);
-                return FSharpOption<Player>.get_IsSome(winningPlayer)
+                var winningPlayer = PublicAPI.isWon(GameController);
+                return FSharpOption<Types.Player>.get_IsSome(winningPlayer)
                        ? $"{PlayerToString(winningPlayer.Value)} Won!"
                        : $"{PlayerToString(GameController.Player)}'s turn";
             }

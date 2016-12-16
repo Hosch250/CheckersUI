@@ -8,7 +8,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid Name="BoardGrid" Width="640" Height="640" PointerPressed="Board_PointerPressed">
+        <Grid Name="BoardGrid"
+              Width="640"
+              Height="640"
+              PointerPressed="BoardGrid_PointerPressed">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -29,7 +32,10 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Image Name="BoardImage" Source="../Assets/Checkerboard.png" Grid.RowSpan="8" Grid.ColumnSpan="8" />
+            <Image Name="BoardImage"
+                   Source="../Assets/Checkerboard.png"
+                   Grid.RowSpan="8"
+                   Grid.ColumnSpan="8" />
         </Grid>
     </Grid>
 </UserControl>

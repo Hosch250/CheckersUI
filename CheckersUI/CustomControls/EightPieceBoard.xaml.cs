@@ -9,7 +9,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using static Checkers.Types;
 
 namespace CheckersUI.CustomControls
 {
@@ -30,7 +29,7 @@ namespace CheckersUI.CustomControls
                 new PropertyMetadata(null, new PropertyChangedCallback((sender, e) => ((EightPieceBoard)sender).LoadPieces())));
 
         public static readonly DependencyProperty SelectionProperty =
-            DependencyProperty.Register(nameof(Selection), typeof(Coord), typeof(EightPieceBoard), null);
+            DependencyProperty.Register(nameof(Selection), typeof(Types.Coord), typeof(EightPieceBoard), null);
 
         public EightPieceBoard()
         {
@@ -43,20 +42,20 @@ namespace CheckersUI.CustomControls
             set { SetValue(BoardProperty, value); }
         }
 
-        public Coord Selection
+        public Types.Coord Selection
         {
-            get { return (Coord)GetValue(SelectionProperty); }
+            get { return (Types.Coord)GetValue(SelectionProperty); }
             set { SetValue(SelectionProperty, value); }
         }
 
-        private void Board_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void BoardGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var point = e.GetCurrentPoint((Grid)sender).Position;
 
             var row = (int)Math.Floor(point.Y / 80);
             var column = (int)Math.Floor(point.X / 80);
 
-            Selection = new Coord(row, column);
+            Selection = new Types.Coord(row, column);
         }
 
         private void ClearPieces(IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>> board)
