@@ -21,9 +21,9 @@ namespace CheckersUI
 
         private string PlayerToString(Player player) =>
             player.IsWhite ? nameof(Player.White) : nameof(Player.Black);
-        
+
         public IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>> GameBoard =>
-            _gameController.Board.Select(row => row.ToList());
+            _gameController.Board;
 
         private GameController.GameController _gameController;
         public GameController.GameController GameController
@@ -36,12 +36,8 @@ namespace CheckersUI
             {
                 _gameController = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(GameBoard));
+                OnPropertyChanged(nameof(Status));
 
-                var winningPlayer = isWon(value);
-                Status = FSharpOption<Player>.get_IsSome(winningPlayer)
-                         ? $"{PlayerToString(winningPlayer.Value)} Won!"
-                         : $"{PlayerToString(value.Player)}'s turn";
             }
         }
 
@@ -73,15 +69,15 @@ namespace CheckersUI
                 }
             }
         }
-
-        private string _status;
+        
         public string Status
         {
-            get { return _status; }
-            set
+            get
             {
-                _status = value;
-                OnPropertyChanged();
+                var winningPlayer = isWon(GameController);
+                return FSharpOption<Player>.get_IsSome(winningPlayer)
+                       ? $"{PlayerToString(winningPlayer.Value)} Won!"
+                       : $"{PlayerToString(GameController.Player)}'s turn";
             }
         }
 
