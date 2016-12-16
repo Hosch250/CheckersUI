@@ -12,9 +12,10 @@ namespace CheckersUI
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : Application
+    public sealed partial class App : Application, IDisposable
     {
         private UnityContainer _container;
+        private bool _disposed;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -24,6 +25,17 @@ namespace CheckersUI
         {
             InitializeComponent();
             Suspending += OnSuspending;
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            
+            _container?.Dispose();
+            _disposed = true;
         }
 
         /// <summary>
@@ -80,6 +92,14 @@ namespace CheckersUI
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+            }
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
 

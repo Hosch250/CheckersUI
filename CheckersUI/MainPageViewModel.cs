@@ -1,9 +1,9 @@
 ﻿using Checkers;
-using Checkers.Extensions;
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
 using System.Collections.Generic;
 using static Checkers.Types;
+using static Checkers.PublicAPI;
 
 namespace CheckersUI
 {
@@ -14,19 +14,19 @@ namespace CheckersUI
         public MainPageViewModel(MainPage page)
         {
             _page = page;
-            Board = Checkers.Board.defaultBoard as FSharpList<FSharpList<FSharpOption<Piece.Piece>>>;
+            GameController = new GameController.GameController(Board.defaultBoard, Player.White);
         }
 
-        private FSharpList<FSharpList<FSharpOption<Piece.Piece>>> _board;
-        public FSharpList<FSharpList<FSharpOption<Piece.Piece>>> Board
+        private GameController.GameController _gameController;
+        public GameController.GameController GameController
         {
             get
             {
-                return _board;
+                return _gameController;
             }
             set
             {
-                _board = value;
+                _gameController = value;
                 _page.UpdateBoard(value);
             }
         }
@@ -44,12 +44,12 @@ namespace CheckersUI
                 {
                     _selection = value;
                 }
-                else if (_selection != null && Board.IsValidMove(_selection, value))
+                else if (_selection != null && isValidMove(_selection, value, GameController))
                 {
-                    Board = Board.Move(_selection, value).Value;
+                    GameController = move(_selection, value, GameController).Value;
                     _selection = null;
                 }
-                else if (Board[value.Row][value.Column] == FSharpOption<Piece.Piece>.None)
+                else if (GameController.Board[value.Row][value.Column] == FSharpOption<Piece.Piece>.None)
                 {
                     _selection = null;
                 }

@@ -57,8 +57,9 @@ namespace CheckersUI
             Board.Children.Add(image);
         }
 
-        public void UpdateBoard(FSharpList<FSharpList<FSharpOption<Piece.Piece>>> board)
+        public void UpdateBoard(GameController.GameController gameController)
         {
+            var board = gameController.Board;
             ClearPieces(board);
 
             for (var rowIndex = 0; rowIndex < board.Length; rowIndex++)
