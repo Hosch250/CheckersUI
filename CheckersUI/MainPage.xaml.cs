@@ -3,6 +3,8 @@ using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -25,13 +27,20 @@ namespace CheckersUI
             InitializeComponent();
         }
 
-        private void ClearCheckers()
+        private void ClearPieces(FSharpList<FSharpList<FSharpOption<Piece.Piece>>> board)
         {
-            foreach (var item in Board.Children)
+            foreach (Image element in Board.Children.ToList())
             {
-                if (Grid.GetRowSpan((FrameworkElement)item) != 8)
+                if (element != BoardImage)
                 {
-                    Board.Children.Remove(item);
+                    var row = Grid.GetRow(element);
+                    var column = Grid.GetColumn(element);
+                    var uri = ((BitmapImage)element.Source).UriSource.AbsolutePath;
+
+                    if (board[row][column] == FSharpOption<Piece.Piece>.None || PieceToUriMap[board[row][column].Value].AbsolutePath != uri)
+                    {
+                        Board.Children.Remove(element);
+                    }
                 }
             }
         }
@@ -50,7 +59,7 @@ namespace CheckersUI
 
         public void UpdateBoard(FSharpList<FSharpList<FSharpOption<Piece.Piece>>> board)
         {
-            ClearCheckers();
+            ClearPieces(board);
 
             for (var rowIndex = 0; rowIndex < board.Length; rowIndex++)
             {
