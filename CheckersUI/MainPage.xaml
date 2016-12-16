@@ -11,7 +11,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="{Binding Status}" />
         <Border Height="641" Width="641" BorderThickness="1" BorderBrush="Black">
-            <custom:EightPieceBoard Board="{Binding GameBoard}" Selection="{Binding Selection, Mode=TwoWay}" />
+            <custom:EightPieceBoard Board="{Binding GameController.Board, Mode=OneWay}" Selection="{Binding Selection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Border>
     </Grid>
 </Page>

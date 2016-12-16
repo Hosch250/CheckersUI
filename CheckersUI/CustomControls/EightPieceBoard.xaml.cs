@@ -23,29 +23,24 @@ namespace CheckersUI.CustomControls
                 {Piece.blackKing.Value, new Uri("ms-appx:///../Assets/BlackKing.png", UriKind.Absolute)}
             };
 
+        public static readonly DependencyProperty BoardProperty =
+            DependencyProperty.Register(nameof(Board),
+                typeof(IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>>),
+                typeof(EightPieceBoard),
+                new PropertyMetadata(null, new PropertyChangedCallback((sender, e) => ((EightPieceBoard)sender).LoadPieces())));
+
+        public static readonly DependencyProperty SelectionProperty =
+            DependencyProperty.Register(nameof(Selection), typeof(Coord), typeof(EightPieceBoard), null);
+
         public EightPieceBoard()
         {
             InitializeComponent();
         }
-        
-        public static readonly DependencyProperty BoardProperty =
-            DependencyProperty.Register(nameof(Board), typeof(IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>>), typeof(EightPieceBoard), null);
 
         public IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>> Board
         {
-            get
-            {
-                return (IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>>)GetValue(BoardProperty);
-            }
-            set
-            {
-                SetValue(BoardProperty, value);
-
-                LoadPieces();
-
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(BoardProperty));
-            }
+            get { return (IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>>)GetValue(BoardProperty); }
+            set { SetValue(BoardProperty, value); }
         }
 
         public Coord Selection
@@ -53,9 +48,6 @@ namespace CheckersUI.CustomControls
             get { return (Coord)GetValue(SelectionProperty); }
             set { SetValue(SelectionProperty, value); }
         }
-        
-        public static readonly DependencyProperty SelectionProperty =
-            DependencyProperty.Register(nameof(Selection), typeof(Coord), typeof(EightPieceBoard), null);
 
         private void Board_PointerPressed(object sender, PointerRoutedEventArgs e)
         {

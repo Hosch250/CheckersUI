@@ -21,10 +21,7 @@ namespace CheckersUI
 
         private string PlayerToString(Player player) =>
             player.IsWhite ? nameof(Player.White) : nameof(Player.Black);
-
-        public IEnumerable<IEnumerable<FSharpOption<Piece.Piece>>> GameBoard =>
-            _gameController.Board;
-
+        
         private GameController.GameController _gameController;
         public GameController.GameController GameController
         {
