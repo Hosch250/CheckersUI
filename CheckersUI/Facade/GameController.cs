@@ -1,10 +1,11 @@
-﻿using Microsoft.FSharp.Core;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
 {
-    public class GameController
+    public class GameController : INotifyPropertyChanged
     {
-        public readonly Board Board;
         public readonly Player CurrentPlayer;
         public readonly Coord CurrentCoord;
 
@@ -13,6 +14,17 @@ namespace CheckersUI.Facade
             Board = board;
             CurrentPlayer = currentPlayer;
             CurrentCoord = currentCoord;
+        }
+
+        private Board _board;
+        public Board Board
+        {
+            get { return _board; }
+            set
+            {
+                _board = value;
+                OnPropertyChanged();
+            }
         }
 
         public GameController(Checkers.GameController.GameController gameController)
@@ -30,7 +42,7 @@ namespace CheckersUI.Facade
         public Player? GetWinningPlayer()
         {
             var player = Checkers.PublicAPI.isWon(this);
-            return player == FSharpOption<Checkers.Types.Player>.None ? new Player?() : player.Value.Convert();
+            return Equals(player, FSharpOption<Checkers.Types.Player>.None) ? new Player?() : player.Value.Convert();
         }
 
         public static implicit operator GameController(Checkers.GameController.GameController controller)
@@ -46,7 +58,7 @@ namespace CheckersUI.Facade
 
         public static implicit operator GameController(FSharpOption<Checkers.GameController.GameController> controller)
         {
-            return controller == FSharpOption<Checkers.GameController.GameController>.None
+            return Equals(controller, FSharpOption<Checkers.GameController.GameController>.None)
                 ? null
                 : new GameController(controller.Value);
         }
@@ -59,5 +71,9 @@ namespace CheckersUI.Facade
                     new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(),
                         controller.CurrentCoord));
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

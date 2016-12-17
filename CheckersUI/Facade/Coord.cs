@@ -30,7 +30,7 @@ namespace CheckersUI.Facade
 
         public static implicit operator Coord(FSharpOption<Checkers.Types.Coord> coord)
         {
-            return coord == FSharpOption<Checkers.Types.Coord>.None
+            return Equals(coord, FSharpOption<Checkers.Types.Coord>.None)
                 ? null
                 : new Coord(coord.Value.Row, coord.Value.Column);
         }

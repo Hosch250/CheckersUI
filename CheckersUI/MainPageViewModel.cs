@@ -1,9 +1,7 @@
-﻿using Checkers;
-using CheckersUI.Command;
-using Microsoft.FSharp.Core;
-using System;
+﻿using CheckersUI.Command;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CheckersUI.Facade;
 
 namespace CheckersUI
 {
@@ -11,14 +9,11 @@ namespace CheckersUI
     {
         public MainPageViewModel()
         {
-            Controller = GameController.newGame;
+            Controller = new GameController();
         }
-
-        private string PlayerToString(Types.Player player) =>
-            player.IsWhite ? nameof(Types.Player.White) : nameof(Types.Player.Black);
         
-        private GameController.GameController _controller;
-        public GameController.GameController Controller
+        private GameController _controller;
+        public GameController Controller
         {
             get
             {
@@ -33,8 +28,8 @@ namespace CheckersUI
             }
         }
 
-        private Types.Coord _selection;
-        public Types.Coord Selection
+        private Coord _selection;
+        public Coord Selection
         {
             get
             {
@@ -46,12 +41,12 @@ namespace CheckersUI
                 {
                     _selection = value;
                 }
-                else if (_selection != null && PublicAPI.isValidMove(_selection, value, Controller))
+                else if (_selection != null && Controller.IsValidMove(_selection, value))
                 {
-                    Controller = PublicAPI.move(_selection, value, Controller).Value;
+                    Controller = Controller.Move(_selection, value);
                     _selection = null;
                 }
-                else if (Controller.Board[value.Row][value.Column] == FSharpOption<Piece.Piece>.None)
+                else if (Controller.Board.GameBoard[value.Row][value.Column] == null)
                 {
                     _selection = null;
                 }
@@ -66,10 +61,10 @@ namespace CheckersUI
         {
             get
             {
-                var winningPlayer = PublicAPI.isWon(Controller);
-                return FSharpOption<Types.Player>.get_IsSome(winningPlayer)
-                       ? $"{PlayerToString(winningPlayer.Value)} Won!"
-                       : $"{PlayerToString(Controller.CurrentPlayer)}'s turn";
+                var winningPlayer = Controller.GetWinningPlayer();
+                return winningPlayer.HasValue
+                       ? $"{winningPlayer.Value} Won!"
+                       : $"{Controller.CurrentPlayer}'s turn";
             }
         }
 
@@ -89,7 +84,7 @@ namespace CheckersUI
         }
 
         internal void CreateNewGame() =>
-            Controller = new GameController.GameController(Board.defaultBoard, Types.Player.Black, FSharpOption<Types.Coord>.None);
+            Controller = new GameController();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

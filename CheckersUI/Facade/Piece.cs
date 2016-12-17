@@ -36,15 +36,5 @@
         }
 
         public override int GetHashCode() => Player.GetHashCode() ^ PieceType.GetHashCode();
-
-        public static bool operator ==(Piece piece1, Piece piece2)
-        {
-            return piece1?.Equals(piece2) ?? false;
-        }
-
-        public static bool operator !=(Piece piece1, Piece piece2)
-        {
-            return !(piece1 == piece2);
-        }
     }
 }
