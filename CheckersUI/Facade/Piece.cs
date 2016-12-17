@@ -1,6 +1,4 @@
-﻿using Microsoft.FSharp.Core;
-
-namespace CheckersUI.Facade
+﻿namespace CheckersUI.Facade
 {
     public class Piece
     {
@@ -24,5 +22,29 @@ namespace CheckersUI.Facade
 
         public static Piece BlackKing =>
             new Piece(Player.Black, PieceType.King);
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || typeof(Piece) != obj.GetType())
+            {
+                return false;
+            }
+
+            var value = (Piece)obj;
+            return Player.Equals(value.Player) &&
+                   PieceType.Equals(value.PieceType);
+        }
+
+        public override int GetHashCode() => Player.GetHashCode() ^ PieceType.GetHashCode();
+
+        public static bool operator ==(Piece piece1, Piece piece2)
+        {
+            return piece1?.Equals(piece2) ?? false;
+        }
+
+        public static bool operator !=(Piece piece1, Piece piece2)
+        {
+            return !(piece1 == piece2);
+        }
     }
 }

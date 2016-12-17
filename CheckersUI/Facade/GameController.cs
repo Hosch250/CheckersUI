@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.FSharp.Core;
+﻿using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
 {
@@ -9,19 +8,18 @@ namespace CheckersUI.Facade
         public readonly Player CurrentPlayer;
         public readonly Coord CurrentCoord;
 
-        public GameController(Checkers.GameController.GameController gameController)
+        public GameController(BoardType board, Player currentPlayer, Coord currentCoord = null)
         {
-            Board = gameController.Board;
-            CurrentPlayer = gameController.CurrentPlayer.Convert();
-            CurrentCoord = gameController.CurrentCoord;
+            Board = board;
+            CurrentPlayer = currentPlayer;
+            CurrentCoord = currentCoord;
         }
 
+        public GameController(Checkers.GameController.GameController gameController)
+            :this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.CurrentCoord) { }
+
         public GameController()
-        {
-            Board = new BoardType();
-            CurrentPlayer = Player.Black;
-            CurrentCoord = null;
-        }
+            : this(new BoardType(), Player.Black) { }
 
         public GameController Move(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.move(startCoord, endCoord, this);
@@ -29,7 +27,7 @@ namespace CheckersUI.Facade
         public bool IsValidMove(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.isValidMove(startCoord, endCoord, this);
 
-        public Player? WonBy()
+        public Player? GetWinningPlayer()
         {
             var player = Checkers.PublicAPI.isWon(this);
             return player == FSharpOption<Checkers.Types.Player>.None ? new Player?() : player.Value.Convert();
