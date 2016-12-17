@@ -6,15 +6,15 @@ namespace CheckersUI.Facade
 {
     public class GameController : INotifyPropertyChanged
     {
-        public readonly Player CurrentPlayer;
-        public readonly Coord CurrentCoord;
-
         public GameController(Board board, Player currentPlayer, Coord currentCoord = null)
         {
             Board = board;
             CurrentPlayer = currentPlayer;
             CurrentCoord = currentCoord;
         }
+
+        public Player CurrentPlayer { get; }
+        public Coord CurrentCoord { get; }
 
         private Board _board;
         public Board Board
