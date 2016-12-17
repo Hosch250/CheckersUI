@@ -9,19 +9,36 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
-            <TextBlock Text="{Binding Status}"
-                       HorizontalAlignment="Center"
-                       Margin="0,10"
-                       FontWeight="Black"
-                       FontSize="20" />
-            <Border Height="641"
-                    Width="641"
-                    BorderThickness="1"
-                    BorderBrush="Black">
-                <custom:EightPieceBoard Board="{Binding GameController.Board, Mode=OneWay}"
-                                        Selection="{Binding Selection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            </Border>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="642" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding Status}"
+                   HorizontalAlignment="Center"
+                   Margin="0,10"
+                   FontWeight="Black"
+                   FontSize="20"
+                   Grid.Column="1" />
+        <Border Height="641"
+                Width="641"
+                BorderThickness="1"
+                BorderBrush="Black"
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                Grid.Column="1">
+            <custom:EightPieceBoard Board="{Binding Controller.Board, Mode=OneWay}"
+                                    Selection="{Binding Selection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Border>
+        <Button Content="New Game"
+                Command="{Binding NewGameCommand}"
+                Grid.Row="1"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center" />
     </Grid>
 </Page>

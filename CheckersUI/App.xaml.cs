@@ -12,7 +12,7 @@ namespace CheckersUI
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : Application, IDisposable
+    public sealed partial class App : Application
     {
         private UnityContainer _container;
         private bool _disposed;
@@ -25,17 +25,6 @@ namespace CheckersUI
         {
             InitializeComponent();
             Suspending += OnSuspending;
-        }
-
-        public void Dispose()
-        {
-            if (_disposed)
-            {
-                return;
-            }
-            
-            _container?.Dispose();
-            _disposed = true;
         }
 
         /// <summary>
@@ -52,7 +41,6 @@ namespace CheckersUI
             _container.RegisterTypes(assembly.GetTypes());
 
             var mainPage = _container.Resolve<MainPage>();
-            _container.RegisterInstance(typeof(MainPage), mainPage);
             mainPage.DataContext = _container.Resolve<MainPageViewModel>();
 
 #if DEBUG

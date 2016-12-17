@@ -95,6 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
       <DependentUpon>EightPieceBoard.xaml</DependentUpon>
     </Compile>
