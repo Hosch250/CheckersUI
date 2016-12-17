@@ -69,7 +69,7 @@ namespace CheckersUI
                 var winningPlayer = PublicAPI.isWon(Controller);
                 return FSharpOption<Types.Player>.get_IsSome(winningPlayer)
                        ? $"{PlayerToString(winningPlayer.Value)} Won!"
-                       : $"{PlayerToString(Controller.Player)}'s turn";
+                       : $"{PlayerToString(Controller.CurrentPlayer)}'s turn";
             }
         }
 
@@ -89,7 +89,7 @@ namespace CheckersUI
         }
 
         internal void CreateNewGame() =>
-            Controller = new GameController.GameController(Board.defaultBoard, Types.Player.Black);
+            Controller = new GameController.GameController(Board.defaultBoard, Types.Player.Black, FSharpOption<Types.Coord>.None);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

@@ -100,6 +100,11 @@
     <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
       <DependentUpon>EightPieceBoard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Facade\Board.cs" />
+    <Compile Include="Facade\Coord.cs" />
+    <Compile Include="Facade\GameController.cs" />
+    <Compile Include="Facade\Piece.cs" />
+    <Compile Include="Facade\GeneralTypes.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
