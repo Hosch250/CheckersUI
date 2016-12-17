@@ -4,11 +4,11 @@ namespace CheckersUI.Facade
 {
     public class GameController
     {
-        public readonly BoardType Board;
+        public readonly Board Board;
         public readonly Player CurrentPlayer;
         public readonly Coord CurrentCoord;
 
-        public GameController(BoardType board, Player currentPlayer, Coord currentCoord = null)
+        public GameController(Board board, Player currentPlayer, Coord currentCoord = null)
         {
             Board = board;
             CurrentPlayer = currentPlayer;
@@ -19,7 +19,7 @@ namespace CheckersUI.Facade
             :this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.CurrentCoord) { }
 
         public GameController()
-            : this(new BoardType(), Player.Black) { }
+            : this(new Board(), Player.Black) { }
 
         public GameController Move(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.move(startCoord, endCoord, this);

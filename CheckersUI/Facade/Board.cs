@@ -5,25 +5,25 @@ using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
 {
-    public class BoardType
+    public class Board
     {
-        public List<List<Piece>> Board { get; }
+        public List<List<Piece>> GameBoard { get; }
 
-        public BoardType(IEnumerable<IEnumerable<FSharpOption<Checkers.Piece.Piece>>> board)
+        public Board(IEnumerable<IEnumerable<FSharpOption<Checkers.Piece.Piece>>> board)
         {
-            Board = board.Select(row => row.Select(piece => piece.Convert()).ToList()).ToList();
+            GameBoard = board.Select(row => row.Select(piece => piece.Convert()).ToList()).ToList();
         }
 
-        public BoardType() : this(Checkers.Board.defaultBoard) { }
+        public Board() : this(Checkers.Board.defaultBoard) { }
 
-        public static implicit operator BoardType(FSharpList<FSharpList<FSharpOption<Checkers.Piece.Piece>>> value)
+        public static implicit operator Board(FSharpList<FSharpList<FSharpOption<Checkers.Piece.Piece>>> value)
         {
-            return new BoardType(value);
+            return new Board(value);
         }
 
-        public static implicit operator FSharpList<FSharpList<FSharpOption<Checkers.Piece.Piece>>>(BoardType value)
+        public static implicit operator FSharpList<FSharpList<FSharpOption<Checkers.Piece.Piece>>>(Board value)
         {
-            return Checkers.Board.listFromSeq(value.Board.Select(row => row.Select(piece => piece.ConvertBack())));
+            return Checkers.Board.listFromSeq(value.GameBoard.Select(row => row.Select(piece => piece.ConvertBack())));
         }
     }
 }
