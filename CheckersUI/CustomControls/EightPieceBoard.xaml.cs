@@ -49,8 +49,8 @@ namespace CheckersUI.CustomControls
         {
             var point = e.GetCurrentPoint((Grid)sender).Position;
 
-            var row = (int)Math.Floor(point.Y / 80);
-            var column = (int)Math.Floor(point.X / 80);
+            var row = (int)Math.Floor(point.Y / (BoardGrid.ActualHeight / 8));
+            var column = (int)Math.Floor(point.X / (BoardGrid.ActualWidth / 8));
 
             Selection = new Coord(row, column);
         }

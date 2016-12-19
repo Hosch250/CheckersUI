@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.FSharp.Core;
 
@@ -22,6 +25,7 @@ namespace CheckersUI.Facade
             get { return _board; }
             set
             {
+                Debug.Assert(value.GameBoard != null);
                 _board = value;
                 OnPropertyChanged();
             }
@@ -34,10 +38,23 @@ namespace CheckersUI.Facade
             : this(new Board(), Player.Black) { }
 
         public GameController Move(Coord startCoord, Coord endCoord) =>
-            Checkers.PublicAPI.move(startCoord, endCoord, this);
+            Checkers.PublicAPI.movePiece(startCoord, endCoord, this);
+
+        public GameController Move(List<Coord> moves) =>
+            Checkers.PublicAPI.move(moves.Select(item => (Checkers.Types.Coord)item), this);
 
         public bool IsValidMove(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.isValidMove(startCoord, endCoord, this);
+
+        public List<Coord> GetMove()
+        {
+            var moves = Checkers.PublicAPI.getMove(6, this).ToList();
+
+            var moveSequence = new List<Coord> {moves[0].Item1};
+            moveSequence.AddRange(moves.Select(t => t.Item2).Select(item => (Coord) item));
+
+            return moveSequence;
+        }
 
         public Player? GetWinningPlayer()
         {

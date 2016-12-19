@@ -1,5 +1,6 @@
 ﻿using CheckersUI.Command;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using CheckersUI.Facade;
 
@@ -21,10 +22,10 @@ namespace CheckersUI
             }
             set
             {
+                Debug.Assert(value.Board != null);
                 _controller = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
-
             }
         }
 
@@ -45,6 +46,12 @@ namespace CheckersUI
                 {
                     Controller = Controller.Move(_selection, value);
                     _selection = null;
+
+                    if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
+                    {
+                        var move = Controller.GetMove();
+                        Controller = Controller.Move(move);
+                    }
                 }
                 else if (Controller.Board.GameBoard[value.Row][value.Column] == null)
                 {
@@ -62,7 +69,7 @@ namespace CheckersUI
             get
             {
                 var winningPlayer = Controller.GetWinningPlayer();
-                return winningPlayer.HasValue
+                return winningPlayer.HasValue && winningPlayer.Value != Controller.CurrentPlayer
                        ? $"{winningPlayer.Value} Won!"
                        : $"{Controller.CurrentPlayer}'s turn";
             }

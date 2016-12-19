@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="642" />
+            <ColumnDefinition Width="2*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <TextBlock Text="{Binding Status}"
@@ -24,8 +24,8 @@
                    FontWeight="Black"
                    FontSize="20"
                    Grid.Column="1" />
-        <Border Height="641"
-                Width="641"
+        <Border MaxHeight="641"
+                MaxWidth="641"
                 BorderThickness="1"
                 BorderBrush="Black"
                 Grid.Row="1"
