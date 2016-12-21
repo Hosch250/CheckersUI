@@ -45,7 +45,8 @@ namespace CheckersUI
                 else if (_selection != null && Controller.IsValidMove(_selection, value))
                 {
                     Controller = Controller.Move(_selection, value);
-                    _selection = null;
+
+                    _selection = Controller.CurrentPlayer == Player.Black ? value : null;
 
                     if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
                     {

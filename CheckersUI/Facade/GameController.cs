@@ -40,21 +40,14 @@ namespace CheckersUI.Facade
         public GameController Move(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.movePiece(startCoord, endCoord, this);
 
-        public GameController Move(List<Coord> moves) =>
+        public GameController Move(IEnumerable<Coord> moves) =>
             Checkers.PublicAPI.move(moves.Select(item => (Checkers.Types.Coord)item), this);
 
         public bool IsValidMove(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.isValidMove(startCoord, endCoord, this);
 
-        public List<Coord> GetMove()
-        {
-            var moves = Checkers.PublicAPI.getMove(6, this).ToList();
-
-            var moveSequence = new List<Coord> {moves[0].Item1};
-            moveSequence.AddRange(moves.Select(t => t.Item2).Select(item => (Coord) item));
-
-            return moveSequence;
-        }
+        public IEnumerable<Coord> GetMove() =>
+            Checkers.PublicAPI.getMove(CurrentPlayer.ConvertBack(), 1, Board).Select(coord => (Coord)coord);
 
         public Player? GetWinningPlayer()
         {
