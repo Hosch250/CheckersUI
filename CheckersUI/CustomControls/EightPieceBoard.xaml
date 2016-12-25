@@ -33,7 +33,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Image Name="BoardImage"
-                   Source="../Assets/Checkerboard-Steel.png"
+                   Source="../Assets/Checkerboard-Wood.png"
                    Grid.RowSpan="8"
                    Grid.ColumnSpan="8" />
         </Grid>
