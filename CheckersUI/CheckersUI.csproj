@@ -118,11 +118,16 @@
     <None Include="CheckersUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\BlackChecker.png" />
-    <Content Include="Assets\BlackKing.png" />
-    <Content Include="Assets\CheckerBoard.png" />
-    <Content Include="Assets\WhiteChecker.png" />
-    <Content Include="Assets\WhiteKing.png" />
+    <Content Include="Assets\BlackChecker-Steel.png" />
+    <Content Include="Assets\BlackChecker-Wood.png" />
+    <Content Include="Assets\BlackKing-Steel.png" />
+    <Content Include="Assets\BlackKing-Wood.png" />
+    <Content Include="Assets\CheckerBoard-Steel.png" />
+    <Content Include="Assets\CheckerBoard-Wood.png" />
+    <Content Include="Assets\WhiteChecker-Steel.png" />
+    <Content Include="Assets\WhiteChecker-Wood.png" />
+    <Content Include="Assets\WhiteKing-Steel.png" />
+    <Content Include="Assets\WhiteKing-Wood.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

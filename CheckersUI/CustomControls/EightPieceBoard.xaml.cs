@@ -13,10 +13,10 @@ namespace CheckersUI.CustomControls
     {
         private static Dictionary<Piece, Uri> PieceToUriMap = new Dictionary<Piece, Uri>
             {
-                {Piece.WhiteChecker, new Uri("ms-appx:///../Assets/WhiteChecker.png", UriKind.Absolute)},
-                {Piece.WhiteKing, new Uri("ms-appx:///../Assets/WhiteKing.png", UriKind.Absolute)},
-                {Piece.BlackChecker, new Uri("ms-appx:///../Assets/BlackChecker.png", UriKind.Absolute)},
-                {Piece.BlackKing, new Uri("ms-appx:///../Assets/BlackKing.png", UriKind.Absolute)}
+                {Piece.WhiteChecker, new Uri("ms-appx:///../Assets/WhiteChecker-Steel.png", UriKind.Absolute)},
+                {Piece.WhiteKing, new Uri("ms-appx:///../Assets/WhiteKing-Steel.png", UriKind.Absolute)},
+                {Piece.BlackChecker, new Uri("ms-appx:///../Assets/BlackChecker-Steel.png", UriKind.Absolute)},
+                {Piece.BlackKing, new Uri("ms-appx:///../Assets/BlackKing-Steel.png", UriKind.Absolute)}
             };
 
         public static readonly DependencyProperty BoardProperty =

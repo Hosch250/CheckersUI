@@ -50,7 +50,7 @@ namespace CheckersUI
 
                     if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
                     {
-                        var move = Controller.GetMove();
+                        var move = Controller.GetMove(6);
                         Controller = Controller.Move(move);
                     }
                 }

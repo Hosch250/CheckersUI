@@ -46,8 +46,8 @@ namespace CheckersUI.Facade
         public bool IsValidMove(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.isValidMove(startCoord, endCoord, this);
 
-        public IEnumerable<Coord> GetMove() =>
-            Checkers.PublicAPI.getMove(CurrentPlayer.ConvertBack(), 1, Board).Select(coord => (Coord)coord);
+        public IEnumerable<Coord> GetMove(int searchDepth) =>
+            Checkers.PublicAPI.getMove(searchDepth, this).Select(coord => (Coord)coord);
 
         public Player? GetWinningPlayer()
         {
