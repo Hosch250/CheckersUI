@@ -38,8 +38,8 @@ namespace CheckersUI
 
         private async Task PlayEffectAsync()
         {
-            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets\\WoodTheme");
-            var file = await folder.GetFileAsync("CheckerClickTest.mp3");
+            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync($"Assets\\{SelectedTheme.ToString()}Theme");
+            var file = await folder.GetFileAsync("CheckerClick.mp3");
             var stream = await file.OpenAsync(FileAccessMode.Read);
 
             var player = BackgroundMediaPlayer.Current;
@@ -57,12 +57,12 @@ namespace CheckersUI
             Controller = Controller.Move(startCoord, endCoord);
             _selection = endCoord;
 
-            if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
+            /*if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
             {
                 var move = Controller.GetMove(6);
                 await PlayEffectAsync();
                 Controller = Controller.Move(move);
-            }
+            }*/
         }
 
         private Coord _selection;

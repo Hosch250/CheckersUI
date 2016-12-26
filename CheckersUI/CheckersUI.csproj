@@ -131,6 +131,7 @@
     <Content Include="Assets\PlasticTheme\CheckerBoard.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\PlasticTheme\CheckerClick.mp3" />
     <Content Include="Assets\PlasticTheme\WhiteChecker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -150,6 +151,7 @@
     <Content Include="Assets\SteelTheme\CheckerBoard.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\SteelTheme\CheckerClick.mp3" />
     <Content Include="Assets\SteelTheme\WhiteChecker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -168,7 +170,6 @@
     <Content Include="Assets\WoodTheme\CheckerClick.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\WoodTheme\CheckerClickTest.mp3" />
     <Content Include="Assets\WoodTheme\WhiteChecker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
