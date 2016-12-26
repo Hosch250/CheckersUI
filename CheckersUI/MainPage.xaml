@@ -48,6 +48,11 @@
                         Command="{Binding DisplaySettingsCommand}">
                     <Image Source="../Assets/gear.png" />
                 </Button>
+                <Button Background="Transparent"
+                        Grid.Column="1"
+                        Command="{Binding NewGameCommand}">
+                    <Image Source="../Assets/plus.png" />
+                </Button>
             </Grid>
         </Grid>
         <Grid Grid.RowSpan="3"

@@ -125,6 +125,7 @@
     <Content Include="Assets\PlasticTheme\CheckerBoard.png" />
     <Content Include="Assets\PlasticTheme\WhiteChecker.png" />
     <Content Include="Assets\PlasticTheme\WhiteKing.png" />
+    <Content Include="Assets\plus.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\SteelTheme\BlackChecker.png" />
     <Content Include="Assets\SteelTheme\BlackKing.png" />
