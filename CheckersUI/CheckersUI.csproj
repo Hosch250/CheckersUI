@@ -119,24 +119,62 @@
     <None Include="CheckersUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\gear.png" />
-    <Content Include="Assets\PlasticTheme\BlackChecker.png" />
-    <Content Include="Assets\PlasticTheme\BlackKing.png" />
-    <Content Include="Assets\PlasticTheme\CheckerBoard.png" />
-    <Content Include="Assets\PlasticTheme\WhiteChecker.png" />
-    <Content Include="Assets\PlasticTheme\WhiteKing.png" />
-    <Content Include="Assets\plus.png" />
+    <Content Include="Assets\gear.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\PlasticTheme\BlackChecker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\PlasticTheme\BlackKing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\PlasticTheme\CheckerBoard.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\PlasticTheme\WhiteChecker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\PlasticTheme\WhiteKing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\plus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\SteelTheme\BlackChecker.png" />
-    <Content Include="Assets\SteelTheme\BlackKing.png" />
-    <Content Include="Assets\SteelTheme\CheckerBoard.png" />
-    <Content Include="Assets\SteelTheme\WhiteChecker.png" />
-    <Content Include="Assets\SteelTheme\WhiteKing.png" />
-    <Content Include="Assets\WoodTheme\BlackChecker.png" />
-    <Content Include="Assets\WoodTheme\BlackKing.png" />
-    <Content Include="Assets\WoodTheme\CheckerBoard.png" />
-    <Content Include="Assets\WoodTheme\WhiteChecker.png" />
-    <Content Include="Assets\WoodTheme\WhiteKing.png" />
+    <Content Include="Assets\SteelTheme\BlackChecker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SteelTheme\BlackKing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SteelTheme\CheckerBoard.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SteelTheme\WhiteChecker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SteelTheme\WhiteKing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\WoodTheme\BlackChecker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\WoodTheme\BlackKing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\WoodTheme\CheckerBoard.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\WoodTheme\CheckerClick.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\WoodTheme\CheckerClickTest.mp3" />
+    <Content Include="Assets\WoodTheme\WhiteChecker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\WoodTheme\WhiteKing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

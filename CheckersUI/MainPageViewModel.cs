@@ -6,6 +6,9 @@ using Windows.Storage;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Windows.Media.Playback;
+using Windows.Media.Core;
+using System.Threading.Tasks;
 
 namespace CheckersUI
 {
@@ -20,7 +23,7 @@ namespace CheckersUI
             var tmpTheme = (string)_roamingSettings.Values["Theme"];
             SelectedTheme = string.IsNullOrEmpty(tmpTheme) ? Theme.Wood : (Theme)Enum.Parse(typeof(Theme), tmpTheme);
         }
-        
+
         private GameController _controller;
         public GameController Controller
         {
@@ -30,6 +33,35 @@ namespace CheckersUI
                 _controller = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
+            }
+        }
+
+        private async Task PlayEffectAsync()
+        {
+            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets\\WoodTheme");
+            var file = await folder.GetFileAsync("CheckerClickTest.mp3");
+            var stream = await file.OpenAsync(FileAccessMode.Read);
+
+            var player = BackgroundMediaPlayer.Current;
+            var mediaSource = MediaSource.CreateFromStream(stream, file.ContentType);
+            (player.Source as IDisposable)?.Dispose();
+            player.Source = mediaSource;
+            
+            player.Play();
+        }
+
+        private async void MovePieceAsync(Coord startCoord, Coord endCoord)
+        {
+            await PlayEffectAsync();
+
+            Controller = Controller.Move(startCoord, endCoord);
+            _selection = endCoord;
+
+            if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
+            {
+                var move = Controller.GetMove(6);
+                await PlayEffectAsync();
+                Controller = Controller.Move(move);
             }
         }
 
@@ -48,15 +80,7 @@ namespace CheckersUI
                 }
                 else if (_selection != null && Controller.IsValidMove(_selection, value))
                 {
-                    Controller = Controller.Move(_selection, value);
-
-                    _selection = Controller.CurrentPlayer == Player.Black ? value : null;
-
-                    if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
-                    {
-                        var move = Controller.GetMove(8);
-                        Controller = Controller.Move(move);
-                    }
+                    MovePieceAsync(_selection, value);
                 }
                 else if (Controller.Board.GameBoard[value.Row][value.Column] == null)
                 {
@@ -156,14 +180,6 @@ namespace CheckersUI
 
                 _newGameCommand = new DelegateCommand(sender => CreateNewGame());
                 return _newGameCommand;
-            }
-        }
-
-        public DelegateCommand Update
-        {
-            get
-            {
-                return new DelegateCommand(sender => SelectedTheme = Theme.Plastic);
             }
         }
 
