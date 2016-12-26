@@ -67,9 +67,15 @@
               Padding="20"
               Visibility="{Binding DisplaySettingsGrid}">
             <StackPanel>
-                <TextBlock FontWeight="Medium">Theme:</TextBlock>
-                <ComboBox ItemsSource="{Binding Themes}"
-                          SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
+                <StackPanel>
+                    <TextBlock FontWeight="Medium">Theme:</TextBlock>
+                    <ComboBox ItemsSource="{Binding Themes, Mode=OneTime}"
+                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock FontWeight="Medium">Sound Effects:</TextBlock>
+                    <ToggleSwitch IsOn="{Binding EnableSoundEffects, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
             <Button VerticalAlignment="Bottom"
                     HorizontalAlignment="Right"

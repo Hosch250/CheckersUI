@@ -22,6 +22,9 @@ namespace CheckersUI
 
             var tmpTheme = (string)_roamingSettings.Values["Theme"];
             SelectedTheme = string.IsNullOrEmpty(tmpTheme) ? Theme.Wood : (Theme)Enum.Parse(typeof(Theme), tmpTheme);
+
+            var tmpEnableSoundEffects = (string)_roamingSettings.Values["EnableSoundEffects"];
+            EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) ? true : bool.Parse(tmpEnableSoundEffects);
         }
 
         private GameController _controller;
@@ -52,17 +55,13 @@ namespace CheckersUI
 
         private async void MovePieceAsync(Coord startCoord, Coord endCoord)
         {
-            await PlayEffectAsync();
+            if (EnableSoundEffects)
+            {
+                await PlayEffectAsync();
+            }
 
             Controller = Controller.Move(startCoord, endCoord);
             _selection = endCoord;
-
-            /*if (Controller.CurrentPlayer == Player.White && Controller.GetWinningPlayer() == null)
-            {
-                var move = Controller.GetMove(6);
-                await PlayEffectAsync();
-                Controller = Controller.Move(move);
-            }*/
         }
 
         private Coord _selection;
@@ -130,6 +129,26 @@ namespace CheckersUI
                 if ((string)_roamingSettings.Values["Theme"] != value.ToString())
                 {
                     _roamingSettings.Values["Theme"] = value.ToString();
+                    ApplicationData.Current.SignalDataChanged();
+                }
+            }
+        }
+
+        private bool _enableSoundEffects;
+        public bool EnableSoundEffects
+        {
+            get { return _enableSoundEffects; }
+            set
+            {
+                if (_enableSoundEffects != value)
+                {
+                    _enableSoundEffects = value;
+                    OnPropertyChanged();
+                }
+
+                if ((string)_roamingSettings.Values["EnableSoundEffects"] != value.ToString())
+                {
+                    _roamingSettings.Values["EnableSoundEffects"] = value.ToString();
                     ApplicationData.Current.SignalDataChanged();
                 }
             }
