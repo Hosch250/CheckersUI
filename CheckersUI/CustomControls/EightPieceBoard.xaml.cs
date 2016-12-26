@@ -27,6 +27,7 @@ namespace CheckersUI.CustomControls
             InitializeComponent();
             LoadBoard();
 
+            _currentTheme = (string)_roamingSettings.Values["Theme"];
             ApplicationData.Current.DataChanged += Current_DataChanged;
         }
 
@@ -81,10 +82,17 @@ namespace CheckersUI.CustomControls
             BoardGrid.Children.Add(image);
         }
 
+        private string _currentTheme;
         private void Current_DataChanged(ApplicationData sender, object args)
         {
+            if ((string)_roamingSettings.Values["Theme"] == _currentTheme)
+            {
+                return;
+            }
+
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                _currentTheme = (string)_roamingSettings.Values["Theme"];
                 LoadBoard();
                 LoadPieces(null, Board);
             });
