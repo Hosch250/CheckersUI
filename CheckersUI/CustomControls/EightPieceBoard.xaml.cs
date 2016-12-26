@@ -6,24 +6,18 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using CheckersUI.Facade;
+using Windows.Storage;
+using System.Threading.Tasks;
+using Windows.UI.Core;
 
 namespace CheckersUI.CustomControls
 {
     public sealed partial class EightPieceBoard
     {
-        private static Dictionary<Piece, Uri> PieceToUriMap = new Dictionary<Piece, Uri>
-            {
-                {Piece.WhiteChecker, new Uri("ms-appx:///../Assets/WoodTheme/WhiteChecker.png", UriKind.Absolute)},
-                {Piece.WhiteKing, new Uri("ms-appx:///../Assets/WoodTheme/WhiteKing.png", UriKind.Absolute)},
-                {Piece.BlackChecker, new Uri("ms-appx:///../Assets/WoodTheme/BlackChecker.png", UriKind.Absolute)},
-                {Piece.BlackKing, new Uri("ms-appx:///../Assets/WoodTheme/BlackKing.png", UriKind.Absolute)}
-            };
+        private ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
 
         public static readonly DependencyProperty BoardProperty =
-            DependencyProperty.Register(nameof(Board),
-                typeof(Board),
-                typeof(EightPieceBoard),
-                new PropertyMetadata(null, (sender, e) => ((EightPieceBoard)sender).LoadPieces(e.OldValue as Board, e.NewValue as Board)));
+            DependencyProperty.Register(nameof(Board), typeof(Board), typeof(EightPieceBoard), new PropertyMetadata(null, (sender, e) => ((EightPieceBoard)sender).LoadPieces(e.OldValue as Board, e.NewValue as Board)));
 
         public static readonly DependencyProperty SelectionProperty =
             DependencyProperty.Register(nameof(Selection), typeof(Coord), typeof(EightPieceBoard), null);
@@ -31,6 +25,69 @@ namespace CheckersUI.CustomControls
         public EightPieceBoard()
         {
             InitializeComponent();
+            LoadBoard();
+
+            ApplicationData.Current.DataChanged += Current_DataChanged;
+        }
+
+        private Uri GetPieceUri(Piece piece)
+        {
+            if (piece.Equals(Piece.WhiteChecker))
+            {
+                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/WhiteChecker.png", UriKind.Absolute);
+            }
+
+            if (piece.Equals(Piece.WhiteKing))
+            {
+                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/WhiteKing.png", UriKind.Absolute);
+            }
+
+            if (piece.Equals(Piece.BlackChecker))
+            {
+                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/BlackChecker.png", UriKind.Absolute);
+            }
+
+            if (piece.Equals(Piece.BlackKing))
+            {
+                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/BlackKing.png", UriKind.Absolute);
+            }
+
+            throw new MissingMemberException("Piece not found");
+        }
+
+        private void DeleteBoard()
+        {
+            foreach (var item in BoardGrid.Children.ToList())
+            {
+                if (((FrameworkElement)item).Name == "BoardImage")
+                {
+                    BoardGrid.Children.Remove(item);
+                    return;
+                }
+            }
+        }
+
+        private void LoadBoard()
+        {
+            var uri = new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/Checkerboard.png", UriKind.Absolute);
+            var bitmapImage = new BitmapImage { UriSource = uri };
+
+            var image = new Image { Source = bitmapImage };
+            image.Name = "BoardImage";
+            Grid.SetRowSpan(image, 8);
+            Grid.SetColumnSpan(image, 8);
+
+            DeleteBoard();
+            BoardGrid.Children.Add(image);
+        }
+
+        private void Current_DataChanged(ApplicationData sender, object args)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                LoadBoard();
+                LoadPieces(null, Board);
+            });
         }
 
         public Board Board
@@ -59,13 +116,13 @@ namespace CheckersUI.CustomControls
         {
             foreach (Image element in BoardGrid.Children.ToList())
             {
-                if (element == BoardImage) { continue; }
+                if (element.Name == "BoardImage") { continue; }
 
                 var row = Grid.GetRow(element);
                 var column = Grid.GetColumn(element);
                 var uri = ((BitmapImage)element.Source).UriSource.AbsolutePath;
 
-                if (Board.GameBoard[row][column] == null || PieceToUriMap[Board.GameBoard[row][column]].AbsolutePath != uri)
+                if (Board.GameBoard[row][column] == null || GetPieceUri(Board.GameBoard[row][column]).AbsolutePath != uri)
                 {
                     BoardGrid.Children.Remove(element);
                 }
@@ -74,7 +131,7 @@ namespace CheckersUI.CustomControls
 
         private void PlaceChecker(Piece piece, int row, int column)
         {
-            var bitmapImage = new BitmapImage {UriSource = PieceToUriMap[piece]};
+            var bitmapImage = new BitmapImage {UriSource = GetPieceUri(piece)};
 
             var image = new Image {Source = bitmapImage};
             Grid.SetRow(image, row);

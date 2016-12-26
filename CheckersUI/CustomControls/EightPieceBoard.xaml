@@ -32,10 +32,6 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Image Name="BoardImage"
-                   Source="../Assets/WoodTheme/CheckerBoard.png"
-                   Grid.RowSpan="8"
-                   Grid.ColumnSpan="8" />
         </Grid>
     </Grid>
 </UserControl>
