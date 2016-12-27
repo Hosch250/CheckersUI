@@ -73,11 +73,7 @@ namespace CheckersUI
             }
             set
             {
-                if (_selection == null)
-                {
-                    _selection = value;
-                }
-                else if (_selection != null && Controller.IsValidMove(_selection, value))
+                if (_selection != null && Controller.IsValidMove(_selection, value))
                 {
                     MovePieceAsync(_selection, value);
                 }
@@ -126,11 +122,7 @@ namespace CheckersUI
                     OnPropertyChanged();
                 }
 
-                if ((string)_roamingSettings.Values["Theme"] != value.ToString())
-                {
-                    _roamingSettings.Values["Theme"] = value.ToString();
-                    ApplicationData.Current.SignalDataChanged();
-                }
+                AssignRoamingSetting("Theme", value.ToString());
             }
         }
 
@@ -146,64 +138,30 @@ namespace CheckersUI
                     OnPropertyChanged();
                 }
 
-                if ((string)_roamingSettings.Values["EnableSoundEffects"] != value.ToString())
-                {
-                    _roamingSettings.Values["EnableSoundEffects"] = value.ToString();
-                    ApplicationData.Current.SignalDataChanged();
-                }
+                AssignRoamingSetting("EnableSoundEffects", value.ToString());
+            }
+        }
+
+        private void AssignRoamingSetting(string name, string value)
+        {
+            if ((string)_roamingSettings.Values[name] != value)
+            {
+                _roamingSettings.Values[name] = value;
+                ApplicationData.Current.SignalDataChanged();
             }
         }
 
         public List<Theme> Themes =>
             Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
+        
+        public DelegateCommand DisplaySettingsCommand =>
+            new DelegateCommand(sender => DisplaySettingsGrid = true);
+        
+        public DelegateCommand HideSettingsCommand =>
+            new DelegateCommand(sender => DisplaySettingsGrid = false);
 
-        private DelegateCommand _displaySettingsCommand;
-        public DelegateCommand DisplaySettingsCommand
-        {
-            get
-            {
-                if (_displaySettingsCommand != null)
-                {
-                    return _displaySettingsCommand;
-                }
-
-                _displaySettingsCommand = new DelegateCommand(sender => DisplaySettingsGrid = true);
-                return _displaySettingsCommand;
-            }
-        }
-
-        private DelegateCommand _hideSettingsCommand;
-        public DelegateCommand HideSettingsCommand
-        {
-            get
-            {
-                if (_hideSettingsCommand != null)
-                {
-                    return _hideSettingsCommand;
-                }
-
-                _hideSettingsCommand = new DelegateCommand(sender => DisplaySettingsGrid = false);
-                return _hideSettingsCommand;
-            }
-        }
-
-        private DelegateCommand _newGameCommand;
-        public DelegateCommand NewGameCommand
-        {
-            get
-            {
-                if (_newGameCommand != null)
-                {
-                    return _newGameCommand;
-                }
-
-                _newGameCommand = new DelegateCommand(sender => CreateNewGame());
-                return _newGameCommand;
-            }
-        }
-
-        internal void CreateNewGame() =>
-            Controller = new GameController();
+        public DelegateCommand NewGameCommand =>
+            new DelegateCommand(sender => Controller = new GameController());
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

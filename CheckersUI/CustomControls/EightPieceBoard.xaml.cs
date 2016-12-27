@@ -7,7 +7,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using CheckersUI.Facade;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Media;
 
 namespace CheckersUI.CustomControls
 {
@@ -24,7 +23,7 @@ namespace CheckersUI.CustomControls
 
         public static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(nameof(Orientation), typeof(Player), typeof(EightPieceBoard),
-                new PropertyMetadata(null, (sender, e) => ((EightPieceBoard)sender).LoadBoard((Player)e.NewValue)));
+                new PropertyMetadata(null, (sender, e) => ((EightPieceBoard)sender).LoadPieces(null, ((EightPieceBoard)sender).Board)));
 
         public EightPieceBoard()
         {
@@ -32,6 +31,8 @@ namespace CheckersUI.CustomControls
 
             _currentTheme = (string)_roamingSettings.Values["Theme"];
             ApplicationData.Current.DataChanged += Current_DataChanged;
+
+            LoadBoard();
         }
 
         public Board Board
@@ -91,7 +92,7 @@ namespace CheckersUI.CustomControls
             }
         }
 
-        private void LoadBoard(Player player)
+        private void LoadBoard()
         {
             var uri = new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/Checkerboard.png", UriKind.Absolute);
             var bitmapImage = new BitmapImage { UriSource = uri };
@@ -99,22 +100,11 @@ namespace CheckersUI.CustomControls
             var image = new Image { Source = bitmapImage };
             image.Name = "BoardImage";
 
-            if (player == Player.Black)
-            {
-                image.RenderTransformOrigin = new Windows.Foundation.Point { X = 0.5, Y = 0.5 };
-                image.RenderTransform = new ScaleTransform() { ScaleY = -1 };
-            }
-
             Grid.SetRowSpan(image, 8);
             Grid.SetColumnSpan(image, 8);
 
             DeleteBoard();
             BoardGrid.Children.Add(image);
-
-            if (Board != null)
-            {
-                LoadPieces(null, Board);
-            }
         }
 
         private string _currentTheme;
@@ -128,7 +118,8 @@ namespace CheckersUI.CustomControls
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 _currentTheme = (string)_roamingSettings.Values["Theme"];
-                LoadBoard(Orientation);
+                LoadBoard();
+                LoadPieces(null, Board);
             });
         }
 
