@@ -30,7 +30,8 @@
                 Grid.Row="1"
                 VerticalAlignment="Top"
                 Grid.Column="1">
-            <controls:EightPieceBoard Board="{Binding Controller.Board, Mode=OneWay}"
+            <controls:EightPieceBoard Orientation="White"
+                                      Board="{Binding Controller.Board, Mode=OneWay}"
                                       Selection="{Binding Selection, Mode=TwoWay}" />
         </Border>
         <Grid Grid.Column="2"
