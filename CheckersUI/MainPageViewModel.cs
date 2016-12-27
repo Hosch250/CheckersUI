@@ -14,18 +14,38 @@ namespace CheckersUI
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        private ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
+        private readonly ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
 
         public MainPageViewModel()
         {
             Controller = new GameController();
 
+            BlackOpponent = Opponent.Human;
+            WhiteOpponent = Opponent.Computer;
+
+            PlayerTurn += HandlePlayerTurn;
+
             var tmpTheme = (string)_roamingSettings.Values["Theme"];
             SelectedTheme = string.IsNullOrEmpty(tmpTheme) ? Theme.Wood : (Theme)Enum.Parse(typeof(Theme), tmpTheme);
 
             var tmpEnableSoundEffects = (string)_roamingSettings.Values["EnableSoundEffects"];
-            EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) ? true : bool.Parse(tmpEnableSoundEffects);
+            EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
+
+        private void HandlePlayerTurn(object sender, Player e)
+        {
+            if (e == Player.Black && BlackOpponent == Opponent.Computer ||
+                e == Player.White && WhiteOpponent == Opponent.Computer)
+            {
+                var move = Controller.GetMove(7).ToList();
+                MovePiece(move);
+
+                OnPlayerTurn(OtherPlayer(e));
+            }
+        }
+
+        private Player OtherPlayer(Player player) =>
+            player == Player.Black ? Player.White : Player.Black;
 
         private GameController _controller;
         public GameController Controller
@@ -53,15 +73,21 @@ namespace CheckersUI
             player.Play();
         }
 
-        private async void MovePieceAsync(Coord startCoord, Coord endCoord)
+        private void MovePiece(List<Coord> move)
         {
             if (EnableSoundEffects)
             {
-                await PlayEffectAsync();
+                Task.Run(PlayEffectAsync).ContinueWith(s =>
+                {
+                    Controller = Controller.Move(move);
+                    _selection = move.Last();
+                });
             }
-
-            Controller = Controller.Move(startCoord, endCoord);
-            _selection = endCoord;
+            else
+            {
+                Controller = Controller.Move(move);
+                _selection = move.Last();
+            }
         }
 
         private Coord _selection;
@@ -75,7 +101,9 @@ namespace CheckersUI
             {
                 if (_selection != null && Controller.IsValidMove(_selection, value))
                 {
-                    MovePieceAsync(_selection, value);
+                    var piece = Controller.Board[_selection];
+                    MovePiece(new List<Coord> {_selection, value});
+                    OnPlayerTurn(OtherPlayer(piece.Player));
                 }
                 else if (Controller.Board.GameBoard[value.Row][value.Column] == null)
                 {
@@ -106,6 +134,17 @@ namespace CheckersUI
             set
             {
                 _displaySettingsGrid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _displayCreateGameGrid;
+        public bool DisplayCreateGameGrid
+        {
+            get { return _displayCreateGameGrid; }
+            set
+            {
+                _displayCreateGameGrid = value;
                 OnPropertyChanged();
             }
         }
@@ -153,15 +192,58 @@ namespace CheckersUI
 
         public List<Theme> Themes =>
             Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
-        
+
+        public List<Opponent> Opponents =>
+            Enum.GetValues(typeof(Opponent)).Cast<Opponent>().ToList();
+
+        private Opponent _whiteOpponent;
+        public Opponent WhiteOpponent
+        {
+            get { return _whiteOpponent; }
+            set
+            {
+                if (_whiteOpponent != value)
+                {
+                    _whiteOpponent = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private Opponent _blackOpponent;
+        public Opponent BlackOpponent
+        {
+            get { return _blackOpponent; }
+            set
+            {
+                if (_blackOpponent != value)
+                {
+                    _blackOpponent = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public DelegateCommand DisplaySettingsCommand =>
             new DelegateCommand(sender => DisplaySettingsGrid = true);
         
         public DelegateCommand HideSettingsCommand =>
             new DelegateCommand(sender => DisplaySettingsGrid = false);
 
-        public DelegateCommand NewGameCommand =>
-            new DelegateCommand(sender => Controller = new GameController());
+        public DelegateCommand DisplayCreateGameCommand =>
+            new DelegateCommand(sender => DisplayCreateGameGrid = true);
+
+        public DelegateCommand CreateGameCommand =>
+            new DelegateCommand(sender =>
+            {
+                DisplayCreateGameGrid = false;
+                Controller = new GameController();
+                OnPlayerTurn(Player.Black);
+            });
+
+        public event EventHandler<Player> PlayerTurn;
+        protected virtual void OnPlayerTurn(Player e) =>
+            PlayerTurn?.Invoke(this, e);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

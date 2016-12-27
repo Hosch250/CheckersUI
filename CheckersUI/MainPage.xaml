@@ -51,7 +51,7 @@
                 </Button>
                 <Button Background="Transparent"
                         Grid.Column="1"
-                        Command="{Binding NewGameCommand}">
+                        Command="{Binding DisplayCreateGameCommand}">
                     <Image Source="../Assets/plus.png" />
                 </Button>
             </Grid>
@@ -82,6 +82,35 @@
                     Margin="5"
                     Command="{Binding HideSettingsCommand}">
                 Close
+            </Button>
+        </Grid>
+        <Grid Grid.RowSpan="3"
+              Grid.ColumnSpan="3"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              Width="500"
+              Background="MintCream"
+              BorderBrush="Black"
+              BorderThickness="2"
+              Padding="20"
+              Visibility="{Binding DisplayCreateGameGrid}">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock FontWeight="Medium">Black:</TextBlock>
+                    <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
+                              SelectedItem="{Binding BlackOpponent, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock FontWeight="Medium">White:</TextBlock>
+                    <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
+                              SelectedItem="{Binding WhiteOpponent, Mode=TwoWay}" />
+                </StackPanel>
+            </StackPanel>
+            <Button VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="5"
+                    Command="{Binding CreateGameCommand}">
+                Start
             </Button>
         </Grid>
     </Grid>
