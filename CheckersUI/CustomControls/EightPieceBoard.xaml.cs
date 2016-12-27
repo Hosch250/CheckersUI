@@ -48,7 +48,7 @@ namespace CheckersUI.CustomControls
 
         public Player Orientation
         {
-            get { return GetValue(OrientationProperty) is Player ? (Player)GetValue(OrientationProperty) : Player.Black; }
+            get { return (Player)GetValue(OrientationProperty); }
             set { SetValue(OrientationProperty, value); }
         }
 
