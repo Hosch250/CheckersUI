@@ -12,7 +12,7 @@ namespace CheckersUI.CustomControls
 {
     public sealed partial class EightPieceBoard
     {
-        private ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
+        private readonly ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
 
         public static readonly DependencyProperty BoardProperty =
             DependencyProperty.Register(nameof(Board), typeof(Board), typeof(EightPieceBoard),

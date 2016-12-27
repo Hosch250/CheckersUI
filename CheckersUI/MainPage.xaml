@@ -30,7 +30,7 @@
                 Grid.Row="1"
                 VerticalAlignment="Top"
                 Grid.Column="1">
-            <controls:EightPieceBoard Orientation="White"
+            <controls:EightPieceBoard Orientation="{Binding BoardOrientation}"
                                       Board="{Binding Controller.Board, Mode=OneWay}"
                                       Selection="{Binding Selection, Mode=TwoWay}" />
         </Border>
@@ -98,12 +98,27 @@
                 <StackPanel>
                     <TextBlock FontWeight="Medium">Black:</TextBlock>
                     <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
-                              SelectedItem="{Binding BlackOpponent, Mode=TwoWay}" />
+                              SelectedItem="{Binding BlackOpponent, Mode=TwoWay}"
+                              Width="150" />
                 </StackPanel>
                 <StackPanel>
                     <TextBlock FontWeight="Medium">White:</TextBlock>
                     <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
-                              SelectedItem="{Binding WhiteOpponent, Mode=TwoWay}" />
+                              SelectedItem="{Binding WhiteOpponent, Mode=TwoWay}"
+                              Width="150" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock FontWeight="Medium">Level:</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Value="{Binding Level, Mode=TwoWay}"
+                                Name="LevelSlider"
+                                Minimum="2"
+                                Maximum="8"
+                                Width="150"
+                                HorizontalAlignment="Left" />
+                        <TextBlock Text="{Binding ElementName=LevelSlider, Path=Value}"
+                                   Margin="5,10,0,0" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
             <Button VerticalAlignment="Bottom"

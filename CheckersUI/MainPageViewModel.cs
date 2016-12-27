@@ -22,6 +22,7 @@ namespace CheckersUI
 
             BlackOpponent = Opponent.Human;
             WhiteOpponent = Opponent.Computer;
+            Level = 6;
 
             PlayerTurn += HandlePlayerTurn;
 
@@ -34,17 +35,18 @@ namespace CheckersUI
 
         private void HandlePlayerTurn(object sender, Player e)
         {
-            if (e == Player.Black && BlackOpponent == Opponent.Computer ||
-                e == Player.White && WhiteOpponent == Opponent.Computer)
+            if ((e == Player.Black && BlackOpponent == Opponent.Computer ||
+                e == Player.White && WhiteOpponent == Opponent.Computer) &&
+                e == Controller.CurrentPlayer)
             {
-                var move = Controller.GetMove(7).ToList();
+                var move = Controller.GetMove(Level).ToList();
                 MovePiece(move);
 
                 OnPlayerTurn(OtherPlayer(e));
             }
         }
 
-        private Player OtherPlayer(Player player) =>
+        private static Player OtherPlayer(Player player) =>
             player == Player.Black ? Player.White : Player.Black;
 
         private GameController _controller;
@@ -103,6 +105,7 @@ namespace CheckersUI
                 {
                     var piece = Controller.Board[_selection];
                     MovePiece(new List<Coord> {_selection, value});
+
                     OnPlayerTurn(OtherPlayer(piece.Player));
                 }
                 else if (Controller.Board.GameBoard[value.Row][value.Column] == null)
@@ -115,7 +118,18 @@ namespace CheckersUI
                 }
             }
         }
-        
+
+        private int _level;
+        public int Level
+        {
+            get { return _level; }
+            set
+            {
+                _level = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string Status
         {
             get
@@ -180,6 +194,9 @@ namespace CheckersUI
                 AssignRoamingSetting("EnableSoundEffects", value.ToString());
             }
         }
+        
+        public Player BoardOrientation =>
+            BlackOpponent == Opponent.Human ? Player.Black : Player.White;
 
         private void AssignRoamingSetting(string name, string value)
         {
@@ -238,6 +255,7 @@ namespace CheckersUI
             {
                 DisplayCreateGameGrid = false;
                 Controller = new GameController();
+                OnPropertyChanged(nameof(BoardOrientation));
                 OnPlayerTurn(Player.Black);
             });
 
