@@ -46,7 +46,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Button Background="Transparent"
-                        Command="{Binding DisplaySettingsCommand}">
+                        Command="{Binding ToggleDisplaySettingsCommand}">
                     <Image Source="../Assets/gear.png" />
                 </Button>
                 <Button Background="Transparent"
@@ -80,9 +80,8 @@
             <Button VerticalAlignment="Bottom"
                     HorizontalAlignment="Right"
                     Margin="5"
-                    Command="{Binding HideSettingsCommand}">
-                Close
-            </Button>
+                    Command="{Binding ToggleDisplaySettingsCommand}"
+                    Content="Close" />
         </Grid>
         <Grid Grid.RowSpan="3"
               Grid.ColumnSpan="3"

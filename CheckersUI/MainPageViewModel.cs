@@ -26,7 +26,7 @@ namespace CheckersUI
             WhiteOpponent = Opponent.Computer;
             Level = 8;
 
-            PlayerTurn += HandlePlayerTurn;
+            PlayerTurn += HandlePlayerTurnAsync;
 
             var tmpTheme = (string)_roamingSettings.Values["Theme"];
             SelectedTheme = string.IsNullOrEmpty(tmpTheme) ? Theme.Wood : (Theme)Enum.Parse(typeof(Theme), tmpTheme);
@@ -35,7 +35,7 @@ namespace CheckersUI
             EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
 
-        private async void HandlePlayerTurn(object sender, Player e)
+        private async void HandlePlayerTurnAsync(object sender, Player e)
         {
             if ((e == Player.Black && BlackOpponent == Opponent.Computer ||
                 e == Player.White && WhiteOpponent == Opponent.Computer) &&
@@ -71,7 +71,7 @@ namespace CheckersUI
 
         private async void PlayEffectAsync()
         {
-            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync($"Assets\\{SelectedTheme.ToString()}Theme");
+            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync($"Assets\\{SelectedTheme}Theme");
             var file = await folder.GetFileAsync("CheckerClick.mp3");
             var stream = await file.OpenAsync(FileAccessMode.Read);
 
@@ -243,24 +243,59 @@ namespace CheckersUI
             }
         }
 
-        public DelegateCommand DisplaySettingsCommand =>
-            new DelegateCommand(sender => DisplaySettingsGrid = true);
-        
-        public DelegateCommand HideSettingsCommand =>
-            new DelegateCommand(sender => DisplaySettingsGrid = false);
-
-        public DelegateCommand DisplayCreateGameCommand =>
-            new DelegateCommand(sender => DisplayCreateGameGrid = true);
-
-        public DelegateCommand CreateGameCommand =>
-            new DelegateCommand(sender =>
+        private DelegateCommand _toggleDisplaySettingsCommand;
+        public DelegateCommand ToggleDisplaySettingsCommand
+        {
+            get
             {
-                DisplayCreateGameGrid = false;
-                Controller = new GameController();
-                OnPropertyChanged(nameof(BoardOrientation));
+                if (_toggleDisplaySettingsCommand != null)
+                {
+                    return _toggleDisplaySettingsCommand;
+                }
 
-                OnPlayerTurn(Player.Black);
-            });
+                _toggleDisplaySettingsCommand = new DelegateCommand(sender => DisplaySettingsGrid = !DisplaySettingsGrid);
+                return _toggleDisplaySettingsCommand;
+            }
+        }
+
+        private DelegateCommand _displayCreateGameCommand;
+        public DelegateCommand DisplayCreateGameCommand
+        {
+            get
+            {
+                if (_displayCreateGameCommand != null)
+                {
+                    return _displayCreateGameCommand;
+                }
+
+                _displayCreateGameCommand = new DelegateCommand(sender => DisplayCreateGameGrid = true);
+                return _displayCreateGameCommand;
+            }
+        }
+
+        private DelegateCommand _createGameCommand;
+        public DelegateCommand CreateGameCommand
+        {
+            get
+            {
+                if (_createGameCommand != null)
+                {
+                    return _createGameCommand;
+                }
+
+                _createGameCommand = new DelegateCommand(sender => CreateGame());
+                return _createGameCommand;
+            }
+        }
+
+        private void CreateGame()
+        {
+            DisplayCreateGameGrid = false;
+            Controller = new GameController();
+            OnPropertyChanged(nameof(BoardOrientation));
+
+            OnPlayerTurn(Player.Black);
+        }
 
         public event EventHandler<Player> PlayerTurn;
         protected virtual void OnPlayerTurn(Player e) =>
