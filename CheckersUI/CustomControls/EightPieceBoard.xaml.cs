@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -53,28 +54,28 @@ namespace CheckersUI.CustomControls
             set { SetValue(OrientationProperty, value); }
         }
 
-        private Uri GetPieceUri(Piece piece)
+        private string GetPieceUriPath(Piece piece)
         {
             if (piece == null) { return null; }
 
             if (piece.Equals(Piece.WhiteChecker))
             {
-                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/WhiteChecker.png", UriKind.Absolute);
+                return $"ms-appx:///Assets/{_roamingSettings.Values["Theme"]}Theme/WhiteChecker.png";
             }
 
             if (piece.Equals(Piece.WhiteKing))
             {
-                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/WhiteKing.png", UriKind.Absolute);
+                return $"ms-appx:///Assets/{_roamingSettings.Values["Theme"]}Theme/WhiteKing.png";
             }
 
             if (piece.Equals(Piece.BlackChecker))
             {
-                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/BlackChecker.png", UriKind.Absolute);
+                return $"ms-appx:///Assets/{_roamingSettings.Values["Theme"]}Theme/BlackChecker.png";
             }
 
             if (piece.Equals(Piece.BlackKing))
             {
-                return new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/BlackKing.png", UriKind.Absolute);
+                return $"ms-appx:///Assets/{_roamingSettings.Values["Theme"]}Theme/BlackKing.png";
             }
 
             throw new MissingMemberException("Piece not found");
@@ -94,11 +95,14 @@ namespace CheckersUI.CustomControls
 
         private void LoadBoard()
         {
-            var uri = new Uri($"ms-appx:///../Assets/{_roamingSettings.Values["Theme"]}Theme/Checkerboard.png", UriKind.Absolute);
+            var uri = new Uri($"ms-appx:///Assets/{_roamingSettings.Values["Theme"]}Theme/Checkerboard.png", UriKind.Absolute);
             var bitmapImage = new BitmapImage { UriSource = uri };
 
-            var image = new Image { Source = bitmapImage };
-            image.Name = "BoardImage";
+            var image = new Image
+            {
+                Source = bitmapImage,
+                Name = "BoardImage"
+            };
 
             Grid.SetRowSpan(image, 8);
             Grid.SetColumnSpan(image, 8);
@@ -141,9 +145,9 @@ namespace CheckersUI.CustomControls
 
                 var row = AdjustedIndex(Grid.GetRow(element));
                 var column = AdjustedIndex(Grid.GetColumn(element));
-                var uri = ((BitmapImage)element.Source).UriSource.AbsolutePath;
+                var uri = ((BitmapImage)element.Source).UriSource.AbsoluteUri;
 
-                if (GetPieceUri(Board.GameBoard[row][column])?.AbsolutePath != uri)
+                if (GetPieceUriPath(Board.GameBoard[row][column]) != uri)
                 {
                     BoardGrid.Children.Remove(element);
                 }
@@ -152,7 +156,7 @@ namespace CheckersUI.CustomControls
 
         private void PlaceChecker(Piece piece, int row, int column)
         {
-            var bitmapImage = new BitmapImage {UriSource = GetPieceUri(piece)};
+            var bitmapImage = new BitmapImage {UriSource = new Uri(GetPieceUriPath(piece), UriKind.Absolute)};
 
             var image = new Image {Source = bitmapImage};
             Grid.SetRow(image, row);
@@ -163,7 +167,7 @@ namespace CheckersUI.CustomControls
         public void LoadPieces(Board oldValue, Board newValue)
         {
             if (newValue == null) { return; }
-
+            
             ClearPieces();
 
             for (var rowIndex = 0; rowIndex < Board.GameBoard.Count; rowIndex++)
@@ -175,7 +179,7 @@ namespace CheckersUI.CustomControls
                     {
                         continue;
                     }
-                    
+
                     PlaceChecker(piece, AdjustedIndex(rowIndex), AdjustedIndex(colIndex));
                 }
             }

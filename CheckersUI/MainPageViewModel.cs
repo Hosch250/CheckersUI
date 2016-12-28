@@ -6,9 +6,11 @@ using Windows.Storage;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Media.Playback;
 using Windows.Media.Core;
-using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace CheckersUI
 {
@@ -22,7 +24,7 @@ namespace CheckersUI
 
             BlackOpponent = Opponent.Human;
             WhiteOpponent = Opponent.Computer;
-            Level = 6;
+            Level = 8;
 
             PlayerTurn += HandlePlayerTurn;
 
@@ -33,14 +35,20 @@ namespace CheckersUI
             EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
 
-        private void HandlePlayerTurn(object sender, Player e)
+        private async void HandlePlayerTurn(object sender, Player e)
         {
             if ((e == Player.Black && BlackOpponent == Opponent.Computer ||
                 e == Player.White && WhiteOpponent == Opponent.Computer) &&
-                e == Controller.CurrentPlayer)
+                e == Controller.CurrentPlayer &&
+                Controller.GetWinningPlayer() == null)
             {
-                var move = Controller.GetMove(Level).ToList();
-                MovePiece(move);
+                List<Coord> move;
+                await Task.Run(async () =>
+                {
+                    move = Controller.GetMove(Level).ToList();
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                        MovePiece(move));
+                });
 
                 OnPlayerTurn(OtherPlayer(e));
             }
@@ -61,7 +69,7 @@ namespace CheckersUI
             }
         }
 
-        private async Task PlayEffectAsync()
+        private async void PlayEffectAsync()
         {
             var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync($"Assets\\{SelectedTheme.ToString()}Theme");
             var file = await folder.GetFileAsync("CheckerClick.mp3");
@@ -79,17 +87,11 @@ namespace CheckersUI
         {
             if (EnableSoundEffects)
             {
-                Task.Run(PlayEffectAsync).ContinueWith(s =>
-                {
-                    Controller = Controller.Move(move);
-                    _selection = move.Last();
-                });
+                PlayEffectAsync();
             }
-            else
-            {
-                Controller = Controller.Move(move);
-                _selection = move.Last();
-            }
+
+            _selection = move.Last();
+            Controller = Controller.Move(move);
         }
 
         private Coord _selection;
@@ -103,9 +105,9 @@ namespace CheckersUI
             {
                 if (_selection != null && Controller.IsValidMove(_selection, value))
                 {
-                    var piece = Controller.Board[_selection];
                     MovePiece(new List<Coord> {_selection, value});
 
+                    var piece = Controller.Board[_selection];
                     OnPlayerTurn(OtherPlayer(piece.Player));
                 }
                 else if (Controller.Board.GameBoard[value.Row][value.Column] == null)
@@ -256,6 +258,7 @@ namespace CheckersUI
                 DisplayCreateGameGrid = false;
                 Controller = new GameController();
                 OnPropertyChanged(nameof(BoardOrientation));
+
                 OnPlayerTurn(Player.Black);
             });
 
