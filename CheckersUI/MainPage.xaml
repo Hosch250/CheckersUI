@@ -2,7 +2,6 @@
     x:Class="CheckersUI.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CheckersUI"
     xmlns:controls="using:CheckersUI.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,6 +16,31 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top"
+              Height="80"
+              Margin="0,0,15,0"
+              Padding="10,5"
+              BorderBrush="Black"
+              BorderThickness="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border BorderThickness="0,0,0,1" BorderBrush="Black">
+                <TextBlock FontWeight="Medium" Text="American Checkers" />
+            </Border>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
+                <Image VerticalAlignment="Center" Height="15" Source="Assets/WhiteCircle.png" />
+                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding WhiteOpponent}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Image VerticalAlignment="Center" Height="15" Source="Assets/BlackCircle.png" />
+                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding BlackOpponent}" />
+            </StackPanel>
+        </Grid>
         <TextBlock Text="{Binding Status}"
                    HorizontalAlignment="Center"
                    Margin="0,10"

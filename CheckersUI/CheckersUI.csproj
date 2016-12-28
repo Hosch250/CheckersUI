@@ -120,6 +120,7 @@
     <None Include="CheckersUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\BlackCircle.png" />
     <Content Include="Assets\gear.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -159,6 +160,7 @@
     <Content Include="Assets\SteelTheme\WhiteKing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\WhiteCircle.png" />
     <Content Include="Assets\WoodTheme\BlackChecker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
