@@ -6,6 +6,7 @@ using Windows.Storage;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
 using Windows.Media.Core;
@@ -22,6 +23,7 @@ namespace CheckersUI
         {
             Controller = new GameController();
 
+            IsGameInProgress = true;
             BlackOpponent = Opponent.Human;
             WhiteOpponent = Opponent.Computer;
             Level = 8;
@@ -35,6 +37,7 @@ namespace CheckersUI
             EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
 
+        private static CancellationTokenSource _cancelComputerMoveTokenSource;
         private async void HandlePlayerTurnAsync(object sender, Player e)
         {
             if ((e == Player.Black && BlackOpponent == Opponent.Computer ||
@@ -42,15 +45,21 @@ namespace CheckersUI
                 e == Controller.CurrentPlayer &&
                 Controller.GetWinningPlayer() == null)
             {
+                _cancelComputerMoveTokenSource?.Dispose();
+                _cancelComputerMoveTokenSource = new CancellationTokenSource();
+
                 List<Coord> move;
                 await Task.Run(async () =>
                 {
                     move = Controller.GetMove(Level).ToList();
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         MovePiece(move));
-                });
+                }, _cancelComputerMoveTokenSource.Token);
 
-                OnPlayerTurn(OtherPlayer(e));
+                if (!_cancelComputerMoveTokenSource.IsCancellationRequested)
+                {
+                    OnPlayerTurn(OtherPlayer(e));
+                }
             }
         }
 
@@ -64,6 +73,8 @@ namespace CheckersUI
             set
             {
                 _controller = value;
+                IsGameInProgress = Controller.GetWinningPlayer() == null;
+
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
             }
@@ -85,6 +96,11 @@ namespace CheckersUI
 
         private void MovePiece(List<Coord> move)
         {
+            if (!IsGameInProgress)
+            {
+                return;
+            }
+
             if (EnableSoundEffects)
             {
                 PlayEffectAsync();
@@ -243,6 +259,25 @@ namespace CheckersUI
             }
         }
 
+        private bool _isGameInProgress;
+        public bool IsGameInProgress
+        {
+            get { return _isGameInProgress; }
+            set
+            {
+                if (_isGameInProgress != value)
+                {
+                    _isGameInProgress = value;
+                    OnPropertyChanged();
+
+                    if (!IsGameInProgress)
+                    {
+                        _cancelComputerMoveTokenSource.Cancel();
+                    }
+                }
+            }
+        }
+
         private DelegateCommand _toggleDisplaySettingsCommand;
         public DelegateCommand ToggleDisplaySettingsCommand
         {
@@ -282,15 +317,31 @@ namespace CheckersUI
                 {
                     return _createGameCommand;
                 }
-
+                
                 _createGameCommand = new DelegateCommand(sender => CreateGame());
                 return _createGameCommand;
+            }
+        }
+
+        private DelegateCommand _cancelGameCommand;
+        public DelegateCommand CancelGameCommand
+        {
+            get
+            {
+                if (_cancelGameCommand != null)
+                {
+                    return _cancelGameCommand;
+                }
+
+                _cancelGameCommand = new DelegateCommand(sender => IsGameInProgress = false);
+                return _cancelGameCommand;
             }
         }
 
         private void CreateGame()
         {
             DisplayCreateGameGrid = false;
+            IsGameInProgress = true;
             Controller = new GameController();
             OnPropertyChanged(nameof(BoardOrientation));
 

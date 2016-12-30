@@ -3,9 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CheckersUI.CustomControls"
+    xmlns:converters="using:CheckersUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50, 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -75,8 +80,15 @@
                 </Button>
                 <Button Background="Transparent"
                         Grid.Column="1"
-                        Command="{Binding DisplayCreateGameCommand}">
+                        Command="{Binding DisplayCreateGameCommand}"
+                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
                     <Image Source="../Assets/plus.png" />
+                </Button>
+                <Button Background="Transparent"
+                        Grid.Column="1"
+                        Command="{Binding CancelGameCommand}"
+                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToVisibility}}">
+                    <Image Source="../Assets/cancel.png" />
                 </Button>
             </Grid>
         </Grid>

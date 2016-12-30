@@ -97,6 +97,8 @@
     </Compile>
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
       <DependentUpon>EightPieceBoard.xaml</DependentUpon>
     </Compile>
@@ -121,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BlackCircle.png" />
+    <Content Include="Assets\cancel.png" />
     <Content Include="Assets\gear.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
