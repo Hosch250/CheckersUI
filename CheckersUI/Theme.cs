@@ -4,6 +4,7 @@
     {
         Wood = 0,
         Steel = 1,
-        Plastic = 2
+        Plastic = 2,
+        Shell = 3
     }
 }

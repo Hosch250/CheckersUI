@@ -143,6 +143,12 @@
     <Content Include="Assets\plus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\ShellTheme\BlackChecker.png" />
+    <Content Include="Assets\ShellTheme\BlackKing.png" />
+    <Content Include="Assets\ShellTheme\CheckerBoard.png" />
+    <Content Include="Assets\ShellTheme\CheckerClick.mp3" />
+    <Content Include="Assets\ShellTheme\WhiteChecker.png" />
+    <Content Include="Assets\ShellTheme\WhiteKing.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\SteelTheme\BlackChecker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
