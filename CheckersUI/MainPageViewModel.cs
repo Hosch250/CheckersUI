@@ -272,7 +272,7 @@ namespace CheckersUI
 
                     if (!IsGameInProgress)
                     {
-                        _cancelComputerMoveTokenSource.Cancel();
+                        _cancelComputerMoveTokenSource?.Cancel();
                     }
                 }
             }

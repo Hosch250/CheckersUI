@@ -9,8 +9,8 @@
 
     <Grid>
         <Grid Name="BoardGrid"
-              MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
-              MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+              Width="640" 
+              Height="640"
               PointerPressed="BoardGrid_PointerPressed">
             <Grid.RowDefinitions>
                 <RowDefinition />
