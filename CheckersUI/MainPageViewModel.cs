@@ -323,6 +323,21 @@ namespace CheckersUI
             }
         }
 
+        private DelegateCommand _undoMoveCommand;
+        public DelegateCommand UndoMoveCommand
+        {
+            get
+            {
+                if (_undoMoveCommand != null)
+                {
+                    return _undoMoveCommand;
+                }
+
+                _undoMoveCommand = new DelegateCommand(sender => TakebackMove());
+                return _undoMoveCommand;
+            }
+        }
+
         private DelegateCommand _cancelGameCommand;
         public DelegateCommand CancelGameCommand
         {
@@ -346,6 +361,19 @@ namespace CheckersUI
             OnPropertyChanged(nameof(BoardOrientation));
 
             OnPlayerTurn(Player.Black);
+        }
+
+        private void TakebackMove()
+        {
+            Controller = Controller.TakebackMove();
+
+            if (Controller.CurrentPlayer == Player.Black && BlackOpponent == Opponent.Computer ||
+                Controller.CurrentPlayer == Player.White && WhiteOpponent == Opponent.Computer)
+            {
+                Controller = Controller.TakebackMove();
+            }
+
+            OnPlayerTurn(Controller.CurrentPlayer);
         }
 
         public event EventHandler<Player> PlayerTurn;
