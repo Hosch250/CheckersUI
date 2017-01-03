@@ -120,6 +120,12 @@ namespace CheckersUI
             }
             set
             {
+                if (Controller.CurrentPlayer == Player.Black && BlackOpponent == Opponent.Computer ||
+                    Controller.CurrentPlayer == Player.White && WhiteOpponent == Opponent.Computer)
+                {
+                    return;
+                }
+
                 if (_selection != null && Controller.IsValidMove(_selection, value))
                 {
                     MovePiece(new List<Coord> {_selection, value});
