@@ -89,6 +89,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="CheckersUI_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -119,7 +120,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="CheckersUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BlackCircle.png" />
@@ -169,6 +169,7 @@
     <Content Include="Assets\SteelTheme\WhiteKing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\undo.png" />
     <Content Include="Assets\WhiteCircle.png" />
     <Content Include="Assets\WoodTheme\BlackChecker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -211,11 +212,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Checkers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Checkers">
       <HintPath>..\..\Checkers\Checkers\bin\Debug\Checkers.dll</HintPath>
     </Reference>
-    <Reference Include="FSharp.Core, Version=3.47.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="FSharp.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Checkers\Checkers\bin\Debug\FSharp.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

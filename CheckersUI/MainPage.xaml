@@ -75,17 +75,22 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <Button Background="Transparent"
+                        Command="{Binding UndoMoveCommand}">
+                    <Image Source="../Assets/undo.png" />
+                </Button>
+                <Button Background="Transparent"
+                        Grid.Column="1"
                         Command="{Binding ToggleDisplaySettingsCommand}">
                     <Image Source="../Assets/gear.png" />
                 </Button>
                 <Button Background="Transparent"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Command="{Binding DisplayCreateGameCommand}"
                         Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
                     <Image Source="../Assets/plus.png" />
                 </Button>
                 <Button Background="Transparent"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Command="{Binding CancelGameCommand}"
                         Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToVisibility}}">
                     <Image Source="../Assets/cancel.png" />

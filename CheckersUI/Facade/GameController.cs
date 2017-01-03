@@ -63,7 +63,7 @@ namespace CheckersUI.Facade
         public static implicit operator Checkers.GameController.GameController(GameController controller)
         {
             return new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(),
-                controller.CurrentCoord);
+                controller.CurrentCoord, null);
         }
 
         public static implicit operator GameController(FSharpOption<Checkers.GameController.GameController> controller)
@@ -79,7 +79,7 @@ namespace CheckersUI.Facade
                 ? FSharpOption<Checkers.GameController.GameController>.None
                 : FSharpOption<Checkers.GameController.GameController>.Some(
                     new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(),
-                        controller.CurrentCoord));
+                        controller.CurrentCoord, null));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
