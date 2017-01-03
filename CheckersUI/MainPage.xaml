@@ -40,11 +40,11 @@
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                 <Image VerticalAlignment="Center" Height="15" Source="Assets/WhiteCircle.png" />
-                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding WhiteOpponent}" />
+                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding WhiteOpponentText}" />
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <Image VerticalAlignment="Center" Height="15" Source="Assets/BlackCircle.png" />
-                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding BlackOpponent}" />
+                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding BlackOpponentText}" />
             </StackPanel>
         </Grid>
         <TextBlock Text="{Binding Status}"

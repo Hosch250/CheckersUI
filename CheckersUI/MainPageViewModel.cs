@@ -238,6 +238,11 @@ namespace CheckersUI
         public List<Opponent> Opponents =>
             Enum.GetValues(typeof(Opponent)).Cast<Opponent>().ToList();
 
+        private string GetOpponentText(Opponent opponent) =>
+            opponent == Opponent.Human
+            ? opponent.ToString()
+            : opponent.ToString() + " Level " + Level;
+
         private Opponent _whiteOpponent;
         public Opponent WhiteOpponent
         {
@@ -252,6 +257,9 @@ namespace CheckersUI
             }
         }
 
+        public string WhiteOpponentText =>
+            GetOpponentText(WhiteOpponent);
+
         private Opponent _blackOpponent;
         public Opponent BlackOpponent
         {
@@ -265,6 +273,9 @@ namespace CheckersUI
                 }
             }
         }
+
+        public string BlackOpponentText =>
+            GetOpponentText(BlackOpponent);
 
         private bool _isGameInProgress;
         public bool IsGameInProgress
@@ -375,7 +386,10 @@ namespace CheckersUI
             DisplayCreateGameGrid = false;
             IsGameInProgress = true;
             Controller = new GameController();
+
             OnPropertyChanged(nameof(BoardOrientation));
+            OnPropertyChanged(nameof(BlackOpponentText));
+            OnPropertyChanged(nameof(WhiteOpponentText));
 
             OnPlayerTurn(Player.Black);
         }
