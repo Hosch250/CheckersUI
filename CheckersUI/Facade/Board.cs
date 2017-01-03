@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Checkers;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
@@ -25,7 +26,7 @@ namespace CheckersUI.Facade
 
         public static implicit operator FSharpList<FSharpList<FSharpOption<Checkers.Piece.Piece>>>(Board value)
         {
-            return Checkers.Board.listFromSeq(value.GameBoard.Select(row => row.Select(piece => piece.ConvertBack())));
+            return Types.nestedListFromSeq(value.GameBoard.Select(row => row.Select(piece => piece.ConvertBack())));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.FSharp.Core;
+﻿using Checkers;
+using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
 {
@@ -13,33 +14,31 @@ namespace CheckersUI.Facade
             Column = column;
         }
 
-        public static Coord operator +(Coord coord1, Coord cooord2)
-        {
-            return new Coord(coord1.Row + cooord2.Row, coord1.Column + cooord2.Column);
-        }
+        public Coord Offset(Coord coord) =>
+            new Coord(Row + coord.Row, Column + coord.Column);
 
-        public static implicit operator Coord(Checkers.Types.Coord coord)
+        public static implicit operator Coord(Types.Coord coord)
         {
             return new Coord(coord.Row, coord.Column);
         }
 
-        public static implicit operator Checkers.Types.Coord(Coord coord)
+        public static implicit operator Types.Coord(Coord coord)
         {
-            return new Checkers.Types.Coord(coord.Row, coord.Column);
+            return new Types.Coord(coord.Row, coord.Column);
         }
 
-        public static implicit operator Coord(FSharpOption<Checkers.Types.Coord> coord)
+        public static implicit operator Coord(FSharpOption<Types.Coord> coord)
         {
-            return Equals(coord, FSharpOption<Checkers.Types.Coord>.None)
+            return Equals(coord, FSharpOption<Types.Coord>.None)
                 ? null
                 : new Coord(coord.Value.Row, coord.Value.Column);
         }
 
-        public static implicit operator FSharpOption<Checkers.Types.Coord>(Coord coord)
+        public static implicit operator FSharpOption<Types.Coord>(Coord coord)
         {
             return coord == null
-                ? FSharpOption<Checkers.Types.Coord>.None
-                : FSharpOption<Checkers.Types.Coord>.Some(new Checkers.Types.Coord(coord.Row, coord.Column));
+                ? FSharpOption<Types.Coord>.None
+                : FSharpOption<Types.Coord>.Some(new Types.Coord(coord.Row, coord.Column));
         }
     }
 }

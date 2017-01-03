@@ -9,15 +9,17 @@ namespace CheckersUI.Facade
 {
     public class GameController : INotifyPropertyChanged
     {
-        public GameController(Board board, Player currentPlayer, Coord currentCoord = null)
+        public GameController(Board board, Player currentPlayer, List<PDNTurn> moveHistory, Coord currentCoord = null)
         {
             Board = board;
             CurrentPlayer = currentPlayer;
+            MoveHistory = moveHistory;
             CurrentCoord = currentCoord;
         }
 
         public Player CurrentPlayer { get; }
         public Coord CurrentCoord { get; }
+        public List<PDNTurn> MoveHistory { get; }
 
         private Board _board;
         public Board Board
@@ -32,10 +34,10 @@ namespace CheckersUI.Facade
         }
 
         public GameController(Checkers.GameController.GameController gameController)
-            :this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.CurrentCoord) { }
+            :this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.MoveHistory.Select(item => (PDNTurn)item).ToList(), gameController.CurrentCoord) { }
 
         public GameController()
-            : this(new Board(), Player.Black) { }
+            : this(new Board(), Player.Black, new List<PDNTurn>()) { }
 
         public GameController Move(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.movePiece(startCoord, endCoord, this);
@@ -48,6 +50,9 @@ namespace CheckersUI.Facade
 
         public IEnumerable<Coord> GetMove(int searchDepth) =>
             Checkers.PublicAPI.getMove(searchDepth, this).Select(coord => (Coord)coord);
+
+        public GameController TakebackMove() =>
+            Checkers.PublicAPI.takeBackMove(this);
 
         public Player? GetWinningPlayer()
         {
@@ -62,8 +67,10 @@ namespace CheckersUI.Facade
 
         public static implicit operator Checkers.GameController.GameController(GameController controller)
         {
+            var moveHistory = Checkers.Types.listFromSeq(controller.MoveHistory.Select(item => (Checkers.Types.PDNTurn)item)).Value;
+
             return new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(),
-                controller.CurrentCoord, null);
+                controller.CurrentCoord, moveHistory);
         }
 
         public static implicit operator GameController(FSharpOption<Checkers.GameController.GameController> controller)
@@ -75,11 +82,13 @@ namespace CheckersUI.Facade
 
         public static implicit operator FSharpOption<Checkers.GameController.GameController>(GameController controller)
         {
+            var moveHistory = Checkers.Types.listFromSeq(controller.MoveHistory.Select(item => (Checkers.Types.PDNTurn)item)).Value;
+
             return controller == null
                 ? FSharpOption<Checkers.GameController.GameController>.None
                 : FSharpOption<Checkers.GameController.GameController>.Some(
                     new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(),
-                        controller.CurrentCoord, null));
+                        controller.CurrentCoord, moveHistory));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

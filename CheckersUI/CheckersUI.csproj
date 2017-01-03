@@ -106,6 +106,8 @@
     <Compile Include="Facade\Board.cs" />
     <Compile Include="Facade\Coord.cs" />
     <Compile Include="Facade\GameController.cs" />
+    <Compile Include="Facade\PDNMove.cs" />
+    <Compile Include="Facade\PDNTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
     <Compile Include="MainPage.xaml.cs">
