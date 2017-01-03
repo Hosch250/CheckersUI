@@ -75,6 +75,7 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <Button Background="Transparent"
+                        IsEnabled="{Binding CanTakeback}"
                         Command="{Binding UndoMoveCommand}">
                     <Image Source="../Assets/undo.png" />
                 </Button>

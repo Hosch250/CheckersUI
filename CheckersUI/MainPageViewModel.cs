@@ -77,6 +77,7 @@ namespace CheckersUI
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
+                OnPropertyChanged(nameof(CanTakeback));
             }
         }
 
@@ -275,6 +276,16 @@ namespace CheckersUI
                         _cancelComputerMoveTokenSource?.Cancel();
                     }
                 }
+            }
+        }
+        
+        public bool CanTakeback
+        {
+            get
+            {
+                return Controller.MoveHistory.Any() &&
+                       Controller.GetWinningPlayer() == null &&
+                       (BlackOpponent == Opponent.Human || WhiteOpponent == Opponent.Human);
             }
         }
 
