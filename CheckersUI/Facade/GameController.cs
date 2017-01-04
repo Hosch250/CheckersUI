@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.FSharp.Core;
@@ -19,7 +18,17 @@ namespace CheckersUI.Facade
 
         public Player CurrentPlayer { get; }
         public Coord CurrentCoord { get; }
-        public List<PDNTurn> MoveHistory { get; }
+
+        private List<PDNTurn> _moveHistory;
+        public List<PDNTurn> MoveHistory
+        {
+            get { return _moveHistory; }
+            set
+            {
+                _moveHistory = value;
+                OnPropertyChanged();
+            }
+        }
 
         private Board _board;
         public Board Board
@@ -27,7 +36,6 @@ namespace CheckersUI.Facade
             get { return _board; }
             set
             {
-                Debug.Assert(value.GameBoard != null);
                 _board = value;
                 OnPropertyChanged();
             }

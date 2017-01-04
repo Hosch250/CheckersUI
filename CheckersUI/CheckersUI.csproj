@@ -99,6 +99,8 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
+    <Compile Include="Converters\PDNMoveToDisplayString.cs" />
+    <Compile Include="Converters\IntegerToListItemConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
       <DependentUpon>EightPieceBoard.xaml</DependentUpon>

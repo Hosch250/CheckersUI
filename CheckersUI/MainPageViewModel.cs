@@ -78,6 +78,7 @@ namespace CheckersUI
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
                 OnPropertyChanged(nameof(CanTakeback));
+                OnPropertyChanged(nameof(MoveHistory));
             }
         }
 
@@ -276,6 +277,9 @@ namespace CheckersUI
 
         public string BlackOpponentText =>
             GetOpponentText(BlackOpponent);
+
+        public IEnumerable<string> MoveHistory =>
+            Controller.MoveHistory.Select(m => $"{m.MoveNumber}:\t{m.BlackMove.DisplayString},\t{m.WhiteMove?.DisplayString}");
 
         private bool _isGameInProgress;
         public bool IsGameInProgress

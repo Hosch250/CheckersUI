@@ -1,5 +1,6 @@
 ﻿using Checkers;
 using Microsoft.FSharp.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,6 +18,14 @@ namespace CheckersUI.Facade
         public List<int> Move { get; }
         public string ResultingFen { get; }
         public string DisplayString { get; }
+
+        public bool IsJump()
+        {
+            var firstCoord = (Coord)PublicAPI.getPdnCoord(Move[0]);
+            var secondCoord = (Coord)PublicAPI.getPdnCoord(Move[1]);
+
+            return Math.Abs(firstCoord.Row - secondCoord.Row) == 2;
+        }
 
         public static implicit operator PDNMove(Checkers.Types.PDNMove value)
         {

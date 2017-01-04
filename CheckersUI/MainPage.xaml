@@ -10,6 +10,8 @@
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
+        <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
+        <converters:PDNMoveToDisplayStringConverter x:Key="PDNMoveToDisplayString" />
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50, 0">
         <Grid.RowDefinitions>
@@ -66,34 +68,62 @@
         </Border>
         <Grid Grid.Column="2"
               Grid.Row="1"
-              VerticalAlignment="Bottom"
-              Height="60">
-            <Grid>
+              Height="640">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="60" />
+            </Grid.RowDefinitions>
+            <ScrollViewer Width="240"
+                          HorizontalAlignment="Left">
+                <ItemsControl ItemsSource="{Binding Controller.MoveHistory}"
+                              Width="220">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding MoveNumber, Converter={StaticResource IntegerToListItem}}"
+                                           VerticalAlignment="Center" />
+                                <ListBoxItem Grid.Column="1"
+                                             Content="{Binding BlackMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                             ToolTipService.ToolTip="{Binding BlackMove.DisplayString}" />
+                                <ListBoxItem Grid.Column="2"
+                                             Content="{Binding WhiteMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                             ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <Button Background="Transparent"
-                        IsEnabled="{Binding CanTakeback}"
-                        Command="{Binding UndoMoveCommand}">
+                            IsEnabled="{Binding CanTakeback}"
+                            Command="{Binding UndoMoveCommand}">
                     <Image Source="../Assets/undo.png" />
                 </Button>
                 <Button Background="Transparent"
-                        Grid.Column="1"
-                        Command="{Binding ToggleDisplaySettingsCommand}">
+                            Grid.Column="1"
+                            Command="{Binding ToggleDisplaySettingsCommand}">
                     <Image Source="../Assets/gear.png" />
                 </Button>
                 <Button Background="Transparent"
-                        Grid.Column="2"
-                        Command="{Binding DisplayCreateGameCommand}"
-                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
+                            Grid.Column="2"
+                            Command="{Binding DisplayCreateGameCommand}"
+                            Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
                     <Image Source="../Assets/plus.png" />
                 </Button>
                 <Button Background="Transparent"
-                        Grid.Column="2"
-                        Command="{Binding CancelGameCommand}"
-                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToVisibility}}">
+                            Grid.Column="2"
+                            Command="{Binding CancelGameCommand}"
+                            Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToVisibility}}">
                     <Image Source="../Assets/cancel.png" />
                 </Button>
             </Grid>
