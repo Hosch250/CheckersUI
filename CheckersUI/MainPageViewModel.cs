@@ -73,7 +73,9 @@ namespace CheckersUI
             set
             {
                 _controller = value;
-                IsGameInProgress = Controller.GetWinningPlayer() == null;
+
+                var winningPlayer = Controller.GetWinningPlayer();
+                IsGameInProgress = !(winningPlayer.HasValue && winningPlayer.Value == Controller.CurrentPlayer);
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
