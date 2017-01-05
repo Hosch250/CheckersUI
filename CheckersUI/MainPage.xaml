@@ -12,6 +12,7 @@
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PDNMoveToDisplayStringConverter x:Key="PDNMoveToDisplayString" />
+        <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50, 0">
         <Grid.RowDefinitions>
@@ -179,6 +180,17 @@
                               Width="150" />
                 </StackPanel>
                 <StackPanel>
+                    <TextBlock FontWeight="Medium">Setup:</TextBlock>
+                    <ComboBox ItemsSource="{Binding SetupOptions, Mode=OneTime}"
+                              SelectedItem="{Binding SetupOption, Mode=TwoWay}"
+                              Width="150" />
+                    <TextBlock FontWeight="Medium"
+                               Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}"
+                               Text="FEN:" />
+                    <TextBox Name="FenBox"
+                             Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}" />
+                </StackPanel>
+                <StackPanel>
                     <TextBlock FontWeight="Medium">Level:</TextBlock>
                     <StackPanel Orientation="Horizontal">
                         <Slider Value="{Binding Level, Mode=TwoWay}"
@@ -195,7 +207,8 @@
             <Button VerticalAlignment="Bottom"
                     HorizontalAlignment="Right"
                     Margin="5"
-                    Command="{Binding CreateGameCommand}">
+                    Command="{Binding CreateGameCommand}"
+                    CommandParameter="{Binding ElementName=FenBox, Path=Text}">
                 Start
             </Button>
         </Grid>

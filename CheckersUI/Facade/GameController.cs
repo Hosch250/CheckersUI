@@ -16,6 +16,40 @@ namespace CheckersUI.Facade
             CurrentCoord = currentCoord;
         }
 
+        public GameController(Checkers.GameController.GameController gameController)
+            : this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.MoveHistory.Select(item => (PDNTurn)item).ToList(), gameController.CurrentCoord) { }
+
+        public GameController()
+            : this(new Board(), Player.Black, new List<PDNTurn>()) { }
+
+        public static GameController FromPosition(string fenPosition)
+        {
+            try
+            {
+                return Checkers.PortableDraughtsNotation.controllerFromFen(fenPosition);
+            }
+            catch
+            {
+                // invalid fen entered
+                // todo: notify the user
+                return null;
+            }
+        }
+
+        public static bool TryFromPosition(string fenPosition, out GameController controller)
+        {
+            try
+            {
+                controller = Checkers.PortableDraughtsNotation.controllerFromFen(fenPosition);
+                return true;
+            }
+            catch
+            {
+                controller = new GameController();
+                return false;
+            }
+        }
+
         public Player CurrentPlayer { get; }
         public Coord CurrentCoord { get; }
 
@@ -40,12 +74,6 @@ namespace CheckersUI.Facade
                 OnPropertyChanged();
             }
         }
-
-        public GameController(Checkers.GameController.GameController gameController)
-            :this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.MoveHistory.Select(item => (PDNTurn)item).ToList(), gameController.CurrentCoord) { }
-
-        public GameController()
-            : this(new Board(), Player.Black, new List<PDNTurn>()) { }
 
         public GameController Move(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.movePiece(startCoord, endCoord, this);

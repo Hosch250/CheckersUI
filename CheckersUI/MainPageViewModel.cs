@@ -28,6 +28,8 @@ namespace CheckersUI
             WhiteOpponent = Opponent.Computer;
             Level = 8;
 
+            SetupOption = Setup.Default;
+
             PlayerTurn += HandlePlayerTurnAsync;
 
             var tmpTheme = (string)_roamingSettings.Values["Theme"];
@@ -222,7 +224,21 @@ namespace CheckersUI
                 AssignRoamingSetting("EnableSoundEffects", value.ToString());
             }
         }
-        
+
+        private Setup _setupOption;
+        public Setup SetupOption
+        {
+            get { return _setupOption; }
+            set
+            {
+                if (_setupOption != value)
+                {
+                    _setupOption = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public Player BoardOrientation =>
             BlackOpponent == Opponent.Human ? Player.Black : Player.White;
 
@@ -240,6 +256,9 @@ namespace CheckersUI
 
         public List<Opponent> Opponents =>
             Enum.GetValues(typeof(Opponent)).Cast<Opponent>().ToList();
+
+        public List<Setup> SetupOptions =>
+            Enum.GetValues(typeof(Setup)).Cast<Setup>().ToList();
 
         private string GetOpponentText(Opponent opponent) =>
             opponent == Opponent.Human
@@ -352,7 +371,7 @@ namespace CheckersUI
                     return _createGameCommand;
                 }
                 
-                _createGameCommand = new DelegateCommand(sender => CreateGame());
+                _createGameCommand = new DelegateCommand(param => CreateGame((string)param));
                 return _createGameCommand;
             }
         }
@@ -387,11 +406,19 @@ namespace CheckersUI
             }
         }
 
-        private void CreateGame()
+        private void CreateGame(string param)
         {
             DisplayCreateGameGrid = false;
             IsGameInProgress = true;
-            Controller = new GameController();
+
+            if (string.IsNullOrEmpty(param))
+            {
+                Controller = new GameController();
+            }
+            else
+            {
+                Controller = GameController.FromPosition(param);
+            }
 
             OnPropertyChanged(nameof(BoardOrientation));
             OnPropertyChanged(nameof(BlackOpponentText));
