@@ -138,7 +138,7 @@ namespace CheckersUI
                     var piece = Controller.Board[_selection];
                     OnPlayerTurn(OtherPlayer(piece.Player));
                 }
-                else if (Controller.Board.GameBoard[value.Row][value.Column] == null)
+                else if (Controller.Board.GameBoard[value.Row, value.Column] == null)
                 {
                     _selection = null;
                 }
@@ -424,7 +424,7 @@ namespace CheckersUI
             OnPropertyChanged(nameof(BlackOpponentText));
             OnPropertyChanged(nameof(WhiteOpponentText));
 
-            OnPlayerTurn(Player.Black);
+            OnPlayerTurn(Controller.CurrentPlayer);
         }
 
         private void TakebackMove()

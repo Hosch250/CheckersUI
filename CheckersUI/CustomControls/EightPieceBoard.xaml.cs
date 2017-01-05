@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -147,7 +146,7 @@ namespace CheckersUI.CustomControls
                 var column = AdjustedIndex(Grid.GetColumn(element));
                 var uri = ((BitmapImage)element.Source).UriSource.AbsoluteUri;
 
-                if (GetPieceUriPath(Board.GameBoard[row][column]) != uri)
+                if (GetPieceUriPath(Board.GameBoard[row, column]) != uri)
                 {
                     BoardGrid.Children.Remove(element);
                 }
@@ -170,12 +169,12 @@ namespace CheckersUI.CustomControls
             
             ClearPieces();
 
-            for (var rowIndex = 0; rowIndex < Board.GameBoard.Count; rowIndex++)
+            for (var rowIndex = 0; rowIndex < 8; rowIndex++)
             {
-                for (var colIndex = 0; colIndex < Board.GameBoard[rowIndex].Count; colIndex++)
+                for (var colIndex = 0; colIndex < 8; colIndex++)
                 {
-                    var piece = newValue.GameBoard[rowIndex][colIndex];
-                    if (piece == null || piece.Equals(oldValue?.GameBoard[rowIndex][colIndex]))
+                    var piece = newValue.GameBoard[rowIndex, colIndex];
+                    if (piece == null || piece.Equals(oldValue?.GameBoard[rowIndex, colIndex]))
                     {
                         continue;
                     }

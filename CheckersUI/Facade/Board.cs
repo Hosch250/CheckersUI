@@ -1,32 +1,46 @@
-﻿using Checkers;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.FSharp.Collections;
-using Microsoft.FSharp.Core;
+﻿using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
 {
     public class Board
     {
-        public List<List<Piece>> GameBoard { get; }
+        public Piece[,] GameBoard { get; }
 
-        public Board(IEnumerable<IEnumerable<FSharpOption<Checkers.Piece.Piece>>> board)
+        public Board(FSharpOption<Checkers.Piece.Piece>[,] board)
         {
-            GameBoard = board.Select(row => row.Select(piece => piece.Convert()).ToList()).ToList();
+            var value = new Piece[8, 8];
+            for (var row = 0; row < 8; row++)
+            {
+                for (var col = 0; col < 8; col++)
+                {
+                    value[row, col] = board[row, col].Convert();
+                }
+            }
+
+            GameBoard = value;
         }
 
         public Board() : this(Checkers.Board.defaultBoard) { }
 
-        public Piece this[Coord coord] => GameBoard[coord.Row][coord.Column];
+        public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];
 
-        public static implicit operator Board(FSharpList<FSharpList<FSharpOption<Checkers.Piece.Piece>>> value)
+        public static implicit operator Board(FSharpOption<Checkers.Piece.Piece>[,] value)
         {
             return new Board(value);
         }
 
-        public static implicit operator FSharpList<FSharpList<FSharpOption<Checkers.Piece.Piece>>>(Board value)
+        public static implicit operator FSharpOption<Checkers.Piece.Piece>[,](Board value)
         {
-            return Types.nestedListFromSeq(value.GameBoard.Select(row => row.Select(piece => piece.ConvertBack())));
+            var board = new FSharpOption<Checkers.Piece.Piece>[8, 8];
+            for (var row = 0; row < 8; row++)
+            {
+                for (var col = 0; col < 8; col++)
+                {
+                    board[row, col] = value.GameBoard[row, col].ConvertBack();
+                }
+            }
+
+            return board;
         }
     }
 }
