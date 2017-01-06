@@ -118,6 +118,11 @@ namespace CheckersUI
 
         private bool IsFenLastMove(string fen)
         {
+            if (!Controller.MoveHistory.Any())
+            {
+                return true;
+            }
+
             if (Controller.CurrentPlayer == Player.Black)
             {
                 return Controller.MoveHistory.Last().WhiteMove.ResultingFen == fen;
@@ -140,6 +145,8 @@ namespace CheckersUI
                 {
                     return;
                 }
+
+                if (!IsFenLastMove(Controller.Fen)) { return; }
 
                 if (_selection != null && Controller.IsValidMove(_selection, value))
                 {

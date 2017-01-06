@@ -15,6 +15,8 @@ namespace CheckersUI.Facade
             InitialPosition = initialPosition;
             MoveHistory = moveHistory;
             CurrentCoord = currentCoord;
+
+            Fen = Checkers.PortableDraughtsNotation.createFen(currentPlayer.ConvertBack(), board);
         }
 
         public GameController(Checkers.GameController.GameController gameController)
@@ -25,7 +27,7 @@ namespace CheckersUI.Facade
 
         public GameController WithBoard(string fen) =>
             new GameController(FromPosition(fen).Board, CurrentPlayer, InitialPosition, MoveHistory, CurrentCoord);
-
+        
         public static GameController FromPosition(string fenPosition)
         {
             try
@@ -57,6 +59,7 @@ namespace CheckersUI.Facade
         public Player CurrentPlayer { get; }
         public Coord CurrentCoord { get; }
         public string InitialPosition { get; }
+        public string Fen { get; }
 
         private List<PDNTurn> _moveHistory;
         public List<PDNTurn> MoveHistory
