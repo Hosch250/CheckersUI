@@ -8,22 +8,23 @@ namespace CheckersUI.Facade
 {
     public class GameController : INotifyPropertyChanged
     {
-        public GameController(Board board, Player currentPlayer, List<PDNTurn> moveHistory, Coord currentCoord = null)
+        public GameController(Board board, Player currentPlayer, string initialPosition, List<PDNTurn> moveHistory, Coord currentCoord = null)
         {
             Board = board;
             CurrentPlayer = currentPlayer;
+            InitialPosition = initialPosition;
             MoveHistory = moveHistory;
             CurrentCoord = currentCoord;
         }
 
         public GameController(Checkers.GameController.GameController gameController)
-            : this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.MoveHistory.Select(item => (PDNTurn)item).ToList(), gameController.CurrentCoord) { }
+            : this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PDNTurn)item).ToList(), gameController.CurrentCoord) { }
 
         public GameController()
-            : this(new Board(), Player.Black, new List<PDNTurn>()) { }
+            : this(new Board(), Player.Black, Checkers.PortableDraughtsNotation.createFen(Player.Black.ConvertBack(), new Board()), new List<PDNTurn>()) { }
 
         public GameController WithBoard(string fen) =>
-            new GameController(FromPosition(fen).Board, CurrentPlayer, MoveHistory, CurrentCoord);
+            new GameController(FromPosition(fen).Board, CurrentPlayer, InitialPosition, MoveHistory, CurrentCoord);
 
         public static GameController FromPosition(string fenPosition)
         {
@@ -55,6 +56,7 @@ namespace CheckersUI.Facade
 
         public Player CurrentPlayer { get; }
         public Coord CurrentCoord { get; }
+        public string InitialPosition { get; }
 
         private List<PDNTurn> _moveHistory;
         public List<PDNTurn> MoveHistory
@@ -108,8 +110,7 @@ namespace CheckersUI.Facade
         {
             var moveHistory = Checkers.Types.listFromSeq(controller.MoveHistory.Select(item => (Checkers.Types.PDNTurn)item)).Value;
 
-            return new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(),
-                controller.CurrentCoord, moveHistory);
+            return new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(), controller.InitialPosition, moveHistory, controller.CurrentCoord);
         }
 
         public static implicit operator GameController(FSharpOption<Checkers.GameController.GameController> controller)
@@ -126,8 +127,7 @@ namespace CheckersUI.Facade
             return controller == null
                 ? FSharpOption<Checkers.GameController.GameController>.None
                 : FSharpOption<Checkers.GameController.GameController>.Some(
-                    new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(),
-                        controller.CurrentCoord, moveHistory));
+                    new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(), controller.InitialPosition, moveHistory, controller.CurrentCoord));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
