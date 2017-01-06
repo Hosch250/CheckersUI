@@ -6,7 +6,8 @@
     xmlns:converters="using:CheckersUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:checkersUi="using:CheckersUI"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance checkersUi:MainPageViewModel}">
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
@@ -23,7 +24,9 @@
                                       Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                                      BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -120,6 +123,7 @@
                                          Background="White"
                                          BorderThickness="0"
                                          Content="{Binding BlackMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                         HorizontalContentAlignment="Left"
                                          ToolTipService.ToolTip="{Binding BlackMove.DisplayString}" />
                             <RadioButton Grid.Column="2"
                                          GroupName="Move"
@@ -128,6 +132,7 @@
                                          Background="White"
                                          BorderThickness="0"
                                          Content="{Binding WhiteMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                         HorizontalContentAlignment="Left"
                                          ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}" />
                         </Grid>
                     </DataTemplate>
