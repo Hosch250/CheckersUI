@@ -22,6 +22,9 @@ namespace CheckersUI.Facade
         public GameController()
             : this(new Board(), Player.Black, new List<PDNTurn>()) { }
 
+        public GameController WithBoard(string fen) =>
+            new GameController(FromPosition(fen).Board, CurrentPlayer, MoveHistory, CurrentCoord);
+
         public static GameController FromPosition(string fenPosition)
         {
             try

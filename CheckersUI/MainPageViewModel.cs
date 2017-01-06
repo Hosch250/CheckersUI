@@ -116,6 +116,16 @@ namespace CheckersUI
             Controller = Controller.Move(move);
         }
 
+        private bool IsFenLastMove(string fen)
+        {
+            if (Controller.CurrentPlayer == Player.Black)
+            {
+                return Controller.MoveHistory.Last().WhiteMove.ResultingFen == fen;
+            }
+
+            return Controller.MoveHistory.Last().BlackMove.ResultingFen == fen;
+        }
+
         private Coord _selection;
         public Coord Selection
         {
@@ -404,6 +414,28 @@ namespace CheckersUI
                 _cancelGameCommand = new DelegateCommand(sender => IsGameInProgress = false);
                 return _cancelGameCommand;
             }
+        }
+
+        private DelegateCommand _moveHistoryCommand;
+        public DelegateCommand MoveHistoryCommand
+        {
+            get
+            {
+                System.Diagnostics.Debug.WriteLine("assigned");
+                if (_moveHistoryCommand != null)
+                {
+                    return _moveHistoryCommand;
+                }
+
+                _moveHistoryCommand = new DelegateCommand(param => SetController((string)param));
+                return _moveHistoryCommand;
+            }
+        }
+
+        private void SetController(string fen)
+        {
+            System.Diagnostics.Debug.WriteLine("run");
+            Controller = Controller.WithBoard(fen);
         }
 
         private void CreateGame(string param)
