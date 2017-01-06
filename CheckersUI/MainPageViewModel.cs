@@ -125,10 +125,18 @@ namespace CheckersUI
 
             if (Controller.CurrentPlayer == Player.Black)
             {
-                return Controller.MoveHistory.Last().WhiteMove.ResultingFen == fen;
+                var isContinuedMove = Controller.MoveHistory.Last().WhiteMove == null;
+                return isContinuedMove
+                    ? Controller.MoveHistory.Last().BlackMove.ResultingFen == fen
+                    : Controller.MoveHistory.Last().WhiteMove.ResultingFen == fen;
             }
-
-            return Controller.MoveHistory.Last().BlackMove.ResultingFen == fen;
+            else
+            {
+                var isContinuedMove = Controller.MoveHistory.Last().WhiteMove != null;
+                return isContinuedMove
+                    ? Controller.MoveHistory.Last().WhiteMove.ResultingFen == fen
+                    : Controller.MoveHistory.Last().BlackMove.ResultingFen == fen;
+            }
         }
 
         private Coord _selection;
@@ -428,7 +436,6 @@ namespace CheckersUI
         {
             get
             {
-                System.Diagnostics.Debug.WriteLine("assigned");
                 if (_moveHistoryCommand != null)
                 {
                     return _moveHistoryCommand;
@@ -441,7 +448,6 @@ namespace CheckersUI
 
         private void SetController(string fen)
         {
-            System.Diagnostics.Debug.WriteLine("run");
             Controller = Controller.WithBoard(fen);
         }
 
