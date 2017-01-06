@@ -13,6 +13,21 @@
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PDNMoveToDisplayStringConverter x:Key="PDNMoveToDisplayString" />
         <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
+
+        <Style x:Key="RadioToggleButton" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ToggleButton IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50, 0">
         <Grid.RowDefinitions>
@@ -74,31 +89,50 @@
                 <RowDefinition />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-            <ScrollViewer Width="240"
-                          HorizontalAlignment="Left">
-                <ItemsControl ItemsSource="{Binding Controller.MoveHistory}"
-                              Width="220">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding MoveNumber, Converter={StaticResource IntegerToListItem}}"
-                                           VerticalAlignment="Center" />
-                                <ListBoxItem Grid.Column="1"
-                                             Content="{Binding BlackMove, Converter={StaticResource PDNMoveToDisplayString}}"
-                                             ToolTipService.ToolTip="{Binding BlackMove.DisplayString}" />
-                                <ListBoxItem Grid.Column="2"
-                                             Content="{Binding WhiteMove, Converter={StaticResource PDNMoveToDisplayString}}"
-                                             ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <ListView ItemsSource="{Binding Controller.MoveHistory}"
+                      Width="220"
+                      HorizontalAlignment="Left"
+                      SelectionMode="None">
+                <ListView.ItemContainerTransitions>
+                    <TransitionCollection/>
+                </ListView.ItemContainerTransitions>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0,-8" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding MoveNumber, Converter={StaticResource IntegerToListItem}}"
+                                       Padding="0,0,5,0"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right" />
+                            <RadioButton Grid.Column="1"
+                                         GroupName="Move"
+                                         Style="{StaticResource RadioToggleButton}"
+                                         Width="80"
+                                         Background="White"
+                                         BorderThickness="0"
+                                         Content="{Binding BlackMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                         ToolTipService.ToolTip="{Binding BlackMove.DisplayString}" />
+                            <RadioButton Grid.Column="2"
+                                         GroupName="Move"
+                                         Style="{StaticResource RadioToggleButton}"
+                                         Width="80"
+                                         Background="White"
+                                         BorderThickness="0"
+                                         Content="{Binding WhiteMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                         ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
@@ -196,7 +230,7 @@
                         <Slider Value="{Binding Level, Mode=TwoWay}"
                                 Name="LevelSlider"
                                 Minimum="2"
-                                Maximum="8"
+                                Maximum="9"
                                 Width="150"
                                 HorizontalAlignment="Left" />
                         <TextBlock Text="{Binding ElementName=LevelSlider, Path=Value}"
