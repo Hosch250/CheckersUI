@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Media.Playback;
 using Windows.Media.Core;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 
 namespace CheckersUI
@@ -452,14 +453,28 @@ namespace CheckersUI
                     return _moveHistoryCommand;
                 }
 
-                _moveHistoryCommand = new DelegateCommand(param => SetController((string)param));
+                _moveHistoryCommand = new DelegateCommand(param => Controller = Controller.WithBoard((string)param));
                 return _moveHistoryCommand;
             }
         }
 
-        private void SetController(string fen)
+        private DelegateCommand _copyFenCommand;
+        public DelegateCommand CopyFenCommand
         {
-            Controller = Controller.WithBoard(fen);
+            get
+            {
+                if (_copyFenCommand != null)
+                {
+                    return _copyFenCommand;
+                }
+
+                _copyFenCommand = new DelegateCommand(param =>
+                {
+                    var move = (PDNMove)param;
+                    SetClipboardContent(move.ResultingFen);
+                });
+                return _copyFenCommand;
+            }
         }
 
         private void CreateGame(string param)
@@ -494,6 +509,13 @@ namespace CheckersUI
             }
 
             OnPlayerTurn(Controller.CurrentPlayer);
+        }
+
+        private void SetClipboardContent(string content)
+        {
+            var dataPackage = new DataPackage();
+            dataPackage.SetText(content);
+            Clipboard.SetContent(dataPackage);
         }
 
         public event EventHandler<Player> PlayerTurn;

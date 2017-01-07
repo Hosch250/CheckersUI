@@ -35,39 +35,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="RadioButtonStyle1" TargetType="RadioButton">
-            <Setter Property="Background" Value="{ThemeResource RadioButtonBackground}"/>
-            <Setter Property="Foreground" Value="{ThemeResource RadioButtonForeground}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource RadioButtonBorderBrush}"/>
-            <Setter Property="Padding" Value="8,6,0,0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Top"/>
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="UseSystemFocusVisuals" Value="True"/>
-            <Setter Property="FocusVisualMargin" Value="-7,-3,-7,-3"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Grid x:Name="RootGrid" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Height="32" VerticalAlignment="Top">
-                                <Ellipse x:Name="OuterEllipse" Fill="{StaticResource RadioButtonOuterEllipseFill}" Height="20" Stroke="{ThemeResource RadioButtonOuterEllipseStroke}" StrokeThickness="{ThemeResource RadioButtonBorderThemeThickness}" UseLayoutRounding="False" Width="20"/>
-                                <Ellipse x:Name="CheckOuterEllipse" Fill="{ThemeResource RadioButtonOuterEllipseCheckedFill}" Height="20" Opacity="0" Stroke="{ThemeResource RadioButtonOuterEllipseCheckedStroke}" StrokeThickness="{ThemeResource RadioButtonBorderThemeThickness}" UseLayoutRounding="False" Width="20"/>
-                                <Ellipse x:Name="CheckGlyph" Fill="{ThemeResource RadioButtonCheckGlyphFill}" Height="10" Opacity="0" Stroke="{ThemeResource RadioButtonCheckGlyphStroke}" UseLayoutRounding="False" Width="10"/>
-                            </Grid>
-                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" Grid.Column="1" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" TextWrapping="Wrap" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50, 0">
         <Grid.RowDefinitions>
@@ -93,7 +60,7 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Border BorderThickness="0,0,0,1" BorderBrush="Black">
+            <Border BorderThickness="0,0,0,1">
                 <TextBlock FontWeight="Medium" Text="American Checkers" />
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
@@ -163,7 +130,16 @@
                                          HorizontalContentAlignment="Left"
                                          ToolTipService.ToolTip="{Binding BlackMove.DisplayString}"
                                          Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
-                                         CommandParameter="{Binding BlackMove.ResultingFen}" />
+                                         CommandParameter="{Binding BlackMove.ResultingFen}"
+                                         RightTapped="RadioButton_RightTapped">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Copy FEN"
+                                                        Command="{Binding ElementName=Main, Path=DataContext.CopyFenCommand}"
+                                                        CommandParameter="{Binding BlackMove}" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </RadioButton>
                             <RadioButton Grid.Column="2"
                                          GroupName="Move"
                                          Style="{StaticResource RadioToggleButton}"
@@ -175,7 +151,16 @@
                                          HorizontalContentAlignment="Left"
                                          ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}"
                                          Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
-                                         CommandParameter="{Binding WhiteMove.ResultingFen}" />
+                                         CommandParameter="{Binding WhiteMove.ResultingFen}"
+                                         RightTapped="RadioButton_RightTapped">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Copy FEN"
+                                                        Command="{Binding ElementName=Main, Path=DataContext.CopyFenCommand}"
+                                                        CommandParameter="{Binding WhiteMove}" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </RadioButton>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
