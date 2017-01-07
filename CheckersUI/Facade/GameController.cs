@@ -100,9 +100,12 @@ namespace CheckersUI.Facade
 
         public Player? GetWinningPlayer()
         {
-            var player = Checkers.PublicAPI.isWon(this);
+            var player = Checkers.PublicAPI.winningPlayer(this);
             return Equals(player, FSharpOption<Checkers.Generic.Player>.None) ? new Player?() : player.Value.Convert();
         }
+
+        public bool IsWon() =>
+            Checkers.PublicAPI.isWon(this);
 
         public static implicit operator GameController(Checkers.GameController.GameController controller)
         {
