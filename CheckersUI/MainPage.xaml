@@ -15,6 +15,7 @@
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PDNMoveToDisplayStringConverter x:Key="PDNMoveToDisplayString" />
         <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
+        <converters:PDNMoveToVisibilityConverter x:Key="PDNMoveToVisibility" />
 
         <Style x:Key="RadioToggleButton" TargetType="RadioButton">
             <Setter Property="Template">
@@ -170,6 +171,7 @@
                                          Background="White"
                                          BorderThickness="0"
                                          Content="{Binding WhiteMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                         Visibility="{Binding WhiteMove, Converter={StaticResource PDNMoveToVisibility}}"
                                          HorizontalContentAlignment="Left"
                                          ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}"
                                          Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
