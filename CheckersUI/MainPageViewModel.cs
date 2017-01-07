@@ -185,11 +185,22 @@ namespace CheckersUI
             }
         }
 
+        private string LastMove()
+        {
+            var pdnMove = Controller.MoveHistory.LastOrDefault();
+            if (pdnMove == null)
+            {
+                return Controller.InitialPosition;
+            }
+
+            return pdnMove.WhiteMove?.ResultingFen ?? pdnMove.BlackMove.ResultingFen;
+        }
+
         public string Status
         {
             get
             {
-                var winningPlayer = Controller.GetWinningPlayer();
+                var winningPlayer = Controller.WithBoard(LastMove()).GetWinningPlayer();
                 return winningPlayer.HasValue && winningPlayer.Value != Controller.CurrentPlayer
                        ? $"{winningPlayer.Value} Won!"
                        : $"{Controller.CurrentPlayer}'s turn";
