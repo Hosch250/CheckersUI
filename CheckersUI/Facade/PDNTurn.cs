@@ -15,14 +15,14 @@ namespace CheckersUI.Facade
         public PdnMove BlackMove { get; }
         public PdnMove WhiteMove { get; }
 
-        public static implicit operator PdnTurn(Types.PDNTurn value)
+        public static implicit operator PdnTurn(Generic.PdnTurn value)
         {
             return new PdnTurn(value.MoveNumber, value.BlackMove, value.WhiteMove);
         }
 
-        public static implicit operator Types.PDNTurn(PdnTurn value)
+        public static implicit operator Generic.PdnTurn(PdnTurn value)
         {
-            return new Types.PDNTurn(value.MoveNumber, value.BlackMove, value.WhiteMove);
+            return new Generic.PdnTurn(value.MoveNumber, value.BlackMove, value.WhiteMove);
         }
     }
 }

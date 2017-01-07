@@ -27,28 +27,28 @@ namespace CheckersUI.Facade
             return Math.Abs(firstCoord.Row - secondCoord.Row) == 2;
         }
 
-        public static implicit operator PdnMove(Checkers.Types.PDNMove value)
+        public static implicit operator PdnMove(Generic.PdnMove value)
         {
             return new PdnMove(value.Move.ToList(), value.ResultingFen, value.DisplayString);
         }
 
-        public static implicit operator Types.PDNMove(PdnMove value)
+        public static implicit operator Generic.PdnMove(PdnMove value)
         {
-            return new Types.PDNMove(Types.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString);
+            return new Generic.PdnMove(Generic.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString);
         }
 
-        public static implicit operator PdnMove(FSharpOption<Types.PDNMove> value)
+        public static implicit operator PdnMove(FSharpOption<Generic.PdnMove> value)
         {
-            return Equals(value, FSharpOption<Types.PDNMove>.None)
+            return Equals(value, FSharpOption<Generic.PdnMove>.None)
                 ? null
                 : new PdnMove(value.Value.Move.ToList(), value.Value.ResultingFen, value.Value.DisplayString);
         }
 
-        public static implicit operator FSharpOption<Types.PDNMove>(PdnMove value)
+        public static implicit operator FSharpOption<Generic.PdnMove>(PdnMove value)
         {
             return value == null
-                ? FSharpOption<Types.PDNMove>.None
-                : new FSharpOption<Types.PDNMove>(new Types.PDNMove(Types.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString));
+                ? FSharpOption<Generic.PdnMove>.None
+                : new FSharpOption<Generic.PdnMove>(new Generic.PdnMove(Generic.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString));
         }
     }
 }

@@ -17,28 +17,28 @@ namespace CheckersUI.Facade
         public Coord Offset(Coord coord) =>
             new Coord(Row + coord.Row, Column + coord.Column);
 
-        public static implicit operator Coord(Types.Coord coord)
+        public static implicit operator Coord(Generic.Coord coord)
         {
             return new Coord(coord.Row, coord.Column);
         }
 
-        public static implicit operator Types.Coord(Coord coord)
+        public static implicit operator Generic.Coord(Coord coord)
         {
-            return new Types.Coord(coord.Row, coord.Column);
+            return new Generic.Coord(coord.Row, coord.Column);
         }
 
-        public static implicit operator Coord(FSharpOption<Types.Coord> coord)
+        public static implicit operator Coord(FSharpOption<Generic.Coord> coord)
         {
-            return Equals(coord, FSharpOption<Types.Coord>.None)
+            return Equals(coord, FSharpOption<Generic.Coord>.None)
                 ? null
                 : new Coord(coord.Value.Row, coord.Value.Column);
         }
 
-        public static implicit operator FSharpOption<Types.Coord>(Coord coord)
+        public static implicit operator FSharpOption<Generic.Coord>(Coord coord)
         {
             return coord == null
-                ? FSharpOption<Types.Coord>.None
-                : FSharpOption<Types.Coord>.Some(new Types.Coord(coord.Row, coord.Column));
+                ? FSharpOption<Generic.Coord>.None
+                : FSharpOption<Generic.Coord>.Some(new Generic.Coord(coord.Row, coord.Column));
         }
     }
 }

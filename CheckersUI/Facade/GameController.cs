@@ -87,7 +87,7 @@ namespace CheckersUI.Facade
             Checkers.PublicAPI.movePiece(startCoord, endCoord, this);
 
         public GameController Move(IEnumerable<Coord> moves) =>
-            Checkers.PublicAPI.move(moves.Select(item => (Checkers.Types.Coord)item), this);
+            Checkers.PublicAPI.move(moves.Select(item => (Checkers.Generic.Coord)item), this);
 
         public bool IsValidMove(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.isValidMove(startCoord, endCoord, this);
@@ -101,7 +101,7 @@ namespace CheckersUI.Facade
         public Player? GetWinningPlayer()
         {
             var player = Checkers.PublicAPI.isWon(this);
-            return Equals(player, FSharpOption<Checkers.Types.Player>.None) ? new Player?() : player.Value.Convert();
+            return Equals(player, FSharpOption<Checkers.Generic.Player>.None) ? new Player?() : player.Value.Convert();
         }
 
         public static implicit operator GameController(Checkers.GameController.GameController controller)
@@ -111,7 +111,7 @@ namespace CheckersUI.Facade
 
         public static implicit operator Checkers.GameController.GameController(GameController controller)
         {
-            var moveHistory = Checkers.Types.listFromSeq(controller.MoveHistory.Select(item => (Checkers.Types.PDNTurn)item)).Value;
+            var moveHistory = Checkers.Generic.listFromSeq(controller.MoveHistory.Select(item => (Checkers.Generic.PdnTurn)item)).Value;
 
             return new Checkers.GameController.GameController(controller.Board, controller.CurrentPlayer.ConvertBack(), controller.InitialPosition, moveHistory, controller.CurrentCoord);
         }
@@ -125,7 +125,7 @@ namespace CheckersUI.Facade
 
         public static implicit operator FSharpOption<Checkers.GameController.GameController>(GameController controller)
         {
-            var moveHistory = Checkers.Types.listFromSeq(controller.MoveHistory.Select(item => (Checkers.Types.PDNTurn)item)).Value;
+            var moveHistory = Checkers.Generic.listFromSeq(controller.MoveHistory.Select(item => (Checkers.Generic.PdnTurn)item)).Value;
 
             return controller == null
                 ? FSharpOption<Checkers.GameController.GameController>.None

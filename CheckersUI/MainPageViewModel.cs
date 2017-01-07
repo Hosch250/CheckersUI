@@ -27,7 +27,7 @@ namespace CheckersUI
             IsGameInProgress = true;
             BlackOpponent = Opponent.Human;
             WhiteOpponent = Opponent.Computer;
-            Level = 8;
+            Level = 9;
 
             SetupOption = Setup.Default;
 

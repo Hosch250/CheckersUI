@@ -1,4 +1,5 @@
-﻿using Microsoft.FSharp.Core;
+﻿using Checkers;
+using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
 {
@@ -15,17 +16,17 @@ namespace CheckersUI.Facade
 
     public static class Extensions
     {
-        public static Player Convert(this Checkers.Types.Player value) =>
-            Equals(value, Checkers.Types.Player.Black) ? Player.Black : Player.White;
+        public static Player Convert(this Generic.Player value) =>
+            Equals(value, Generic.Player.Black) ? Player.Black : Player.White;
 
-        public static Checkers.Types.Player ConvertBack(this Player value) =>
-            value == Player.Black ? Checkers.Types.Player.Black : Checkers.Types.Player.White;
+        public static Generic.Player ConvertBack(this Player value) =>
+            value == Player.Black ? Generic.Player.Black : Generic.Player.White;
 
-        public static PieceType Convert(this Checkers.Types.PieceType value) =>
-            Equals(value, Checkers.Types.PieceType.Checker) ? PieceType.Checker : PieceType.King;
+        public static PieceType Convert(this Generic.PieceType value) =>
+            Equals(value, Generic.PieceType.Checker) ? PieceType.Checker : PieceType.King;
 
-        public static Checkers.Types.PieceType ConvertBack(this PieceType value) =>
-            value == PieceType.Checker ? Checkers.Types.PieceType.Checker : Checkers.Types.PieceType.King;
+        public static Generic.PieceType ConvertBack(this PieceType value) =>
+            value == PieceType.Checker ? Generic.PieceType.Checker : Generic.PieceType.King;
 
         public static Piece Convert(this FSharpOption<Checkers.Piece.Piece> piece)
         {
