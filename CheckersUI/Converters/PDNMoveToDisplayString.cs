@@ -4,11 +4,11 @@ using CheckersUI.Facade;
 
 namespace CheckersUI.Converters
 {
-    public class PDNMoveToDisplayStringConverter : IValueConverter
+    public class PdnMoveToDisplayStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var move = (PDNMove)value;
+            var move = (PdnMove)value;
 
             if (move == null) { return string.Empty; }
             if (move.Move.Count <= 3) { return move.DisplayString; }

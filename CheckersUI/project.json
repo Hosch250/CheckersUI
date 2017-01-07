@@ -2,6 +2,7 @@
   "dependencies": {
     "Gu.Analyzers": "0.1.9.15-dev",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Microsoft.Services.Store.SDK": "10.1610.31001",
     "Unity": "4.0.1",
     "VSDiagnostics": "1.9.4",
     "WpfAnalyzers": "0.2.4-dev"

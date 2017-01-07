@@ -470,7 +470,7 @@ namespace CheckersUI
 
                 _copyFenCommand = new DelegateCommand(param =>
                 {
-                    var move = (PDNMove)param;
+                    var move = (PdnMove)param;
                     SetClipboardContent(move.ResultingFen);
                 });
                 return _copyFenCommand;

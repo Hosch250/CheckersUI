@@ -98,10 +98,10 @@
     </Compile>
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="Converters\PDNMoveToVisibility.cs" />
+    <Compile Include="Converters\PdnMoveToVisibility.cs" />
     <Compile Include="Converters\SetupToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
-    <Compile Include="Converters\PDNMoveToDisplayString.cs" />
+    <Compile Include="Converters\PdnMoveToDisplayString.cs" />
     <Compile Include="Converters\IntegerToListItemConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
@@ -110,8 +110,8 @@
     <Compile Include="Facade\Board.cs" />
     <Compile Include="Facade\Coord.cs" />
     <Compile Include="Facade\GameController.cs" />
-    <Compile Include="Facade\PDNMove.cs" />
-    <Compile Include="Facade\PDNTurn.cs" />
+    <Compile Include="Facade\PdnMove.cs" />
+    <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -226,6 +226,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Checkers\Checkers\bin\Debug\FSharp.Core.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
+      <Name>Microsoft Advertising SDK for XAML</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

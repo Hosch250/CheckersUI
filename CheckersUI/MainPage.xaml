@@ -8,14 +8,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:checkersUi="using:CheckersUI"
+    xmlns:ads="using:Microsoft.Advertising.WinRT.UI"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance checkersUi:MainPageViewModel}">
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
-        <converters:PDNMoveToDisplayStringConverter x:Key="PDNMoveToDisplayString" />
+        <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
         <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
-        <converters:PDNMoveToVisibilityConverter x:Key="PDNMoveToVisibility" />
+        <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
 
         <Style x:Key="RadioToggleButton" TargetType="RadioButton">
             <Setter Property="Template">
@@ -126,7 +127,7 @@
                                          Width="80"
                                          Background="White"
                                          BorderThickness="0"
-                                         Content="{Binding BlackMove, Converter={StaticResource PDNMoveToDisplayString}}"
+                                         Content="{Binding BlackMove, Converter={StaticResource PdnMoveToDisplayString}}"
                                          HorizontalContentAlignment="Left"
                                          ToolTipService.ToolTip="{Binding BlackMove.DisplayString}"
                                          Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
@@ -146,8 +147,8 @@
                                          Width="80"
                                          Background="White"
                                          BorderThickness="0"
-                                         Content="{Binding WhiteMove, Converter={StaticResource PDNMoveToDisplayString}}"
-                                         Visibility="{Binding WhiteMove, Converter={StaticResource PDNMoveToVisibility}}"
+                                         Content="{Binding WhiteMove, Converter={StaticResource PdnMoveToDisplayString}}"
+                                         Visibility="{Binding WhiteMove, Converter={StaticResource PdnMoveToVisibility}}"
                                          HorizontalContentAlignment="Left"
                                          ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}"
                                          Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
@@ -278,5 +279,15 @@
                 Start
             </Button>
         </Grid>
+
+        <ads:AdControl Grid.Row="2"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="2"
+                       ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
+                       AdUnitId="10865270"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       Height="90"
+                       Width="728" />
     </Grid>
 </Page>

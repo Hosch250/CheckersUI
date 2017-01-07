@@ -8,7 +8,7 @@ namespace CheckersUI.Facade
 {
     public class GameController : INotifyPropertyChanged
     {
-        public GameController(Board board, Player currentPlayer, string initialPosition, List<PDNTurn> moveHistory, Coord currentCoord = null)
+        public GameController(Board board, Player currentPlayer, string initialPosition, List<PdnTurn> moveHistory, Coord currentCoord = null)
         {
             Board = board;
             CurrentPlayer = currentPlayer;
@@ -20,10 +20,10 @@ namespace CheckersUI.Facade
         }
 
         public GameController(Checkers.GameController.GameController gameController)
-            : this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PDNTurn)item).ToList(), gameController.CurrentCoord) { }
+            : this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PdnTurn)item).ToList(), gameController.CurrentCoord) { }
 
         public GameController()
-            : this(new Board(), Player.Black, Checkers.PortableDraughtsNotation.createFen(Player.Black.ConvertBack(), new Board()), new List<PDNTurn>()) { }
+            : this(new Board(), Player.Black, Checkers.PortableDraughtsNotation.createFen(Player.Black.ConvertBack(), new Board()), new List<PdnTurn>()) { }
 
         public GameController WithBoard(string fen) =>
             new GameController(FromPosition(fen).Board, CurrentPlayer, InitialPosition, MoveHistory, CurrentCoord);
@@ -61,8 +61,8 @@ namespace CheckersUI.Facade
         public string InitialPosition { get; }
         public string Fen { get; }
 
-        private List<PDNTurn> _moveHistory;
-        public List<PDNTurn> MoveHistory
+        private List<PdnTurn> _moveHistory;
+        public List<PdnTurn> MoveHistory
         {
             get { return _moveHistory; }
             set

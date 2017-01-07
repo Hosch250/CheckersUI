@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace CheckersUI.Facade
 {
-    public class PDNMove
+    public class PdnMove
     {
-        public PDNMove(List<int> move, string resultingFen, string displayString)
+        public PdnMove(List<int> move, string resultingFen, string displayString)
         {
             Move = move;
             ResultingFen = resultingFen;
@@ -27,24 +27,24 @@ namespace CheckersUI.Facade
             return Math.Abs(firstCoord.Row - secondCoord.Row) == 2;
         }
 
-        public static implicit operator PDNMove(Checkers.Types.PDNMove value)
+        public static implicit operator PdnMove(Checkers.Types.PDNMove value)
         {
-            return new PDNMove(value.Move.ToList(), value.ResultingFen, value.DisplayString);
+            return new PdnMove(value.Move.ToList(), value.ResultingFen, value.DisplayString);
         }
 
-        public static implicit operator Types.PDNMove(PDNMove value)
+        public static implicit operator Types.PDNMove(PdnMove value)
         {
             return new Types.PDNMove(Types.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString);
         }
 
-        public static implicit operator PDNMove(FSharpOption<Types.PDNMove> value)
+        public static implicit operator PdnMove(FSharpOption<Types.PDNMove> value)
         {
             return Equals(value, FSharpOption<Types.PDNMove>.None)
                 ? null
-                : new PDNMove(value.Value.Move.ToList(), value.Value.ResultingFen, value.Value.DisplayString);
+                : new PdnMove(value.Value.Move.ToList(), value.Value.ResultingFen, value.Value.DisplayString);
         }
 
-        public static implicit operator FSharpOption<Types.PDNMove>(PDNMove value)
+        public static implicit operator FSharpOption<Types.PDNMove>(PdnMove value)
         {
             return value == null
                 ? FSharpOption<Types.PDNMove>.None
