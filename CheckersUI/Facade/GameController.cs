@@ -16,14 +16,14 @@ namespace CheckersUI.Facade
             MoveHistory = moveHistory;
             CurrentCoord = currentCoord;
 
-            Fen = Checkers.PortableDraughtsNotation.createFen(currentPlayer.ConvertBack(), board);
+            Fen = Checkers.PublicAPI.createFen(CurrentPlayer.ConvertBack(), Board);
         }
 
         public GameController(Checkers.GameController.GameController gameController)
             : this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PdnTurn)item).ToList(), gameController.CurrentCoord) { }
 
         public GameController()
-            : this(new Board(), Player.Black, Checkers.PortableDraughtsNotation.createFen(Player.Black.ConvertBack(), new Board()), new List<PdnTurn>()) { }
+            : this(new Board(), Player.Black, Checkers.PublicAPI.createFen(Player.Black.ConvertBack(), new Board()), new List<PdnTurn>()) { }
 
         public GameController WithBoard(string fen) =>
             new GameController(FromPosition(fen).Board, CurrentPlayer, InitialPosition, MoveHistory, CurrentCoord);
@@ -32,7 +32,7 @@ namespace CheckersUI.Facade
         {
             try
             {
-                return Checkers.PortableDraughtsNotation.controllerFromFen(fenPosition);
+                return Checkers.PublicAPI.controllerFromFen(fenPosition);
             }
             catch
             {
@@ -46,7 +46,7 @@ namespace CheckersUI.Facade
         {
             try
             {
-                controller = Checkers.PortableDraughtsNotation.controllerFromFen(fenPosition);
+                controller = Checkers.PublicAPI.controllerFromFen(fenPosition);
                 return true;
             }
             catch
