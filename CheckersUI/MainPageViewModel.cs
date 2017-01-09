@@ -111,7 +111,7 @@ namespace CheckersUI
             }
 
             _selection = move.Last();
-            Controller = Controller.Move(move);
+            Controller = Controller.WithBoard(LastMove()).Move(move);
         }
 
         private bool IsFenLastMove(string fen)
