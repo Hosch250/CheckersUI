@@ -24,7 +24,7 @@ namespace CheckersUI
         {
             Controller = new GameController();
 
-            IsGameInProgress = true;
+            GameCancelled = false;
             BlackOpponent = Opponent.Human;
             WhiteOpponent = Opponent.Computer;
             Level = 9;
@@ -77,13 +77,10 @@ namespace CheckersUI
             {
                 _controller = value;
 
-                var winningPlayer = Controller.GetWinningPlayer();
-                IsGameInProgress = !(winningPlayer.HasValue && winningPlayer.Value == Controller.CurrentPlayer);
-
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
                 OnPropertyChanged(nameof(CanTakeback));
-                OnPropertyChanged(nameof(MoveHistory));
+                OnPropertyChanged(nameof(IsGameInProgress));
             }
         }
 
@@ -335,26 +332,14 @@ namespace CheckersUI
 
         public string BlackOpponentText =>
             GetOpponentText(BlackOpponent);
-
-        public IEnumerable<string> MoveHistory =>
-            Controller.MoveHistory.Select(m => $"{m.MoveNumber}:\t{m.BlackMove.DisplayString},\t{m.WhiteMove?.DisplayString}");
-
-        private bool _isGameInProgress;
+        
+        private bool GameCancelled { get; set; }
         public bool IsGameInProgress
         {
-            get { return _isGameInProgress; }
-            set
+            get
             {
-                if (_isGameInProgress != value)
-                {
-                    _isGameInProgress = value;
-                    OnPropertyChanged();
-
-                    if (!IsGameInProgress)
-                    {
-                        _cancelComputerMoveTokenSource?.Cancel();
-                    }
-                }
+                var winningPlayer = Controller.WithBoard(LastMove()).GetWinningPlayer();
+                return !GameCancelled && !(winningPlayer.HasValue && winningPlayer.Value != Controller.CurrentPlayer);
             }
         }
         
@@ -438,7 +423,11 @@ namespace CheckersUI
                     return _cancelGameCommand;
                 }
 
-                _cancelGameCommand = new DelegateCommand(sender => IsGameInProgress = false);
+                _cancelGameCommand = new DelegateCommand(sender =>
+                {
+                    GameCancelled = true;
+                    OnPropertyChanged(nameof(IsGameInProgress));
+                });
                 return _cancelGameCommand;
             }
         }
@@ -480,20 +469,14 @@ namespace CheckersUI
         private void CreateGame(string param)
         {
             DisplayCreateGameGrid = false;
-            IsGameInProgress = true;
+            GameCancelled = false;
 
-            if (string.IsNullOrEmpty(param))
-            {
-                Controller = new GameController();
-            }
-            else
-            {
-                Controller = GameController.FromPosition(param);
-            }
+            Controller = string.IsNullOrEmpty(param) ? new GameController() : GameController.FromPosition(param);
 
             OnPropertyChanged(nameof(BoardOrientation));
             OnPropertyChanged(nameof(BlackOpponentText));
             OnPropertyChanged(nameof(WhiteOpponentText));
+            OnPropertyChanged(nameof(IsGameInProgress));
 
             OnPlayerTurn(Controller.CurrentPlayer);
         }
