@@ -41,7 +41,6 @@ namespace CheckersUI
             _container = new UnityContainer();
             _container.RegisterTypes(assembly.GetTypes(), getLifetimeManager: WithLifetime.ContainerControlled);
 
-
             var gamePage = _container.Resolve<GamePage>();
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
             

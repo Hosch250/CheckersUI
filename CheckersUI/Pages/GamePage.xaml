@@ -7,9 +7,9 @@
     xmlns:converters="using:CheckersUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:checkersUi="using:CheckersUI"
     xmlns:ads="using:Microsoft.Advertising.WinRT.UI"
-    mc:Ignorable="d" d:DataContext="{d:DesignInstance checkersUi:GamePageViewModel}">
+    xmlns:vMs="using:CheckersUI.VMs"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance vMs:GamePageViewModel}">
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
