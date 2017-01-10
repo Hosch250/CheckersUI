@@ -38,18 +38,13 @@ namespace CheckersUI
 
             _container?.Dispose();
             _container = new UnityContainer();
-            _container.RegisterTypes(assembly.GetTypes());
+            _container.RegisterTypes(assembly.GetTypes(), getLifetimeManager: WithLifetime.ContainerControlled);
 
-            _container.RegisterType<GamePage>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<BoardEditor>(new ContainerControlledLifetimeManager());
-
-            var injectionCtor = new InjectionConstructor(typeof(GamePage), typeof(BoardEditor));
-            _container.RegisterType<MainPageViewModel>(new ContainerControlledLifetimeManager(), injectionCtor);
 
             var gamePage = _container.Resolve<GamePage>();
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
-
-            var mainPage = _container.Resolve<MainPage>();
+            
+            var mainPage = _container.Resolve<MainPage>(new ParameterOverride("initialView", gamePage));
             mainPage.DataContext = _container.Resolve<MainPageViewModel>();
 
 #if DEBUG
