@@ -7,22 +7,24 @@ using CheckersUI.Facade;
 
 namespace CheckersUI.VMs
 {
-    public enum BoardPosition { Initial, Empty, FEN }
+    public enum BoardPosition { Initial, Empty }
 
     public class BoardEditorViewModel : INotifyPropertyChanged
     {
         public BoardEditorViewModel()
         {
-            Player = Player.Black;
-            Position = BoardPosition.Empty;
+            Orientation = Player.White;
+            Board = new Board();
 
-            Board = Board.EmptyBoard();
+            Player = Player.Black;
+            Position = BoardPosition.Initial;
         }
 
         public void AddPiece(Piece piece, int row, int column)
         {
             Board.GameBoard[row, column] = piece;
-            Board = new Board(Board);
+            OnPropertyChanged(nameof(Board));
+            OnPropertyChanged(nameof(FenString));
         }
 
         private Board _board;
@@ -31,11 +33,9 @@ namespace CheckersUI.VMs
             get { return _board; }
             set
             {
-                if (_board != value)
-                {
-                    _board = value;
-                    OnPropertyChanged();
-                }
+                _board = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FenString));
             }
         }
 
@@ -55,6 +55,29 @@ namespace CheckersUI.VMs
             }
         }
 
+        private Player _orientation;
+        public Player Orientation
+        {
+            get { return _orientation; }
+            set
+            {
+                if (_orientation != value)
+                {
+                    _orientation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string FenString
+        {
+            get
+            {
+                var controller = new GameController(Board, Player);
+                return controller.Fen;
+            }
+        }
+
         public List<BoardPosition> Positions =>
             Enum.GetValues(typeof(BoardPosition)).Cast<BoardPosition>().ToList();
 
@@ -64,11 +87,22 @@ namespace CheckersUI.VMs
             get { return _position; }
             set
             {
-                if (_position != value)
+                if (_position == value) { return; }
+
+                _position = value;
+                switch (value)
                 {
-                    _position = value;
-                    OnPropertyChanged();
+                    case BoardPosition.Initial:
+                        Board = new Board();
+                        break;
+                    case BoardPosition.Empty:
+                        Board = Board.EmptyBoard();
+                        break;
+                    default:
+                        throw new ArgumentException(nameof(value));
                 }
+                    
+                OnPropertyChanged();
             }
         }
 

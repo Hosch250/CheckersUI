@@ -8,7 +8,7 @@ namespace CheckersUI.Facade
 {
     public class GameController : INotifyPropertyChanged
     {
-        public GameController(Board board, Player currentPlayer, string initialPosition, List<PdnTurn> moveHistory, Coord currentCoord = null)
+        private GameController(Board board, Player currentPlayer, string initialPosition, List<PdnTurn> moveHistory, Coord currentCoord = null)
         {
             Board = board;
             CurrentPlayer = currentPlayer;
@@ -18,6 +18,9 @@ namespace CheckersUI.Facade
 
             Fen = Checkers.PublicAPI.createFen(CurrentPlayer.ConvertBack(), Board);
         }
+
+        public GameController(Board board, Player currentPlayer)
+            : this(board, currentPlayer, Checkers.PublicAPI.createFen(currentPlayer.ConvertBack(), board), new List<PdnTurn>()) { }
 
         public GameController(Checkers.GameController.GameController gameController)
             : this(gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PdnTurn)item).ToList(), gameController.CurrentCoord) { }

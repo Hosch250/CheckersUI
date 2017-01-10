@@ -10,13 +10,34 @@ namespace CheckersUI.Pages
     public sealed partial class BoardEditor
     {
         private Image _draggedImage;
+        private Piece _piece;
 
         public BoardEditor()
         {
             InitializeComponent();
         }
 
-        private void PlacePiece(Piece piece, Point point)
+        private Piece GetPiece(Image image)
+        {
+            if (image == WhiteChecker)
+            {
+                return Piece.WhiteChecker;
+            }
+            else if (image == WhiteKing)
+            {
+                return Piece.WhiteKing;
+            }
+            else if (image == BlackChecker)
+            {
+                return Piece.BlackChecker;
+            }
+            else
+            {
+                return Piece.BlackKing;
+            }
+        }
+
+        private void PlacePiece(Point point)
         {
             var row = (int)Math.Floor(point.Y / (BoardGrid.ActualHeight / 8));
             var column = (int)Math.Floor(point.X / (BoardGrid.ActualWidth / 8));
@@ -27,13 +48,14 @@ namespace CheckersUI.Pages
             }
 
             var dataContext = (BoardEditorViewModel) DataContext;
-            dataContext.AddPiece(piece, row, column);
+            dataContext.AddPiece(_piece, row, column);
         }
 
         private void Image_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var source = ((Image) sender).Source;
             _draggedImage = new Image {Source = source};
+            _piece = GetPiece((Image) sender);
 
             Canvas.Children.Add(_draggedImage);
             SetPosition(e.GetCurrentPoint(Canvas).Position);
@@ -42,11 +64,12 @@ namespace CheckersUI.Pages
 
         private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            PlacePiece(Piece.BlackChecker, e.GetCurrentPoint(BoardGrid).Position);
+            PlacePiece(e.GetCurrentPoint(BoardGrid).Position);
             Canvas.Children.Remove(_draggedImage);
             Canvas.ReleasePointerCapture(e.Pointer);
 
             _draggedImage = null;
+            _piece = null;
         }
 
         private void SetPosition(Point point)
@@ -57,7 +80,10 @@ namespace CheckersUI.Pages
 
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            SetPosition(e.GetCurrentPoint(Canvas).Position);
+            if (_draggedImage != null)
+            {
+                SetPosition(e.GetCurrentPoint(Canvas).Position);
+            }
         }
     }
 }
