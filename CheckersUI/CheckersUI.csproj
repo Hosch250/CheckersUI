@@ -114,6 +114,7 @@
     <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
+    <Compile Include="VMs\BoardEditorViewModel.cs" />
     <Compile Include="VMs\MainPageViewModel.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>

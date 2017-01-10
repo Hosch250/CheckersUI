@@ -43,7 +43,10 @@ namespace CheckersUI
 
             var gamePage = _container.Resolve<GamePage>();
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
-            
+
+            var boardEditor = _container.Resolve<BoardEditor>();
+            boardEditor.DataContext = _container.Resolve<BoardEditorViewModel>();
+
             var mainPage = _container.Resolve<MainPage>(new ParameterOverride("initialView", gamePage));
             mainPage.DataContext = _container.Resolve<MainPageViewModel>();
 

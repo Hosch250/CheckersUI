@@ -22,6 +22,9 @@ namespace CheckersUI.Facade
 
         public Board() : this(Checkers.Board.defaultBoard) { }
 
+        public static Board EmptyBoard() =>
+            new Board(Checkers.Board.emptyBoardList());
+
         public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];
 
         public static implicit operator Board(FSharpOption<Checkers.Piece.Piece>[,] value)
