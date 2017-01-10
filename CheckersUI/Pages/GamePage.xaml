@@ -7,7 +7,6 @@
     xmlns:converters="using:CheckersUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ads="using:Microsoft.Advertising.WinRT.UI"
     xmlns:vMs="using:CheckersUI.VMs"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance vMs:GamePageViewModel}">
     <Page.Resources>
@@ -37,21 +36,22 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50, 0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="640" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="166" />
             <ColumnDefinition Width="640" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="1"
+              Grid.Column="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
               Height="80"
+              Width="150"
               Margin="0,0,15,0"
               Padding="10,5"
               BorderBrush="Black"
@@ -65,11 +65,11 @@
                 <TextBlock FontWeight="Medium" Text="American Checkers" />
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
-                <Image VerticalAlignment="Center" Height="15" Source="Assets/WhiteCircle.png" />
+                <Image VerticalAlignment="Center" Height="15" Source="../Assets/WhiteCircle.png" />
                 <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding WhiteOpponentText}" />
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <Image VerticalAlignment="Center" Height="15" Source="Assets/BlackCircle.png" />
+                <Image VerticalAlignment="Center" Height="15" Source="../Assets/BlackCircle.png" />
                 <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding BlackOpponentText}" />
             </StackPanel>
         </Grid>
@@ -196,7 +196,7 @@
                 </Button>
             </Grid>
         </Grid>
-        <Grid Grid.RowSpan="3"
+        <Grid Grid.RowSpan="2"
               Grid.ColumnSpan="3"
               VerticalAlignment="Center"
               HorizontalAlignment="Center"
@@ -223,7 +223,7 @@
                     Command="{Binding ToggleDisplaySettingsCommand}"
                     Content="Close" />
         </Grid>
-        <Grid Grid.RowSpan="3"
+        <Grid Grid.RowSpan="2"
               Grid.ColumnSpan="3"
               VerticalAlignment="Center"
               HorizontalAlignment="Center"
@@ -279,15 +279,5 @@
                 Start
             </Button>
         </Grid>
-
-        <ads:AdControl Grid.Row="2"
-                       Grid.Column="0"
-                       Grid.ColumnSpan="3"
-                       ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
-                       AdUnitId="10865270"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Bottom"
-                       Height="90"
-                       Width="728" />
     </Grid>
 </Page>

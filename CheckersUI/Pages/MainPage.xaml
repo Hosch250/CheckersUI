@@ -5,14 +5,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vMs="using:CheckersUI.VMs"
+    xmlns:ad="using:Microsoft.Advertising.WinRT.UI"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance vMs:MainPageViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="806" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="0"
+                    Grid.Column="1"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top">
             <HyperlinkButton Content="Game"
@@ -26,6 +33,18 @@
                              Command="{Binding BoardEditorNavigationCommand}"
                              CommandParameter="{Binding ElementName=Frame}" />
         </StackPanel>
-        <Frame Name="Frame" Grid.Row="1" />
+        <Frame Name="Frame"
+               Grid.Row="1"
+               Grid.Column="1"
+               Grid.ColumnSpan="2" />
+
+        <ad:AdControl Grid.Row="1"
+                      Grid.Column="0"
+                      ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
+                      AdUnitId="10865270"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Height="600"
+                      Width="160" />
     </Grid>
 </Page>
