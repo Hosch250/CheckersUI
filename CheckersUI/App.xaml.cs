@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Reflection;
 using CheckersUI.Pages;
+using CheckersUI.VMs;
 
 namespace CheckersUI
 {

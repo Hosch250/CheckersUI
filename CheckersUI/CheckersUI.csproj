@@ -114,11 +114,11 @@
     <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
-    <Compile Include="MainPageViewModel.cs" />
+    <Compile Include="VMs\MainPageViewModel.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GamePageViewModel.cs" />
+    <Compile Include="VMs\GamePageViewModel.cs" />
     <Compile Include="Opponent.cs" />
     <Compile Include="Pages\BoardEditor.xaml.cs">
       <DependentUpon>BoardEditor.xaml</DependentUpon>

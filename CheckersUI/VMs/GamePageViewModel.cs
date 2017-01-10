@@ -14,7 +14,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 
-namespace CheckersUI
+namespace CheckersUI.VMs
 {
     public class GamePageViewModel : INotifyPropertyChanged
     {

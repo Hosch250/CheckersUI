@@ -2,7 +2,7 @@
 using CheckersUI.Command;
 using CheckersUI.Pages;
 
-namespace CheckersUI
+namespace CheckersUI.VMs
 {
     public class MainPageViewModel
     {
