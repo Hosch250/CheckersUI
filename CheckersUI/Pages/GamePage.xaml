@@ -1,6 +1,6 @@
 ﻿<Page
     Name="Main"
-    x:Class="CheckersUI.MainPage"
+    x:Class="CheckersUI.Pages.GamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CheckersUI.CustomControls"
@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:checkersUi="using:CheckersUI"
     xmlns:ads="using:Microsoft.Advertising.WinRT.UI"
-    mc:Ignorable="d" d:DataContext="{d:DesignInstance checkersUi:MainPageViewModel}">
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance checkersUi:GamePageViewModel}">
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />

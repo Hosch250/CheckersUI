@@ -13,10 +13,9 @@ namespace CheckersUI
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : Application
+    public sealed partial class App
     {
         private UnityContainer _container;
-        private bool _disposed;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -41,9 +40,17 @@ namespace CheckersUI
             _container = new UnityContainer();
             _container.RegisterTypes(assembly.GetTypes());
 
-            //var mainPage = _container.Resolve<MainPage>();
-            //mainPage.DataContext = _container.Resolve<MainPageViewModel>();
-            var mainPage = _container.Resolve<BoardEditor>();
+            _container.RegisterType<GamePage>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<BoardEditor>(new ContainerControlledLifetimeManager());
+
+            var injectionCtor = new InjectionConstructor(typeof(GamePage), typeof(BoardEditor));
+            _container.RegisterType<MainPageViewModel>(new ContainerControlledLifetimeManager(), injectionCtor);
+
+            var gamePage = _container.Resolve<GamePage>();
+            gamePage.DataContext = _container.Resolve<GamePageViewModel>();
+
+            var mainPage = _container.Resolve<MainPage>();
+            mainPage.DataContext = _container.Resolve<MainPageViewModel>();
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -75,21 +82,10 @@ namespace CheckersUI
             {
                 if (rootFrame.Content == null)
                 {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
                     rootFrame.Content = mainPage;
                 }
-                // Ensure the current window is active
+                
                 Window.Current.Activate();
-            }
-        }
-
-        private void ThrowIfDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
             }
         }
 

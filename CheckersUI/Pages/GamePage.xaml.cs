@@ -2,11 +2,11 @@
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
-namespace CheckersUI
+namespace CheckersUI.Pages
 {
-    public sealed partial class MainPage
+    public sealed partial class GamePage
     {
-        public MainPage()
+        public GamePage()
         {
             InitializeComponent();
         }
