@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Reflection;
+using CheckersUI.Pages;
 
 namespace CheckersUI
 {
@@ -40,8 +41,9 @@ namespace CheckersUI
             _container = new UnityContainer();
             _container.RegisterTypes(assembly.GetTypes());
 
-            var mainPage = _container.Resolve<MainPage>();
-            mainPage.DataContext = _container.Resolve<MainPageViewModel>();
+            //var mainPage = _container.Resolve<MainPage>();
+            //mainPage.DataContext = _container.Resolve<MainPageViewModel>();
+            var mainPage = _container.Resolve<BoardEditor>();
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
