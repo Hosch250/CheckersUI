@@ -17,7 +17,6 @@ namespace CheckersUI.VMs
             Board = new Board();
 
             Player = Player.Black;
-            Position = BoardPosition.Initial;
         }
 
         public void AddPiece(Piece piece, int row, int column)
@@ -25,8 +24,16 @@ namespace CheckersUI.VMs
             var newBoard = Board.Copy();
             newBoard.GameBoard[row, column] = piece;
             Board = newBoard;
-            OnPropertyChanged(nameof(FenString));
         }
+
+        public void RemovePiece(int row, int column)
+        {
+            var newBoard = Board.Copy();
+            newBoard.GameBoard[row, column] = null;
+            Board = newBoard;
+        }
+
+        public void UpdateFen() => OnPropertyChanged(nameof(FenString));
 
         private Board _board;
         public Board Board
@@ -36,7 +43,6 @@ namespace CheckersUI.VMs
             {
                 _board = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(FenString));
             }
         }
 
@@ -52,6 +58,7 @@ namespace CheckersUI.VMs
                 {
                     _player = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(FenString));
                 }
             }
         }

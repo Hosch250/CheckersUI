@@ -46,6 +46,8 @@ namespace CheckersUI.Facade
 
         public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];
 
+        public Piece this[int row, int column] => GameBoard[row, column];
+
         public static implicit operator Board(FSharpOption<Checkers.Piece.Piece>[,] value)
         {
             return new Board(value);
