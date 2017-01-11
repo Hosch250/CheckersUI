@@ -20,10 +20,29 @@ namespace CheckersUI.Facade
             GameBoard = value;
         }
 
+        public Board(Piece[,] board)
+        {
+            GameBoard = board;
+        }
+
         public Board() : this(Checkers.Board.defaultBoard) { }
 
         public static Board EmptyBoard() =>
             new Board(Checkers.Board.emptyBoardList());
+
+        public Board Copy()
+        {
+            var board = new Piece[8, 8];
+            for (var i = 0; i < 8; i++)
+            {
+                for (var j = 0; j < 8; j++)
+                {
+                    board[i, j] = GameBoard[i, j];
+                }
+            }
+
+            return new Board(board);
+        }
 
         public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];
 

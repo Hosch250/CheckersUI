@@ -22,8 +22,9 @@ namespace CheckersUI.VMs
 
         public void AddPiece(Piece piece, int row, int column)
         {
-            Board.GameBoard[row, column] = piece;
-            OnPropertyChanged(nameof(Board));
+            var newBoard = Board.Copy();
+            newBoard.GameBoard[row, column] = piece;
+            Board = newBoard;
             OnPropertyChanged(nameof(FenString));
         }
 
