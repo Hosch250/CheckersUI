@@ -44,6 +44,13 @@ namespace CheckersUI.Facade
             return new Board(board);
         }
 
+        public static bool IsValidSquare(int row, int column)
+        {
+            return row > 0 && row < 8 &&
+                   column > 0 && column < 8 &&
+                   !Equals(Checkers.PublicAPI.getPdnNumber(new Coord(row, column)), FSharpOption<int>.None);
+        }
+
         public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];
 
         public Piece this[int row, int column] => GameBoard[row, column];
