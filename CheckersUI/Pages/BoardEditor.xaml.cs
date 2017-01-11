@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
@@ -20,6 +21,40 @@ namespace CheckersUI.Pages
         public BoardEditor()
         {
             InitializeComponent();
+
+            _currentTheme = (string)_roamingSettings.Values["Theme"];
+            ApplicationData.Current.DataChanged += Current_DataChanged;
+            LoadImages();
+        }
+
+        private string _currentTheme;
+        private void Current_DataChanged(ApplicationData sender, object args)
+        {
+            if ((string)_roamingSettings.Values["Theme"] == _currentTheme)
+            {
+                return;
+            }
+
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                _currentTheme = (string)_roamingSettings.Values["Theme"];
+                LoadImages();
+            });
+        }
+
+        private void LoadImages()
+        {
+            var whiteCheckerBitmapImage = new BitmapImage(GetPieceUri(Piece.WhiteChecker));
+            WhiteChecker.Source = whiteCheckerBitmapImage;
+
+            var whiteKingBitmapImage = new BitmapImage(GetPieceUri(Piece.WhiteKing));
+            WhiteKing.Source = whiteKingBitmapImage;
+
+            var blackCheckerBitmapImage = new BitmapImage(GetPieceUri(Piece.BlackChecker));
+            BlackChecker.Source = blackCheckerBitmapImage;
+
+            var blackKingBitmapImage = new BitmapImage(GetPieceUri(Piece.BlackKing));
+            BlackKing.Source = blackKingBitmapImage;
         }
 
         private Uri GetPieceUri(Piece piece)
