@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.DataTransfer;
+using CheckersUI.Command;
 using CheckersUI.Facade;
 
 namespace CheckersUI.VMs
@@ -112,6 +114,28 @@ namespace CheckersUI.VMs
                     
                 OnPropertyChanged();
             }
+        }
+
+        private DelegateCommand _copyFenCommand;
+        public DelegateCommand CopyFenCommand
+        {
+            get
+            {
+                if (_copyFenCommand != null)
+                {
+                    return _copyFenCommand;
+                }
+
+                _copyFenCommand = new DelegateCommand(param => SetClipboardContent(FenString));
+                return _copyFenCommand;
+            }
+        }
+
+        private void SetClipboardContent(string content)
+        {
+            var dataPackage = new DataPackage();
+            dataPackage.SetText(content);
+            Clipboard.SetContent(dataPackage);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
