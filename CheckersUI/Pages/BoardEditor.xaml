@@ -9,8 +9,6 @@
     mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:BoardEditorViewModel}">
     <Page.Resources>
         <Style x:Key="TextBoxStyle1" TargetType="TextBox">
-            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
-            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
             <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
             <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
             <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
@@ -104,11 +102,11 @@
             <customControls:EightPieceBoard Orientation="{Binding Orientation}" Board="{Binding Board}" />
         </Grid>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,20,0,0">
-            <TextBlock FontWeight="Bold"
-                       FontSize="15"
+            <TextBlock FontWeight="Medium"
+                       FontSize="18"
                        VerticalAlignment="Center"
                        Text="FEN:" />
-            <TextBox Width="500"
+            <TextBox Width="560"
                      IsReadOnly="True"
                      Margin="5,0,0,0"
                      BorderThickness="1"
@@ -122,7 +120,9 @@
                         FontFamily="Segoe UI Symbol"
                         ToolTipService.ToolTip="Copy FEN"
                         Foreground="Black"
-                        Height="32"
+                        BorderThickness="1"
+                        BorderBrush="Black"
+                        Height="30"
                         Command="{Binding CopyFenCommand}" />
             </Border>
         </StackPanel>
