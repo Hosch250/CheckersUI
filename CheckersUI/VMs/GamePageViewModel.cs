@@ -408,7 +408,7 @@ namespace CheckersUI.VMs
                     return _createGameCommand;
                 }
                 
-                _createGameCommand = new DelegateCommand(param => CreateGame((string)param));
+                _createGameCommand = new DelegateCommand(param => CreateGame(SetupOption == Setup.FromPosition ? (string)param : string.Empty));
                 return _createGameCommand;
             }
         }
