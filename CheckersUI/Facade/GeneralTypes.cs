@@ -23,13 +23,13 @@ namespace CheckersUI.Facade
     public static class Extensions
     {
         public static Player Convert(this Generic.Player value) =>
-            Equals(value, Generic.Player.Black) ? Player.Black : Player.White;
+            value.IsBlack ? Player.Black : Player.White;
 
         public static Generic.Player ConvertBack(this Player value) =>
             value == Player.Black ? Generic.Player.Black : Generic.Player.White;
 
         public static Variant Convert(this Generic.Variant value) =>
-            Equals(value, Generic.Variant.AmericanCheckers) ? Variant.AmericanCheckers : Variant.PoolCheckers;
+            value.IsAmericanCheckers ? Variant.AmericanCheckers : Variant.PoolCheckers;
 
         public static Generic.Variant ConvertBack(this Variant value) =>
             value == Variant.AmericanCheckers ? Generic.Variant.AmericanCheckers : Generic.Variant.PoolCheckers;
@@ -39,6 +39,34 @@ namespace CheckersUI.Facade
 
         public static Generic.PieceType ConvertBack(this PieceType value) =>
             value == PieceType.Checker ? Generic.PieceType.Checker : Generic.PieceType.King;
+
+        public static Variant ToVariant(this GameVariant.GameVariant gameVariant)
+        {
+            if (gameVariant.variant.IsAmericanCheckers)
+            {
+                return Variant.AmericanCheckers;
+            }
+
+            if (gameVariant.variant.IsPoolCheckers)
+            {
+                return Variant.PoolCheckers;
+            }
+
+            throw new System.ArgumentException("Unknown variant", nameof(gameVariant));
+        }
+
+        public static GameVariant.GameVariant ToGameVariant(this Variant variant)
+        {
+            switch (variant)
+            {
+                case Variant.AmericanCheckers:
+                    return GameVariant.GameVariant.AmericanCheckers;
+                case Variant.PoolCheckers:
+                    return GameVariant.GameVariant.PoolCheckers;
+                default:
+                    throw new System.ArgumentException(nameof(variant));
+            }
+        }
 
         public static Piece Convert(this FSharpOption<Checkers.Piece.Piece> piece)
         {
