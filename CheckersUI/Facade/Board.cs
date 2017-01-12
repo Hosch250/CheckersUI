@@ -48,7 +48,7 @@ namespace CheckersUI.Facade
         {
             return row >= 0 && row < 8 &&
                    column >= 0 && column < 8 &&
-                   !Equals(Checkers.PublicAPI.getPdnNumber(variant.ConvertBack(), new Coord(row, column)), FSharpOption<int>.None);
+                   !Equals(Checkers.PublicAPI.pdnBoard(variant.ConvertBack())[row, column], FSharpOption<int>.None);
         }
 
         public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];
