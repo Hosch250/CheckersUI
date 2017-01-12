@@ -14,6 +14,12 @@ namespace CheckersUI.Facade
         King
     }
 
+    public enum Variant
+    {
+        AmericanCheckers,
+        PoolCheckers
+    }
+
     public static class Extensions
     {
         public static Player Convert(this Generic.Player value) =>
@@ -21,6 +27,12 @@ namespace CheckersUI.Facade
 
         public static Generic.Player ConvertBack(this Player value) =>
             value == Player.Black ? Generic.Player.Black : Generic.Player.White;
+
+        public static Variant Convert(this Generic.Variant value) =>
+            Equals(value, Generic.Variant.AmericanCheckers) ? Variant.AmericanCheckers : Variant.PoolCheckers;
+
+        public static Generic.Variant ConvertBack(this Variant value) =>
+            value == Variant.AmericanCheckers ? Generic.Variant.AmericanCheckers : Generic.Variant.PoolCheckers;
 
         public static PieceType Convert(this Generic.PieceType value) =>
             Equals(value, Generic.PieceType.Checker) ? PieceType.Checker : PieceType.King;

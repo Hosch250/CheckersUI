@@ -44,11 +44,11 @@ namespace CheckersUI.Facade
             return new Board(board);
         }
 
-        public static bool IsValidSquare(int row, int column)
+        public static bool IsValidSquare(Variant variant, int row, int column)
         {
             return row >= 0 && row < 8 &&
                    column >= 0 && column < 8 &&
-                   !Equals(Checkers.PublicAPI.getPdnNumber(new Coord(row, column)), FSharpOption<int>.None);
+                   !Equals(Checkers.PublicAPI.getPdnNumber(variant.ConvertBack(), new Coord(row, column)), FSharpOption<int>.None);
         }
 
         public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];

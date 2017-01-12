@@ -42,7 +42,7 @@
             <RowDefinition Height="640" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="166" />
+            <ColumnDefinition Width="176" />
             <ColumnDefinition Width="640" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -51,7 +51,7 @@
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
               Height="80"
-              Width="150"
+              Width="160"
               Margin="0,0,15,0"
               Padding="10,5"
               BorderBrush="Black"
@@ -62,7 +62,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Border BorderThickness="0,0,0,1">
-                <TextBlock FontWeight="Medium" Text="American Checkers" />
+                <TextBlock FontWeight="Medium" Text="{Binding Variant}" />
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/WhiteCircle.png" />
@@ -234,6 +234,12 @@
               Padding="20"
               Visibility="{Binding DisplayCreateGameGrid}">
             <StackPanel>
+                <StackPanel>
+                    <TextBlock FontWeight="Medium">Variant:</TextBlock>
+                    <ComboBox ItemsSource="{Binding Variants, Mode=OneTime}"
+                              SelectedItem="{Binding Variant, Mode=TwoWay}"
+                              Width="150" />
+                </StackPanel>
                 <StackPanel>
                     <TextBlock FontWeight="Medium">Black:</TextBlock>
                     <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"

@@ -22,11 +22,12 @@ namespace CheckersUI.VMs
 
         public GamePageViewModel()
         {
-            Controller = new GameController();
+            Controller = new GameController(Variant.AmericanCheckers);
 
             GameCancelled = false;
             BlackOpponent = Opponent.Human;
             WhiteOpponent = Opponent.Computer;
+            Variant = Variant.AmericanCheckers;
             Level = 9;
 
             SetupOption = Setup.Default;
@@ -172,6 +173,17 @@ namespace CheckersUI.VMs
             }
         }
 
+        private Variant _variant;
+        public Variant Variant
+        {
+            get { return _variant; }
+            set
+            {
+                _variant = value;
+                OnPropertyChanged();
+            }
+        }
+
         private int _level;
         public int Level
         {
@@ -290,6 +302,9 @@ namespace CheckersUI.VMs
 
         public List<Opponent> Opponents =>
             Enum.GetValues(typeof(Opponent)).Cast<Opponent>().ToList();
+
+        public List<Variant> Variants =>
+            Enum.GetValues(typeof(Variant)).Cast<Variant>().ToList();
 
         public List<Setup> SetupOptions =>
             Enum.GetValues(typeof(Setup)).Cast<Setup>().ToList();
@@ -471,7 +486,7 @@ namespace CheckersUI.VMs
             DisplayCreateGameGrid = false;
             GameCancelled = false;
 
-            Controller = string.IsNullOrEmpty(param) ? new GameController() : GameController.FromPosition(param);
+            Controller = string.IsNullOrEmpty(param) ? new GameController(Variant) : GameController.FromPosition(Variant, param);
 
             OnPropertyChanged(nameof(BoardOrientation));
             OnPropertyChanged(nameof(BlackOpponentText));

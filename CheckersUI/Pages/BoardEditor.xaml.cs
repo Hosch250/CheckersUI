@@ -109,7 +109,8 @@ namespace CheckersUI.Pages
             var row = (int)Math.Floor(point.Y / (BoardGrid.ActualHeight / 8));
             var column = (int)Math.Floor(point.X / (BoardGrid.ActualWidth / 8));
 
-            if (!Board.IsValidSquare(row, column)) { return; }
+            // todo let user set variant they are working with
+            if (!Board.IsValidSquare(Variant.AmericanCheckers, row, column)) { return; }
 
             ViewModel.AddPiece(_piece, row, column);
         }
@@ -156,7 +157,7 @@ namespace CheckersUI.Pages
             var point = e.GetCurrentPoint(BoardGrid).Position;
             var row = (int)Math.Floor(point.Y / (BoardGrid.ActualHeight / 8));
             var column = (int)Math.Floor(point.X / (BoardGrid.ActualWidth / 8));
-            if (!Board.IsValidSquare(row, column)) { return; }
+            if (!Board.IsValidSquare(Variant.AmericanCheckers, row, column)) { return; }
 
             var piece = ViewModel.Board[row, column];
             if (piece == null) { return; }

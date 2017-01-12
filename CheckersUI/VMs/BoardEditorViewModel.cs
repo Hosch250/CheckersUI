@@ -83,7 +83,7 @@ namespace CheckersUI.VMs
         {
             get
             {
-                var controller = new GameController(Board, Player);
+                var controller = new GameController(Variant.AmericanCheckers, Board, Player);
                 return controller.Fen;
             }
         }

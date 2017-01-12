@@ -21,8 +21,8 @@ namespace CheckersUI.Facade
 
         public bool IsJump()
         {
-            var firstCoord = (Coord)PublicAPI.getPdnCoord(Move[0]);
-            var secondCoord = (Coord)PublicAPI.getPdnCoord(Move[1]);
+            var firstCoord = (Coord)PublicAPI.getPdnCoord(Variant.AmericanCheckers.ConvertBack(), Move[0]);
+            var secondCoord = (Coord)PublicAPI.getPdnCoord(Variant.AmericanCheckers.ConvertBack(), Move[1]);
 
             return Math.Abs(firstCoord.Row - secondCoord.Row) == 2;
         }
