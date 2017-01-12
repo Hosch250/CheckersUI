@@ -16,6 +16,8 @@
         <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
         <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
         <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
+        <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
+        <converters:VariantsToDisplayStringsConverter x:Key="VariantsToDisplayStrings" />
 
         <Style x:Key="RadioToggleButton" TargetType="RadioButton">
             <Setter Property="Template">
@@ -62,7 +64,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Border BorderThickness="0,0,0,1">
-                <TextBlock FontWeight="Medium" Text="{Binding Variant}" />
+                <TextBlock FontWeight="Medium" Text="{Binding Variant, Converter={StaticResource VariantToDisplayString}}" />
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/WhiteCircle.png" />
@@ -236,27 +238,27 @@
             <StackPanel>
                 <StackPanel>
                     <TextBlock FontWeight="Medium">Variant:</TextBlock>
-                    <ComboBox ItemsSource="{Binding Variants, Mode=OneTime}"
-                              SelectedItem="{Binding Variant, Mode=TwoWay}"
-                              Width="150" />
+                    <ComboBox ItemsSource="{Binding Variants, Mode=OneTime, Converter={StaticResource VariantsToDisplayStrings}}"
+                              SelectedItem="{Binding Variant, Mode=TwoWay, Converter={StaticResource VariantToDisplayString}}"
+                              Width="200" />
                 </StackPanel>
                 <StackPanel>
                     <TextBlock FontWeight="Medium">Black:</TextBlock>
                     <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
                               SelectedItem="{Binding BlackOpponent, Mode=TwoWay}"
-                              Width="150" />
+                              Width="200" />
                 </StackPanel>
                 <StackPanel>
                     <TextBlock FontWeight="Medium">White:</TextBlock>
                     <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
                               SelectedItem="{Binding WhiteOpponent, Mode=TwoWay}"
-                              Width="150" />
+                              Width="200" />
                 </StackPanel>
                 <StackPanel>
                     <TextBlock FontWeight="Medium">Setup:</TextBlock>
                     <ComboBox ItemsSource="{Binding SetupOptions, Mode=OneTime}"
                               SelectedItem="{Binding SetupOption, Mode=TwoWay}"
-                              Width="150" />
+                              Width="200" />
                     <TextBlock FontWeight="Medium"
                                Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}"
                                Text="FEN:" />
@@ -270,7 +272,7 @@
                                 Name="LevelSlider"
                                 Minimum="2"
                                 Maximum="9"
-                                Width="150"
+                                Width="200"
                                 HorizontalAlignment="Left" />
                         <TextBlock Text="{Binding ElementName=LevelSlider, Path=Value}"
                                    Margin="5,10,0,0" />

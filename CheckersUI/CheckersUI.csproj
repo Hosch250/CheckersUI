@@ -98,6 +98,8 @@
     </Compile>
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converters\VariantsToDisplayStrings.cs" />
+    <Compile Include="Converters\VariantToDisplayString.cs" />
     <Compile Include="Converters\PdnMoveToVisibility.cs" />
     <Compile Include="Converters\SetupToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
