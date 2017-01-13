@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Reflection;
+using CheckersUI.Facade;
 using CheckersUI.Pages;
 using CheckersUI.VMs;
 
@@ -44,8 +45,9 @@ namespace CheckersUI
             var gamePage = _container.Resolve<GamePage>();
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
 
+            var parameterInjection = new ParameterOverride("board", new Board());
             var boardEditor = _container.Resolve<BoardEditor>();
-            boardEditor.DataContext = _container.Resolve<BoardEditorViewModel>();
+            boardEditor.DataContext = _container.Resolve<BoardEditorViewModel>(parameterInjection);
 
             var mainPage = _container.Resolve<MainPage>(new ParameterOverride("initialView", gamePage));
             mainPage.DataContext = _container.Resolve<MainPageViewModel>();

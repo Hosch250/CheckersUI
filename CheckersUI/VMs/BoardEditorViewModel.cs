@@ -13,10 +13,10 @@ namespace CheckersUI.VMs
 
     public class BoardEditorViewModel : INotifyPropertyChanged
     {
-        public BoardEditorViewModel()
+        public BoardEditorViewModel(Board board)
         {
             Orientation = Player.White;
-            Board = new Board();
+            Board = board;
 
             Player = Player.Black;
         }
