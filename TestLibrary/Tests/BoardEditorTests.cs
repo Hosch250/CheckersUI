@@ -2,7 +2,7 @@
 using CheckersUI.VMs;
 using Xunit;
 
-namespace TestLibrary
+namespace TestLibrary.Tests
 {
     public class BoardEditorTests
     {
