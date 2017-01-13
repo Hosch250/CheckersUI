@@ -12,13 +12,32 @@ using Windows.Media.Playback;
 using Windows.Media.Core;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.UI.Core;
 
 namespace CheckersUI.VMs
 {
     public class GamePageViewModel : INotifyPropertyChanged
     {
-        private readonly ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
+        private IPropertySet RoamingSettings
+        {
+            get
+            {
+                try
+                {
+                    return ApplicationData.Current.RoamingSettings.Values;
+                }
+                catch (InvalidOperationException)
+                {
+                    // we are running in a test and can't load the settings
+                    return new PropertySet
+                    {
+                        {"Theme", "Wood"},
+                        {"EnableSoundEffects", bool.FalseString},
+                    };
+                }
+            }
+        }
 
         public GamePageViewModel()
         {
@@ -34,10 +53,10 @@ namespace CheckersUI.VMs
 
             PlayerTurn += HandlePlayerTurnAsync;
 
-            var tmpTheme = (string)_roamingSettings.Values["Theme"];
+            var tmpTheme = (string)RoamingSettings["Theme"];
             SelectedTheme = string.IsNullOrEmpty(tmpTheme) ? Theme.Wood : (Theme)Enum.Parse(typeof(Theme), tmpTheme);
 
-            var tmpEnableSoundEffects = (string)_roamingSettings.Values["EnableSoundEffects"];
+            var tmpEnableSoundEffects = (string)RoamingSettings["EnableSoundEffects"];
             EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
 
@@ -290,10 +309,18 @@ namespace CheckersUI.VMs
 
         private void AssignRoamingSetting(string name, string value)
         {
-            if ((string)_roamingSettings.Values[name] != value)
+            try
             {
-                _roamingSettings.Values[name] = value;
-                ApplicationData.Current.SignalDataChanged();
+                var roamingSettings = ApplicationData.Current.RoamingSettings;
+                if ((string) roamingSettings.Values[name] != value)
+                {
+                    roamingSettings.Values[name] = value;
+                    ApplicationData.Current.SignalDataChanged();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // we are running from a test, and can't load the settings
             }
         }
 
