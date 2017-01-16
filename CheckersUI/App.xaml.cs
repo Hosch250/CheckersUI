@@ -45,8 +45,9 @@ namespace CheckersUI
             var gamePage = _container.Resolve<GamePage>();
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
 
-            var parameterInjection = new ParameterOverride("board", new Board());
             var boardEditor = _container.Resolve<BoardEditor>();
+
+            var parameterInjection = new ParameterOverride("board", Board.DefaultBoard(Variant.AmericanCheckers));
             boardEditor.DataContext = _container.Resolve<BoardEditorViewModel>(parameterInjection);
 
             var mainPage = _container.Resolve<MainPage>(new ParameterOverride("initialView", gamePage));
@@ -84,7 +85,7 @@ namespace CheckersUI
                 {
                     rootFrame.Content = mainPage;
                 }
-                
+
                 Window.Current.Activate();
             }
         }

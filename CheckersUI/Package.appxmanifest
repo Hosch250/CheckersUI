@@ -30,8 +30,6 @@
     </Application>
   </Applications>
   <Capabilities>
-    <Capability Name="internetClientServer" />
-    <uap3:Capability Name="backgroundMediaPlayback" />
-    <uap3:Capability Name="userNotificationListener" />
+    <Capability Name="internetClient" />
   </Capabilities>
 </Package>

@@ -17,17 +17,17 @@ namespace CheckersUI.Facade
             MoveHistory = moveHistory;
             CurrentCoord = currentCoord;
 
-            Fen = Checkers.PublicAPI.createFen(variant.ToGameVariant(), CurrentPlayer.ConvertBack(), Board);
+            Fen = Checkers.PublicAPI.createFen(variant.ToGameVariant().pdnMembers, CurrentPlayer.ConvertBack(), Board);
         }
 
         public GameController(Variant variant, Board board, Player currentPlayer)
-            : this(variant, board, currentPlayer, Checkers.PublicAPI.createFen(variant.ToGameVariant(), currentPlayer.ConvertBack(), board), new List<PdnTurn>()) { }
+            : this(variant, board, currentPlayer, Checkers.PublicAPI.createFen(variant.ToGameVariant().pdnMembers, currentPlayer.ConvertBack(), board), new List<PdnTurn>()) { }
 
         public GameController(Checkers.GameController.GameController gameController)
             : this(gameController.Variant.ToVariant(), gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PdnTurn)item).ToList(), gameController.CurrentCoord) { }
 
         public GameController(Variant variant)
-            : this(variant, new Board(), Player.Black, Checkers.PublicAPI.createFen(variant.ToGameVariant(), Player.Black.ConvertBack(), new Board()), new List<PdnTurn>()) { }
+            : this(variant, new Board(), Player.Black, Checkers.PublicAPI.createFen(variant.ToGameVariant().pdnMembers, Player.Black.ConvertBack(), new Board()), new List<PdnTurn>()) { }
 
         public GameController WithBoard(string fen) =>
             new GameController(Variant, FromPosition(Variant, fen).Board, CurrentPlayer, InitialPosition, MoveHistory, CurrentCoord);

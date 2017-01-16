@@ -30,6 +30,9 @@ namespace CheckersUI.Facade
         public static Board EmptyBoard() =>
             new Board(Checkers.Board.emptyBoardList());
 
+        public static Board DefaultBoard(Variant variant) =>
+            new Board(Checkers.Board.defaultBoard);
+
         public Board Copy()
         {
             var board = new Piece[8, 8];
@@ -48,7 +51,7 @@ namespace CheckersUI.Facade
         {
             return row >= 0 && row < 8 &&
                    column >= 0 && column < 8 &&
-                   !Equals(Checkers.PublicAPI.pdnBoard(variant.ToGameVariant())[row, column], FSharpOption<int>.None);
+                   !Equals(Checkers.PublicAPI.pdnBoard(variant.ToGameVariant().pdnMembers)[row, column], FSharpOption<int>.None);
         }
 
         public Piece this[Coord coord] => GameBoard[coord.Row, coord.Column];

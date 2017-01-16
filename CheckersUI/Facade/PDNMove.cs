@@ -21,8 +21,8 @@ namespace CheckersUI.Facade
 
         public bool IsJump()
         {
-            var firstCoord = (Coord)PublicAPI.pdnBoardCoords(Variant.AmericanCheckers.ToGameVariant())[Move[0]];
-            var secondCoord = (Coord)PublicAPI.pdnBoardCoords(Variant.AmericanCheckers.ToGameVariant())[Move[1]];
+            var firstCoord = (Coord)PublicAPI.pdnBoardCoords(Variant.AmericanCheckers.ToGameVariant().pdnMembers)[Move[0]];
+            var secondCoord = (Coord)PublicAPI.pdnBoardCoords(Variant.AmericanCheckers.ToGameVariant().pdnMembers)[Move[1]];
 
             return Math.Abs(firstCoord.Row - secondCoord.Row) == 2;
         }
