@@ -6,9 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vms="using:CheckersUI.VMs"
     xmlns:customControls="using:CheckersUI.CustomControls"
+    xmlns:converters="using:CheckersUI.Converters"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:BoardEditorViewModel}">
     <Page.Resources>
-        <Style x:Key="TextBoxStyle1" TargetType="TextBox">
+        <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
+        <converters:VariantsToDisplayStringsConverter x:Key="VariantsToDisplayStrings" />
+        
+        <Style x:Key="UnlimitedSizeTextBoxs" TargetType="TextBox">
             <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
             <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
             <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
@@ -113,7 +117,7 @@
                      AcceptsReturn="False"
                      Background="#CCCCCC"
                      Text="{Binding FenString}"
-                     Style="{StaticResource TextBoxStyle1}" />
+                     Style="{StaticResource UnlimitedSizeTextBoxs}" />
             <Border BorderThickness="1" BorderBrush="Black">
                 <Button Content="&#xe16f;"
                         Background="White"
@@ -126,21 +130,41 @@
                         Command="{Binding CopyFenCommand}" />
             </Border>
         </StackPanel>
-        <StackPanel Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="10,0,0,0">
-            <TextBlock FontWeight="Bold" Text="First move:" />
-            <ComboBox Width="150"
-                      Margin="0,0,0,10"
-                      ItemsSource="{Binding Players, Mode=OneTime}"
-                      SelectedItem="{Binding Player, Mode=TwoWay}" />
-
-            <TextBlock FontWeight="Bold" Text="Set board position" />
-            <ComboBox Width="150"
-                      Margin="0,0,0,10"
-                      ItemsSource="{Binding Positions, Mode=OneTime}"
-                      SelectedItem="{Binding Position, Mode=TwoWay}" />
-        </StackPanel>
+        <Grid Grid.Row="0"
+              Grid.Column="2"
+              Margin="10,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75" />
+                <RowDefinition Height="75" />
+                <RowDefinition Height="75" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock FontWeight="Bold"
+                           Margin="0,0,0,5"
+                           Text="Variant:" />
+                <ComboBox Width="200"
+                          Margin="0,0,0,10"
+                          ItemsSource="{Binding Variants, Mode=OneTime, Converter={StaticResource VariantsToDisplayStrings}}"
+                          SelectedItem="{Binding Variant, Mode=TwoWay, Converter={StaticResource VariantToDisplayString}}" />
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock FontWeight="Bold"
+                           Margin="0,0,0,5"
+                           Text="First move:" />
+                <ComboBox Width="200"
+                          Margin="0,0,0,10"
+                          ItemsSource="{Binding Players, Mode=OneTime}"
+                          SelectedItem="{Binding Player, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <TextBlock FontWeight="Bold"
+                           Margin="0,0,0,5"
+                           Text="Set board position:" />
+                <ComboBox Width="200"
+                          ItemsSource="{Binding Positions, Mode=OneTime}"
+                          SelectedItem="{Binding Position, Mode=TwoWay}" />
+            </StackPanel>
+        </Grid>
         <Canvas Name="Canvas"
                 Grid.Row="0"
                 Grid.Column="0"

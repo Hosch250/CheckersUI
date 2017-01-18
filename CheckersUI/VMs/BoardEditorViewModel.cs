@@ -83,7 +83,7 @@ namespace CheckersUI.VMs
         {
             get
             {
-                var controller = new GameController(Variant.AmericanCheckers, Board, Player);
+                var controller = new GameController(Variant, Board, Player);
                 return controller.Fen;
             }
         }
@@ -113,6 +113,23 @@ namespace CheckersUI.VMs
                 }
                     
                 OnPropertyChanged();
+            }
+        }
+
+        public List<Variant> Variants =>
+            Enum.GetValues(typeof(Variant)).Cast<Variant>().ToList();
+
+        private Variant _variant;
+        public Variant Variant
+        {
+            get { return _variant; }
+            set
+            {
+                if (_variant != value)
+                {
+                    _variant = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
