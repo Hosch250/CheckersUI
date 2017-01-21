@@ -180,11 +180,6 @@
                     <Image Source="../Assets/undo.png" />
                 </Button>
                 <Button Background="Transparent"
-                            Grid.Column="1"
-                            Command="{Binding ToggleDisplaySettingsCommand}">
-                    <Image Source="../Assets/gear.png" />
-                </Button>
-                <Button Background="Transparent"
                             Grid.Column="2"
                             Command="{Binding DisplayCreateGameCommand}"
                             Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
@@ -197,33 +192,6 @@
                     <Image Source="../Assets/cancel.png" />
                 </Button>
             </Grid>
-        </Grid>
-        <Grid Grid.RowSpan="2"
-              Grid.ColumnSpan="3"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center"
-              Width="500"
-              Background="MintCream"
-              BorderBrush="Black"
-              BorderThickness="2"
-              Padding="20"
-              Visibility="{Binding DisplaySettingsGrid}">
-            <StackPanel>
-                <StackPanel>
-                    <TextBlock FontWeight="Medium">Theme:</TextBlock>
-                    <ComboBox ItemsSource="{Binding Themes, Mode=OneTime}"
-                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock FontWeight="Medium">Sound Effects:</TextBlock>
-                    <ToggleSwitch IsOn="{Binding EnableSoundEffects, Mode=TwoWay}" />
-                </StackPanel>
-            </StackPanel>
-            <Button VerticalAlignment="Bottom"
-                    HorizontalAlignment="Right"
-                    Margin="5"
-                    Command="{Binding ToggleDisplaySettingsCommand}"
-                    Content="Close" />
         </Grid>
         <Grid Grid.RowSpan="2"
               Grid.ColumnSpan="3"

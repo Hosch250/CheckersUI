@@ -33,6 +33,44 @@
                              Command="{Binding BoardEditorNavigationCommand}"
                              CommandParameter="{Binding ElementName=Frame}" />
         </StackPanel>
+        <ToggleButton Grid.Row="0"
+                      Grid.Column="1"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      HorizontalAlignment="Right"
+                      Name="SettingsToggleButton"
+                      Padding="4">
+            <Image Source="../Assets/gear.png" />
+        </ToggleButton>
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right"
+              Width="200"
+              Background="MintCream"
+              BorderBrush="Black"
+              BorderThickness="2"
+              Padding="20,10,20,0"
+              Canvas.ZIndex="1"
+              Name="SettingsGrid"
+              Visibility="{Binding ElementName=SettingsToggleButton, Path=IsChecked}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75" />
+                <RowDefinition Height="75" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock FontWeight="Medium"
+                           Margin="0,0,0,5"
+                           Text="Theme:" />
+                <ComboBox ItemsSource="{Binding Themes, Mode=OneTime}"
+                          SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock FontWeight="Medium"
+                           Text="Sound Effects:" />
+                <ToggleSwitch IsOn="{Binding EnableSoundEffects, Mode=TwoWay}" />
+            </StackPanel>
+        </Grid>
         <Frame Name="Frame"
                Grid.Row="1"
                Grid.Column="1"

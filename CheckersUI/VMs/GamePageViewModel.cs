@@ -52,12 +52,6 @@ namespace CheckersUI.VMs
             SetupOption = Setup.Default;
 
             PlayerTurn += HandlePlayerTurnAsync;
-
-            var tmpTheme = (string)RoamingSettings["Theme"];
-            SelectedTheme = string.IsNullOrEmpty(tmpTheme) ? Theme.Wood : (Theme)Enum.Parse(typeof(Theme), tmpTheme);
-
-            var tmpEnableSoundEffects = (string)RoamingSettings["EnableSoundEffects"];
-            EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
 
         private static CancellationTokenSource _cancelComputerMoveTokenSource;
@@ -106,7 +100,7 @@ namespace CheckersUI.VMs
 
         private async void PlayEffectAsync()
         {
-            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync($"Assets\\{SelectedTheme}Theme");
+            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync($"Assets\\{(string)RoamingSettings["Theme"]}Theme");
             var file = await folder.GetFileAsync("CheckerClick.mp3");
             var stream = await file.OpenAsync(FileAccessMode.Read);
 
@@ -125,7 +119,7 @@ namespace CheckersUI.VMs
                 return;
             }
 
-            if (EnableSoundEffects)
+            if (bool.Parse((string)RoamingSettings["EnableSoundEffects"]))
             {
                 PlayEffectAsync();
             }
@@ -236,17 +230,6 @@ namespace CheckersUI.VMs
             }
         }
 
-        private bool _displaySettingsGrid;
-        public bool DisplaySettingsGrid
-        {
-            get { return _displaySettingsGrid; }
-            set
-            {
-                _displaySettingsGrid = value;
-                OnPropertyChanged();
-            }
-        }
-
         private bool _displayCreateGameGrid;
         public bool DisplayCreateGameGrid
         {
@@ -255,38 +238,6 @@ namespace CheckersUI.VMs
             {
                 _displayCreateGameGrid = value;
                 OnPropertyChanged();
-            }
-        }
-
-        private Theme _selectedTheme;
-        public Theme SelectedTheme
-        {
-            get { return _selectedTheme; }
-            set
-            {
-                if (_selectedTheme != value)
-                {
-                    _selectedTheme = value;
-                    OnPropertyChanged();
-                }
-
-                AssignRoamingSetting("Theme", value.ToString());
-            }
-        }
-
-        private bool _enableSoundEffects;
-        public bool EnableSoundEffects
-        {
-            get { return _enableSoundEffects; }
-            set
-            {
-                if (_enableSoundEffects != value)
-                {
-                    _enableSoundEffects = value;
-                    OnPropertyChanged();
-                }
-
-                AssignRoamingSetting("EnableSoundEffects", value.ToString());
             }
         }
 
@@ -306,26 +257,6 @@ namespace CheckersUI.VMs
 
         public Player BoardOrientation =>
             BlackOpponent == Opponent.Human ? Player.Black : Player.White;
-
-        private void AssignRoamingSetting(string name, string value)
-        {
-            try
-            {
-                var roamingSettings = ApplicationData.Current.RoamingSettings;
-                if ((string) roamingSettings.Values[name] != value)
-                {
-                    roamingSettings.Values[name] = value;
-                    ApplicationData.Current.SignalDataChanged();
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                // we are running from a test, and can't load the settings
-            }
-        }
-
-        public List<Theme> Themes =>
-            Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
 
         public List<Opponent> Opponents =>
             Enum.GetValues(typeof(Opponent)).Cast<Opponent>().ToList();
@@ -392,21 +323,6 @@ namespace CheckersUI.VMs
                 return Controller.MoveHistory.Any() &&
                        Controller.GetWinningPlayer() == null &&
                        (BlackOpponent == Opponent.Human || WhiteOpponent == Opponent.Human);
-            }
-        }
-
-        private DelegateCommand _toggleDisplaySettingsCommand;
-        public DelegateCommand ToggleDisplaySettingsCommand
-        {
-            get
-            {
-                if (_toggleDisplaySettingsCommand != null)
-                {
-                    return _toggleDisplaySettingsCommand;
-                }
-
-                _toggleDisplaySettingsCommand = new DelegateCommand(sender => DisplaySettingsGrid = !DisplaySettingsGrid);
-                return _toggleDisplaySettingsCommand;
             }
         }
 
