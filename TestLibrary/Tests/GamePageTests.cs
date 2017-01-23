@@ -48,34 +48,6 @@ namespace TestLibrary.Tests
         }
 
         [Fact]
-        public void ToggleSettingsDisplay_TurnsOn()
-        {
-            var vm = new GamePageViewModel
-            {
-                Controller = new GameController(Variant.AmericanCheckers),
-                DisplaySettingsGrid = false
-            };
-
-            vm.ToggleDisplaySettingsCommand.Execute(null);
-
-            Assert.True(vm.DisplaySettingsGrid);
-        }
-
-        [Fact]
-        public void ToggleSettingsDisplay_TurnsOff()
-        {
-            var vm = new GamePageViewModel
-            {
-                Controller = new GameController(Variant.AmericanCheckers),
-                DisplaySettingsGrid = true
-            };
-
-            vm.ToggleDisplaySettingsCommand.Execute(null);
-
-            Assert.False(vm.DisplaySettingsGrid);
-        }
-
-        [Fact]
         public void NewGameDisplay_TurnsOn()
         {
             var vm = new GamePageViewModel
