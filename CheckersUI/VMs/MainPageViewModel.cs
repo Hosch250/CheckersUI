@@ -13,6 +13,7 @@ namespace CheckersUI.VMs
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
+        public SmallGamePage SmallGamePage { get; }
         public GamePage GamePage { get; }
         public BoardEditor BoardEditor { get; }
 
@@ -36,8 +37,9 @@ namespace CheckersUI.VMs
             }
         }
 
-        public MainPageViewModel(GamePage gamePage, BoardEditor boardEditor)
+        public MainPageViewModel(SmallGamePage smallGamePage, GamePage gamePage, BoardEditor boardEditor)
         {
+            SmallGamePage = smallGamePage;
             GamePage = gamePage;
             BoardEditor = boardEditor;
 
@@ -48,7 +50,8 @@ namespace CheckersUI.VMs
             EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
 
-        private void Navigate(Frame frame, Page page) => frame.Content = page; private Theme _selectedTheme;
+        private void Navigate(Frame frame, Page page) => frame.Content = page;
+
 
         private void AssignRoamingSetting(string name, string value)
         {
@@ -70,6 +73,7 @@ namespace CheckersUI.VMs
         public List<Theme> Themes =>
             Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
 
+        private Theme _selectedTheme;
         public Theme SelectedTheme
         {
             get { return _selectedTheme; }
@@ -111,7 +115,7 @@ namespace CheckersUI.VMs
                     return _gamePageNavigationCommand;
                 }
 
-                _gamePageNavigationCommand = new DelegateCommand(param => Navigate((Frame)param, GamePage));
+                _gamePageNavigationCommand = new DelegateCommand(param => Navigate((Frame)param, SmallGamePage));
                 return _gamePageNavigationCommand;
             }
         }

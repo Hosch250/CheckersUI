@@ -186,5 +186,26 @@ namespace CheckersUI.CustomControls
 
         private int AdjustedIndex(int index) =>
             Orientation == Player.White ? index : 7 - index;
+
+        private bool _adjustSize = true;
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!_adjustSize) { return; }
+            if (Math.Abs(ActualWidth - ActualHeight) < 1)
+            {
+                return;
+            }
+
+            _adjustSize = false;
+            if (Width > Height)
+            {
+                Width = ActualHeight;
+            }
+            else
+            {
+                Height = ActualWidth;
+            }
+            _adjustSize = true;
+        }
     }
 }
