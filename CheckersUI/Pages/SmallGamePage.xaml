@@ -9,36 +9,12 @@
       mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:GamePageViewModel}">
     <Page.Resources>
         <converters:PlayerToFontWeightConverter x:Key="PlayerToFontWeight" />
-        <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
-        <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
-        <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
-        <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
-        <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
-        <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
-        <converters:VariantsToDisplayStringsConverter x:Key="VariantsToDisplayStrings" />
-
-        <Style x:Key="RadioToggleButton" TargetType="RadioButton">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ToggleButton IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <converters:PdnTurnToMenuConverter x:Key="TurnToMenu" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
             <RowDefinition Height="30" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="60" />
@@ -48,13 +24,13 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top"
                    Text="{Binding Variant, Converter={StaticResource VariantToDisplayString}}" />
-        <controls:EightPieceBoard x:Name="Board"
-                                  VerticalAlignment="Top"
-                                  Grid.Row="1"
+        <TextBlock Grid.Row="1" Text="{Binding LastTurn, Converter={StaticResource TurnToMenu}}" FontSize="20" Margin="10, 0" />
+        <controls:EightPieceBoard VerticalAlignment="Top"
+                                  Grid.Row="2"
                                   Orientation="{Binding BoardOrientation}"
                                   Board="{Binding Controller.Board, Mode=OneWay}"
                                   Selection="{Binding Selection, Mode=TwoWay}" />
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
                   Padding="10,5"
                   Height="60"
                   VerticalAlignment="Top">
@@ -78,4 +54,14 @@
             </StackPanel>
         </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Undo" Label="Undo" />
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Board Editor" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

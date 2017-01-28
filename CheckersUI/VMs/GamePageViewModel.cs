@@ -126,6 +126,7 @@ namespace CheckersUI.VMs
 
             _selection = move.Last();
             Controller = Controller.WithBoard(LastMove()).Move(move);
+            OnPropertyChanged(nameof(LastTurn));
         }
 
         private bool IsFenLastMove(string fen)
@@ -218,6 +219,8 @@ namespace CheckersUI.VMs
 
             return pdnMove.WhiteMove?.ResultingFen ?? pdnMove.BlackMove.ResultingFen;
         }
+
+        public PdnTurn LastTurn => Controller.MoveHistory.LastOrDefault();
 
         public string Status
         {

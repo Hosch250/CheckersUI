@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converters\PdnTurnToMenuConverter.cs" />
     <Compile Include="Converters\PlayerToFontWeightConverter.cs" />
     <Compile Include="Converters\VariantsToDisplayStrings.cs" />
     <Compile Include="Converters\VariantToDisplayString.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Pages\SmallMainPage.xaml.cs">
       <DependentUpon>SmallMainPage.xaml</DependentUpon>
     </Compile>
