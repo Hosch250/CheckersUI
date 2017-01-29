@@ -12,13 +12,21 @@
             <RowDefinition Height="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Frame Name="Frame" Grid.Row="1" />
-
         <ad:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
                       AdUnitId="10865270"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Top"
                       Height="50"
                       Width="320" />
+        
+        <Frame Name="Frame" Grid.Row="1" />
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Board Editor"
+                              Click="BoardEditorNavigation" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

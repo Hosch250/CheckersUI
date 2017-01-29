@@ -156,24 +156,4 @@
             </ListView>
         </Grid>
     </Grid>
-    <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Undo"
-                              Label="Undo"
-                              Command="{Binding UndoMoveCommand}" />
-                <AppBarButton Icon="Add"
-                              Label="Create Game"
-                              Command="{Binding DisplayCreateGameCommand}"
-                              Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}" />
-                <AppBarButton Icon="Cancel"
-                              Label="Cancel Game"
-                              Command="{Binding CancelGameCommand}"
-                              Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToVisibility}}" />
-            </CommandBar.PrimaryCommands>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Board Editor" />
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-    </Page.BottomAppBar>
 </Page>

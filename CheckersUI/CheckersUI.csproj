@@ -119,6 +119,9 @@
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Pages\SmallBoardEditor.xaml.cs">
+      <DependentUpon>SmallBoardEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SmallMainPage.xaml.cs">
       <DependentUpon>SmallMainPage.xaml</DependentUpon>
     </Compile>
@@ -231,6 +234,10 @@
     <Page Include="CustomControls\EightPieceBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SmallBoardEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\SmallMainPage.xaml">
       <Generator>MSBuild:Compile</Generator>

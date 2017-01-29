@@ -15,6 +15,7 @@ namespace CheckersUI.VMs
     {
         public SmallGamePage SmallGamePage { get; }
         public GamePage GamePage { get; }
+        public SmallBoardEditor SmallBoardEditor { get; }
         public BoardEditor BoardEditor { get; }
 
         private IPropertySet RoamingSettings
@@ -37,10 +38,11 @@ namespace CheckersUI.VMs
             }
         }
 
-        public MainPageViewModel(SmallGamePage smallGamePage, GamePage gamePage, BoardEditor boardEditor)
+        public MainPageViewModel(SmallGamePage smallGamePage, GamePage gamePage, SmallBoardEditor smallBoardEditor, BoardEditor boardEditor)
         {
             SmallGamePage = smallGamePage;
             GamePage = gamePage;
+            SmallBoardEditor = smallBoardEditor;
             BoardEditor = boardEditor;
 
             var tmpTheme = (string)RoamingSettings["Theme"];
@@ -130,7 +132,7 @@ namespace CheckersUI.VMs
                     return _boardEditorNavigationCommand;
                 }
 
-                _boardEditorNavigationCommand = new DelegateCommand(param => Navigate((Frame)param, BoardEditor));
+                _boardEditorNavigationCommand = new DelegateCommand(param => Navigate((Frame) param, SmallBoardEditor));
                 return _boardEditorNavigationCommand;
             }
         }

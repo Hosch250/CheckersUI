@@ -2,6 +2,7 @@
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using CheckersUI.VMs;
 
 namespace CheckersUI.Pages
 {
@@ -44,6 +45,11 @@ namespace CheckersUI.Pages
             }
 
             SettingsToggleButton.IsChecked = false;*/
+        }
+
+        private void BoardEditorNavigation(object sender, RoutedEventArgs e)
+        {
+            Frame.Content = ((MainPageViewModel)DataContext).SmallBoardEditor;
         }
     }
 }
