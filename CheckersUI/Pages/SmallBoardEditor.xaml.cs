@@ -25,6 +25,19 @@ namespace CheckersUI.Pages
             _currentTheme = (string)_roamingSettings.Values["Theme"];
             ApplicationData.Current.DataChanged += Current_DataChanged;
             LoadImages();
+
+            SizeChanged += SmallBoardEditor_SizeChanged;
+        }
+
+        private void SmallBoardEditor_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
+        {
+            // adjust for size 10 margins
+            var pieceWidth = (ActualWidth - 20) / 8;
+
+            WhiteChecker.Width = pieceWidth;
+            WhiteKing.Width = pieceWidth;
+            BlackChecker.Width = pieceWidth;
+            BlackKing.Width = pieceWidth;
         }
 
         private string _currentTheme;
@@ -118,7 +131,13 @@ namespace CheckersUI.Pages
         private void Image_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var source = ((Image)sender).Source;
-            _draggedImage = new Image { Source = source };
+            _draggedImage = new Image
+            {
+                Source = source,
+                // adjust for size 10 margins
+                Width = (ActualWidth - 20) / 8
+            };
+
             _piece = GetPiece((Image)sender);
 
             Canvas.Children.Add(_draggedImage);
@@ -164,12 +183,20 @@ namespace CheckersUI.Pages
 
             Canvas.CapturePointer(e.Pointer);
             var bitmapImage = new BitmapImage(GetPieceUri(piece));
-            var image = new Image { Source = bitmapImage };
+            var image = new Image
+            {
+                Source = bitmapImage,
+                // adjust for size 10 margins
+                Width = (ActualWidth - 20) / 8
+            };
+
             _draggedImage = image;
+
             _piece = piece;
 
             ViewModel.RemovePiece(row, column);
             Canvas.Children.Add(_draggedImage);
+
             SetPosition(point);
         }
     }

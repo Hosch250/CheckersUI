@@ -14,11 +14,11 @@
     </Page.Resources>
     <Grid Margin="0,10,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="80" />
+            <RowDefinition />
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid HorizontalAlignment="Center">
+        <Grid Margin="10, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -28,30 +28,26 @@
             <StackPanel Grid.Column="0">
                 <Image Name="BlackChecker"
                        Source="../Assets/SteelTheme/BlackChecker.png"
-                       Width="75"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">Black Checker</TextBlock>
+                <TextBlock HorizontalAlignment="Center">B. Checker</TextBlock>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Image Name="BlackKing"
                        Source="../Assets/SteelTheme/BlackKing.png"
-                       Width="75"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">Black King</TextBlock>
+                <TextBlock HorizontalAlignment="Center">B. King</TextBlock>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <Image Name="WhiteChecker"
                        Source="../Assets/SteelTheme/WhiteChecker.png"
-                       Width="75"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">White Checker</TextBlock>
+                <TextBlock HorizontalAlignment="Center">W. Checker</TextBlock>
             </StackPanel>
             <StackPanel Grid.Column="3">
                 <Image Name="WhiteKing"
                        Source="../Assets/SteelTheme/WhiteKing.png"
-                       Width="75"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">White King</TextBlock>
+                <TextBlock HorizontalAlignment="Center">W. King</TextBlock>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1"

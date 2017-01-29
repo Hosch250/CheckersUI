@@ -22,7 +22,7 @@
         <Frame Name="Frame" Grid.Row="1" />
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
+        <CommandBar ClosedDisplayMode="Compact">
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="Board Editor"
                               Click="BoardEditorNavigation" />
