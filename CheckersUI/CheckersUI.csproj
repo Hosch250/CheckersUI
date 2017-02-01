@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -108,6 +108,9 @@
     <Compile Include="Converters\PdnMoveToDisplayString.cs" />
     <Compile Include="Converters\IntegerToListItemConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="CustomControls\AppBarMenu.xaml.cs">
+      <DependentUpon>AppBarMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
       <DependentUpon>EightPieceBoard.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,7 @@
     <Compile Include="Pages\SmallGamePage.xaml.cs">
       <DependentUpon>SmallGamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VMs\SmallBoardEditorViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
     <Compile Include="VMs\MainPageViewModel.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
@@ -231,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CustomControls\AppBarMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControls\EightPieceBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

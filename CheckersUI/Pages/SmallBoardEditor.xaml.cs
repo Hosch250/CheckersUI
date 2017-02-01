@@ -16,7 +16,7 @@ namespace CheckersUI.Pages
         private Piece _piece;
         private readonly ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
 
-        private BoardEditorViewModel ViewModel => (BoardEditorViewModel)DataContext;
+        private SmallBoardEditorViewModel ViewModel => (SmallBoardEditorViewModel)DataContext;
 
         public SmallBoardEditor()
         {

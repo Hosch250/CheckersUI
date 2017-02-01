@@ -18,14 +18,10 @@ namespace CheckersUI.Pages
             flyoutBase.ShowAt(senderElement);
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void RadioButton_Click(object sender, RoutedEventArgs e) =>
             MoveHistory.Visibility = Visibility.Collapsed;
-        }
 
-        private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
-        {
+        private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e) =>
             MoveHistory.Visibility = Visibility.Visible;
-        }
     }
 }
