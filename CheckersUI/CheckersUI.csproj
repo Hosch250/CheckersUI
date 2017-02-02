@@ -131,6 +131,7 @@
     <Compile Include="Pages\SmallGamePage.xaml.cs">
       <DependentUpon>SmallGamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VMs\SmallGamePageViewModel.cs" />
     <Compile Include="VMs\SmallBoardEditorViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
     <Compile Include="VMs\MainPageViewModel.cs" />

@@ -46,7 +46,7 @@ namespace CheckersUI
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
 
             var smallGamePage = _container.Resolve<SmallGamePage>();
-            smallGamePage.DataContext = _container.Resolve<GamePageViewModel>();
+            smallGamePage.DataContext = _container.Resolve<SmallGamePageViewModel>();
 
             var boardEditor = _container.Resolve<BoardEditor>();
             var smallBoardEditor = _container.Resolve<SmallBoardEditor>();

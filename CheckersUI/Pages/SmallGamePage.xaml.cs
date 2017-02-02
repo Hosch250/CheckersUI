@@ -23,5 +23,10 @@ namespace CheckersUI.Pages
 
         private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e) =>
             MoveHistory.Visibility = Visibility.Visible;
+
+        private void ComboBox_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        {
+            BottomAppBar.IsOpen = false;
+        }
     }
 }

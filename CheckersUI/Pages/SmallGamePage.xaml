@@ -7,7 +7,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vms="using:CheckersUI.VMs"
-      mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:GamePageViewModel}">
+      mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:SmallGamePageViewModel}">
     <Page.Resources>
         <converters:PlayerToFontWeightConverter x:Key="PlayerToFontWeight" />
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
@@ -156,4 +156,29 @@
             </ListView>
         </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal"
+                    Style="{StaticResource CustomCommandBar}">
+            <CommandBar.Content>
+                <Grid Background="White" BorderBrush="Black" BorderThickness="0,2,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <AppBarButton Icon="Undo" ToolTipService.ToolTip="Undo Move" Command="{Binding UndoMoveCommand}" Background="White" />
+                        <AppBarButton Icon="Add" ToolTipService.ToolTip="Create Game" Command="{Binding DisplayCreateGameCommand}" Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}" Background="White" />
+                        <AppBarButton Icon="Cancel" ToolTipService.ToolTip="Cancel Game" Command="{Binding CancelGameCommand}" Visibility="{Binding IsGameInProgress}" Background="White" />
+                    </StackPanel>
+                    
+                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Height="40" Background="White">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="10,0,0,0" Padding="8,0,0,0" Text="Go to:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Pages}" SelectedItem="{Binding NavigationElement, Mode=TwoWay}" Margin="10,0,0,0" Width="130" SelectionChanged="ComboBox_SelectionChanged" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

@@ -11,25 +11,7 @@ namespace CheckersUI.VMs
         public SmallBoardEditorViewModel(Board board, MainPageViewModel vm) : base (board)
         {
             _vm = vm;
-            DisplayAppBarPrompt = true;
             IsAppBarVisible = true;
-        }
-
-        private bool _displayAppBarPrompt;
-        public bool DisplayAppBarPrompt
-        {
-            get
-            {
-                return _displayAppBarPrompt;
-            }
-            set
-            {
-                if (value != _displayAppBarPrompt)
-                {
-                    _displayAppBarPrompt = value;
-                    OnPropertyChanged();
-                }
-            }
         }
 
         private bool _isAppBarVisible;
@@ -129,7 +111,6 @@ namespace CheckersUI.VMs
                     IsPlayerOptionsVisible = false;
                     IsBuiltinBoardPositionOptionsVisible = false;
                     IsAppBarVisible = false;
-                    DisplayAppBarPrompt = true;
                 });
                 return _hideAppBarCommand;
             }
@@ -147,7 +128,6 @@ namespace CheckersUI.VMs
 
                 _displayAppBarCommand = new DelegateCommand(param =>
                 {
-                    DisplayAppBarPrompt = false;
                     IsVariantOptionsVisible = false;
                     IsPlayerOptionsVisible = false;
                     IsBuiltinBoardPositionOptionsVisible = false;

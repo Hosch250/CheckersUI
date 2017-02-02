@@ -204,5 +204,10 @@ namespace CheckersUI.Pages
         {
             ViewModel.DisplayAppBarCommand.Execute(null);
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BottomAppBar.IsOpen = false;
+        }
     }
 }
