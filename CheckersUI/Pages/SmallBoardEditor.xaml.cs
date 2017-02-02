@@ -199,5 +199,10 @@ namespace CheckersUI.Pages
 
             SetPosition(point);
         }
+
+        private void CommandBar_Closed(object sender, object e)
+        {
+            ViewModel.DisplayAppBarCommand.Execute(null);
+        }
     }
 }
