@@ -13,6 +13,30 @@ namespace CheckersUI.Pages
             InitializeComponent();
             Frame.Content = initialView;
             CoreWindow.GetForCurrentThread().PointerPressed += SmallMainPage_PointerPressed;
+
+            DataContextChanged += SmallMainPage_DataContextChanged;
+        }
+
+        private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
+
+        private void SmallMainPage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            ((MainPageViewModel)args.NewValue).Navigate += SmallMainPage_Navigate;
+        }
+
+        private void SmallMainPage_Navigate(object sender, string pageName)
+        {
+            switch (pageName)
+            {
+                case "Board Editor":
+                    Frame.Content = ViewModel.SmallBoardEditor;
+                    break;
+                case "Game Page":
+                    Frame.Content = ViewModel.SmallGamePage;
+                    break;
+                default:
+                    throw new System.ArgumentException(nameof(pageName));
+            }
         }
 
         private bool ElementCapturesClick(FrameworkElement element, Point mousePosition)

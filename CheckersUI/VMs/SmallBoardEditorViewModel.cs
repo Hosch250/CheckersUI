@@ -1,12 +1,16 @@
-﻿using CheckersUI.Command;
+﻿using System.Collections.Generic;
+using CheckersUI.Command;
 using CheckersUI.Facade;
 
 namespace CheckersUI.VMs
 {
     public class SmallBoardEditorViewModel : BoardEditorViewModel
     {
-        public SmallBoardEditorViewModel(Board board) : base (board)
+        private readonly MainPageViewModel _vm;
+
+        public SmallBoardEditorViewModel(Board board, MainPageViewModel vm) : base (board)
         {
+            _vm = vm;
             DisplayAppBarPrompt = true;
             IsAppBarVisible = true;
         }
@@ -92,6 +96,19 @@ namespace CheckersUI.VMs
                 {
                     _isBuiltinBoardPositionOptionsVisible = value;
                     OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<string> Pages { get; } = new List<string> {"Game Page", "Board Editor"};
+        public string NavigationElement
+        {
+            get { return "Board Editor"; }
+            set
+            {
+                if (value == "Game Page")
+                {
+                    _vm.GamePageNavigationCommand.Execute(null);
                 }
             }
         }

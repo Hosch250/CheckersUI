@@ -2,6 +2,7 @@
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using CheckersUI.VMs;
 
 namespace CheckersUI.Pages
 {
@@ -12,6 +13,30 @@ namespace CheckersUI.Pages
             InitializeComponent();
             Frame.Content = initialView;
             CoreWindow.GetForCurrentThread().PointerPressed += MainPage_PointerPressed;
+
+            DataContextChanged += MainPage_DataContextChanged;
+        }
+
+        private MainPageViewModel ViewModel => (MainPageViewModel) DataContext;
+
+        private void MainPage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            ((MainPageViewModel)args.NewValue).Navigate += MainPage_Navigate;
+        }
+
+        private void MainPage_Navigate(object sender, string pageName)
+        {
+            switch (pageName)
+            {
+                case "Board Editor":
+                    Frame.Content = ViewModel.BoardEditor;
+                    break;
+                case "Game Page":
+                    Frame.Content = ViewModel.GamePage;
+                    break;
+                default:
+                    throw new System.ArgumentException(nameof(pageName));
+            }
         }
 
         private bool ElementCapturesClick(FrameworkElement element, Point mousePosition)

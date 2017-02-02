@@ -291,9 +291,6 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="MinHeight" Storyboard.TargetName="MoreButton">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource AppBarThemeMinimalHeight}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="VerticalAlignment" Storyboard.TargetName="MoreButton">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch"/>
-                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="HighContrastBorder">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                                 </ObjectAnimationUsingKeyFrames>
@@ -645,6 +642,9 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="HighContrastBorder">
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                             </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="MoreButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed"/>
+                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Rect" Storyboard.TargetName="OverflowContentRootClip">
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding CommandBarTemplateSettings.OverflowContentClipRect, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                             </ObjectAnimationUsingKeyFrames>
@@ -834,7 +834,7 @@
     </Page.Resources>
     <Grid Margin="0,10,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
@@ -917,15 +917,30 @@
                     Style="{StaticResource CustomCommandBar}"
                     Closed="CommandBar_Closed">
             <CommandBar.Content>
-                <Grid Background="White">
+                <Grid Background="White" BorderBrush="Black" BorderThickness="0,2,0,0">
                     <Grid>
                         <StackPanel Visibility="{Binding IsAppBarVisible}">
-                            <customControls:AppBarMenu Text="Variant" Command="{Binding DisplayVariantOptionsCommand}" BorderBrush="Black" BorderThickness="0,0,0,1" />
-                            <customControls:AppBarMenu Text="Starting Player" Command="{Binding DisplayPlayerOptionsCommand}" BorderBrush="Black" BorderThickness="0,0,0,1" />
-                            <customControls:AppBarMenu Text="Board Position" Command="{Binding DisplayBuiltinBoardPositionOptionsCommand}" />
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <customControls:AppBarMenu Text="Variant" Command="{Binding DisplayVariantOptionsCommand}" Background="White" />
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <customControls:AppBarMenu Text="Starting Player" Command="{Binding DisplayPlayerOptionsCommand}" Background="White" />
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <customControls:AppBarMenu Text="Board Position" Command="{Binding DisplayBuiltinBoardPositionOptionsCommand}" Background="White" />
+                            </Border>
+
+                            <Grid HorizontalAlignment="Stretch" Height="40" Background="White">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="10,0,0,0" Padding="8,0,0,0" Text="Go to:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                    <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Pages}" SelectedItem="{Binding NavigationElement, Mode=TwoWay}" Margin="10,0,0,0" Width="130" />
+                                </StackPanel>
+
+                            </Grid>
+                            
                         </StackPanel>
 
-                        <Grid Height="125" Visibility="{Binding IsVariantOptionsVisible}">
+                        <Grid Height="150" Visibility="{Binding IsVariantOptionsVisible}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition />
@@ -934,16 +949,17 @@
                                 <StackPanel Orientation="Horizontal">
                                     <AppBarButton Icon="Back" LabelPosition="Collapsed" Width="50" Command="{Binding DisplayAppBarCommand}" />
                                     <Line Y1="10" Y2="40" X1="1" X2="1" Width="1" Stroke="Black" />
-                                    <TextBlock Text="Variant" VerticalAlignment="Center" FontSize="24" Margin="5,-4,0,0" />
+                                    <TextBlock Text="Variant" VerticalAlignment="Center" FontSize="24" Margin="10,-4,0,0" />
                                 </StackPanel>
                             </Border>
                             <ComboBox Grid.Row="1"
-                                        Margin="10"
-                                        ItemsSource="{Binding Variants, Mode=OneTime, Converter={StaticResource VariantsToDisplayStrings}}"
-                                        SelectedItem="{Binding Variant, Mode=TwoWay, Converter={StaticResource VariantToDisplayString}}" />
+                                      Margin="10"
+                                      Width="200"
+                                      ItemsSource="{Binding Variants, Mode=OneTime, Converter={StaticResource VariantsToDisplayStrings}}"
+                                      SelectedItem="{Binding Variant, Mode=TwoWay, Converter={StaticResource VariantToDisplayString}}" />
                         </Grid>
 
-                        <Grid Height="125" Visibility="{Binding IsPlayerOptionsVisible}">
+                        <Grid Height="150" Visibility="{Binding IsPlayerOptionsVisible}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition />
@@ -952,16 +968,17 @@
                                 <StackPanel Orientation="Horizontal">
                                     <AppBarButton Icon="Back" LabelPosition="Collapsed" Width="50" Command="{Binding DisplayAppBarCommand}" />
                                     <Line Y1="10" Y2="40" X1="1" X2="1" Width="1" Stroke="Black" />
-                                    <TextBlock Text="Starting Player" VerticalAlignment="Center" FontSize="24" Margin="5,-4,0,0" />
+                                    <TextBlock Text="Starting Player" VerticalAlignment="Center" FontSize="24" Margin="10,-4,0,0" />
                                 </StackPanel>
                             </Border>
                             <ComboBox Grid.Row="1"
-                                        Margin="10"
-                                        ItemsSource="{Binding Players, Mode=OneTime}"
-                                        SelectedItem="{Binding Player, Mode=TwoWay}" />
+                                      Margin="10"
+                                      Width="200"
+                                      ItemsSource="{Binding Players, Mode=OneTime}"
+                                      SelectedItem="{Binding Player, Mode=TwoWay}" />
                         </Grid>
 
-                        <Grid Height="125" Visibility="{Binding IsBuiltinBoardPositionOptionsVisible}">
+                        <Grid Height="150" Visibility="{Binding IsBuiltinBoardPositionOptionsVisible}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition />
@@ -970,13 +987,14 @@
                                 <StackPanel Orientation="Horizontal">
                                     <AppBarButton Icon="Back" LabelPosition="Collapsed" Width="50" Command="{Binding DisplayAppBarCommand}" />
                                     <Line Y1="10" Y2="40" X1="1" X2="1" Width="1" Stroke="Black" />
-                                    <TextBlock Text="Board Position" VerticalAlignment="Center" FontSize="24" Margin="5,-4,0,0" />
+                                    <TextBlock Text="Board Position" VerticalAlignment="Center" FontSize="24" Margin="10,-4,0,0" />
                                 </StackPanel>
                             </Border>
                             <ComboBox Grid.Row="1"
-                                        Margin="10"
-                                        ItemsSource="{Binding Positions, Mode=OneTime}"
-                                        SelectedItem="{Binding Position, Mode=TwoWay}" />
+                                      Margin="10"
+                                      Width="200"
+                                      ItemsSource="{Binding Positions, Mode=OneTime}"
+                                      SelectedItem="{Binding Position, Mode=TwoWay}" />
                         </Grid>
                     </Grid>
                 </Grid>

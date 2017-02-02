@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
 using CheckersUI.Command;
 using CheckersUI.Pages;
 
@@ -51,9 +50,6 @@ namespace CheckersUI.VMs
             var tmpEnableSoundEffects = (string)RoamingSettings["EnableSoundEffects"];
             EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
         }
-
-        private void Navigate(Frame frame, Page page) => frame.Content = page;
-
 
         private void AssignRoamingSetting(string name, string value)
         {
@@ -117,7 +113,7 @@ namespace CheckersUI.VMs
                     return _gamePageNavigationCommand;
                 }
 
-                _gamePageNavigationCommand = new DelegateCommand(param => Navigate((Frame)param, SmallGamePage));
+                _gamePageNavigationCommand = new DelegateCommand(param => OnNavigate("Game Page"));
                 return _gamePageNavigationCommand;
             }
         }
@@ -132,10 +128,14 @@ namespace CheckersUI.VMs
                     return _boardEditorNavigationCommand;
                 }
 
-                _boardEditorNavigationCommand = new DelegateCommand(param => Navigate((Frame) param, SmallBoardEditor));
+                _boardEditorNavigationCommand = new DelegateCommand(param => OnNavigate("Board Editor"));
                 return _boardEditorNavigationCommand;
             }
         }
+
+        public event EventHandler<string> Navigate;
+        protected virtual void OnNavigate(string pageName) =>
+            Navigate?.Invoke(this, pageName);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
