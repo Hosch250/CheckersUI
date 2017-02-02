@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
@@ -24,9 +25,10 @@ namespace CheckersUI.Pages
         private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e) =>
             MoveHistory.Visibility = Visibility.Visible;
 
-        private void ComboBox_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BottomAppBar.IsOpen = false;
+            ((ComboBox)sender).SelectedIndex = 0;
         }
     }
 }

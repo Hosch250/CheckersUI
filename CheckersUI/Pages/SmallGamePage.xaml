@@ -165,13 +165,14 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <AppBarButton Icon="Undo" ToolTipService.ToolTip="Undo Move" Command="{Binding UndoMoveCommand}" Background="White" />
-                        <AppBarButton Icon="Add" ToolTipService.ToolTip="Create Game" Command="{Binding DisplayCreateGameCommand}" Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}" Background="White" />
-                        <AppBarButton Icon="Cancel" ToolTipService.ToolTip="Cancel Game" Command="{Binding CancelGameCommand}" Visibility="{Binding IsGameInProgress}" Background="White" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <AppBarButton Icon="Add" ToolTipService.ToolTip="Create Game" Command="{Binding DisplayCreateGameCommand}" Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}" Background="White" LabelPosition="Collapsed" Width="50" />
+                        <AppBarButton Icon="Cancel" ToolTipService.ToolTip="Cancel Game" Command="{Binding CancelGameCommand}" Visibility="{Binding IsGameInProgress}" Background="White" LabelPosition="Collapsed" Width="50" />
+                        <Line Y1="10" Y2="40" X1="0" X2="0" Width="1" Stroke="Black" />
+                        <AppBarButton Icon="Undo" ToolTipService.ToolTip="Undo Move" Command="{Binding UndoMoveCommand}" Background="White" LabelPosition="Collapsed" Width="50" />
                     </StackPanel>
                     
-                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Height="40" Background="White">
+                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Height="40" Background="White" BorderBrush="Black" BorderThickness="0,1,0,0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="10,0,0,0" Padding="8,0,0,0" Text="Go to:" VerticalAlignment="Center" HorizontalAlignment="Left" />
                             <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Pages}" SelectedItem="{Binding NavigationElement, Mode=TwoWay}" Margin="10,0,0,0" Width="130" SelectionChanged="ComboBox_SelectionChanged" />
