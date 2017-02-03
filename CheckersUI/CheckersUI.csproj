@@ -107,7 +107,6 @@
     <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Converters\PdnMoveToDisplayString.cs" />
     <Compile Include="Converters\IntegerToListItemConverter.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="CustomControls\AppBarMenu.xaml.cs">
       <DependentUpon>AppBarMenu.xaml</DependentUpon>
     </Compile>

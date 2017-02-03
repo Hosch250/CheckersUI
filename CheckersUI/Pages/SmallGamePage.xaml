@@ -15,7 +15,6 @@
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
         <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
-        <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
 
         <Style x:Key="RadioToggleButton" TargetType="RadioButton">

@@ -10,7 +10,6 @@
     xmlns:vms="using:CheckersUI.VMs"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:GamePageViewModel}">
     <Page.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
@@ -188,7 +187,7 @@
                 <Button Background="Transparent"
                             Grid.Column="2"
                             Command="{Binding CancelGameCommand}"
-                            Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToVisibility}}">
+                            Visibility="{Binding IsGameInProgress}">
                     <Image Source="../Assets/cancel.png" />
                 </Button>
             </Grid>
