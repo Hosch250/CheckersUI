@@ -285,6 +285,7 @@ namespace CheckersUI.VMs
                 {
                     _whiteOpponent = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(AreBothOpponentsHuman));
                 }
             }
         }
@@ -302,12 +303,16 @@ namespace CheckersUI.VMs
                 {
                     _blackOpponent = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(AreBothOpponentsHuman));
                 }
             }
         }
 
         public string BlackOpponentText =>
             GetOpponentText(BlackOpponent);
+
+        public bool AreBothOpponentsHuman =>
+            WhiteOpponent == Opponent.Human && BlackOpponent == Opponent.Human;
         
         private bool GameCancelled { get; set; }
         public bool IsGameInProgress

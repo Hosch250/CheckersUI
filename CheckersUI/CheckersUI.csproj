@@ -107,6 +107,9 @@
     <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Converters\PdnMoveToDisplayString.cs" />
     <Compile Include="Converters\IntegerToListItemConverter.cs" />
+    <Compile Include="CustomControls\NewGameControl.xaml.cs">
+      <DependentUpon>NewGameControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\AppBarMenu.xaml.cs">
       <DependentUpon>AppBarMenu.xaml</DependentUpon>
     </Compile>
@@ -120,7 +123,6 @@
     <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Pages\SmallBoardEditor.xaml.cs">
       <DependentUpon>SmallBoardEditor.xaml</DependentUpon>
     </Compile>
@@ -229,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CustomControls\NewGameControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControls\AppBarMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -154,6 +154,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+        <controls:NewGameControl Background="White" Grid.RowSpan="4" Visibility="{Binding DisplayCreateGameGrid}" />
     </Grid>
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal"
