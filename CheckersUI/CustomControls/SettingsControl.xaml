@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="CheckersUI.CustomControls.SettingsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vms="using:CheckersUI.VMs"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:SettingsViewModel}">
+
+    <Grid MaxWidth="200"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Center"
+          Padding="20,10,20,0">
+        <StackPanel>
+            <StackPanel>
+                <TextBlock FontWeight="Medium"
+                           Margin="0,0,0,2"
+                           Text="Theme:" />
+                <ComboBox ItemsSource="{Binding Themes, Mode=OneTime}"
+                          SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock FontWeight="Medium"
+                           Text="Sound Effects:" />
+                <ToggleSwitch IsOn="{Binding EnableSoundEffects, Mode=TwoWay}"
+                              Margin="0,-5,0,0" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

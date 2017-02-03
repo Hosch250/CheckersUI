@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CheckersUI.Command;
 
 namespace CheckersUI.VMs
 {
@@ -21,6 +22,47 @@ namespace CheckersUI.VMs
                 {
                     _vm.BoardEditorNavigationCommand.Execute(null);
                 }
+            }
+        }
+
+        private bool _displaySettingsGrid;
+        public bool DisplaySettingsGrid
+        {
+            get { return _displaySettingsGrid; }
+            set
+            {
+                _displaySettingsGrid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _displaySettingsCommand;
+        public DelegateCommand DisplaySettingsCommand
+        {
+            get
+            {
+                if (_displaySettingsCommand != null)
+                {
+                    return _displaySettingsCommand;
+                }
+
+                _displaySettingsCommand = new DelegateCommand(sender => DisplaySettingsGrid = true);
+                return _displaySettingsCommand;
+            }
+        }
+
+        private DelegateCommand _hideSettingsCommand;
+        public DelegateCommand HideSettingsCommand
+        {
+            get
+            {
+                if (_hideSettingsCommand != null)
+                {
+                    return _hideSettingsCommand;
+                }
+
+                _hideSettingsCommand = new DelegateCommand(sender => DisplaySettingsGrid = false);
+                return _hideSettingsCommand;
             }
         }
     }

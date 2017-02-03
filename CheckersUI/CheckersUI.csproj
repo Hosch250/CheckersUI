@@ -107,6 +107,9 @@
     <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Converters\PdnMoveToDisplayString.cs" />
     <Compile Include="Converters\IntegerToListItemConverter.cs" />
+    <Compile Include="CustomControls\SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\NewGameControl.xaml.cs">
       <DependentUpon>NewGameControl.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,7 @@
     <Compile Include="Pages\SmallGamePage.xaml.cs">
       <DependentUpon>SmallGamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VMs\SettingsViewModel.cs" />
     <Compile Include="VMs\SmallGamePageViewModel.cs" />
     <Compile Include="VMs\SmallBoardEditorViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
@@ -231,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CustomControls\SettingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControls\NewGameControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

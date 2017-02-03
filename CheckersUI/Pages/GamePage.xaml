@@ -13,10 +13,8 @@
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
-        <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
         <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
-        <converters:VariantsToDisplayStringsConverter x:Key="VariantsToDisplayStrings" />
 
         <Style x:Key="RadioToggleButton" TargetType="RadioButton">
             <Setter Property="Template">
@@ -179,9 +177,10 @@
                     <Image Source="../Assets/undo.png" />
                 </Button>
                 <Button Background="Transparent"
-                            Grid.Column="2"
-                            Command="{Binding DisplayCreateGameCommand}"
-                            Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
+                        Grid.Column="2"
+                        Command="{Binding DisplayCreateGameCommand}"
+                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}"
+                        Click="NewGameButton_Click">
                     <Image Source="../Assets/plus.png" />
                 </Button>
                 <Button Background="Transparent"

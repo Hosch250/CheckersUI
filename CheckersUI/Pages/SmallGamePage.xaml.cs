@@ -30,5 +30,8 @@ namespace CheckersUI.Pages
             BottomAppBar.IsOpen = false;
             ((ComboBox)sender).SelectedIndex = 0;
         }
+
+        private void CloseAppBar(object sender, RoutedEventArgs e) =>
+            BottomAppBar.IsOpen = false;
     }
 }

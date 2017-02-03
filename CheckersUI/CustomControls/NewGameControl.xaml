@@ -15,33 +15,29 @@
     </UserControl.Resources>
     <Grid VerticalAlignment="Center"
           HorizontalAlignment="Center"
-          Width="500"
-          Background="MintCream"
-          BorderBrush="Black"
-          BorderThickness="2"
-          Padding="20"
-          Visibility="{Binding DisplayCreateGameGrid}">
+          MaxWidth="500"
+          Padding="20">
         <StackPanel>
             <StackPanel>
-                <TextBlock FontWeight="Medium">Variant:</TextBlock>
+                <TextBlock FontWeight="Medium" Margin="0,0,0,2">Variant:</TextBlock>
                 <ComboBox ItemsSource="{Binding Variants, Mode=OneTime, Converter={StaticResource VariantsToDisplayStrings}}"
                           SelectedItem="{Binding Variant, Mode=TwoWay, Converter={StaticResource VariantToDisplayString}}"
                           Width="200" />
             </StackPanel>
-            <StackPanel>
-                <TextBlock FontWeight="Medium">Black:</TextBlock>
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock FontWeight="Medium" Margin="0,0,0,2">Black:</TextBlock>
                 <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
                           SelectedItem="{Binding BlackOpponent, Mode=TwoWay}"
                           Width="200" />
             </StackPanel>
-            <StackPanel>
-                <TextBlock FontWeight="Medium">White:</TextBlock>
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock FontWeight="Medium" Margin="0,0,0,2">White:</TextBlock>
                 <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
                           SelectedItem="{Binding WhiteOpponent, Mode=TwoWay}"
                           Width="200" />
             </StackPanel>
-            <StackPanel>
-                <TextBlock FontWeight="Medium">Setup:</TextBlock>
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock FontWeight="Medium" Margin="0,0,0,2">Setup:</TextBlock>
                 <ComboBox ItemsSource="{Binding SetupOptions, Mode=OneTime}"
                           SelectedItem="{Binding SetupOption, Mode=TwoWay}"
                           Width="200" />
@@ -51,26 +47,40 @@
                 <TextBox Name="FenBox"
                          Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}" />
             </StackPanel>
-            <StackPanel Visibility="{Binding AreBothOpponentsHuman, Converter={StaticResource BoolToHiddenVisibility}}">
-                <TextBlock FontWeight="Medium">Level:</TextBlock>
+            <StackPanel Visibility="{Binding AreBothOpponentsHuman, Converter={StaticResource BoolToHiddenVisibility}}" Margin="0,5,0,0">
+                <TextBlock FontWeight="Medium" Margin="0,0,0,2">Level:</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Slider Value="{Binding Level, Mode=TwoWay}"
                             Name="LevelSlider"
                             Minimum="2"
                             Maximum="9"
+                            TickPlacement="Inline"
                             Width="200"
+                            Margin="0,-5,0,0"
                             HorizontalAlignment="Left" />
                     <TextBlock Text="{Binding ElementName=LevelSlider, Path=Value}"
-                                   Margin="5,10,0,0" />
+                               Margin="5,10,0,0" />
                 </StackPanel>
             </StackPanel>
+            <Grid HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Button VerticalAlignment="Bottom"
+                        HorizontalAlignment="Stretch"
+                        Margin="5"
+                        Command="{Binding HideCreateGameCommand}"
+                        CommandParameter="{Binding ElementName=FenBox, Path=Text}"
+                        Content="Cancel" />
+                <Button Grid.Column="1"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Stretch"
+                        Margin="5"
+                        Command="{Binding CreateGameCommand}"
+                        CommandParameter="{Binding ElementName=FenBox, Path=Text}"
+                        Content="Start" />
+            </Grid>
         </StackPanel>
-        <Button VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="5"
-                Command="{Binding CreateGameCommand}"
-                CommandParameter="{Binding ElementName=FenBox, Path=Text}">
-            Start
-        </Button>
     </Grid>
 </UserControl>

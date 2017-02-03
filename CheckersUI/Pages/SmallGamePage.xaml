@@ -154,19 +154,45 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <controls:NewGameControl Background="White" Grid.RowSpan="4" Visibility="{Binding DisplayCreateGameGrid}" />
+        <Grid Background="MintCream"
+              Grid.RowSpan="4"
+              Visibility="{Binding DisplayCreateGameGrid}"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              BorderBrush="Black"
+              BorderThickness="2">
+            <controls:NewGameControl />
+        </Grid>
+        <Grid Background="MintCream"
+              Grid.RowSpan="4"
+              Visibility="{Binding DisplaySettingsGrid}"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              BorderBrush="Black"
+              BorderThickness="2">
+            <StackPanel>
+                <controls:SettingsControl />
+                <Button VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Width="100"
+                        Margin="0,10,25,25"
+                        Command="{Binding HideSettingsCommand}"
+                        CommandParameter="{Binding ElementName=FenBox, Path=Text}"
+                        Content="Cancel" />
+            </StackPanel>
+        </Grid>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal"
-                    Style="{StaticResource CustomCommandBar}">
+        <CommandBar Style="{StaticResource CustomCommandBar}" ClosedDisplayMode="Minimal">
             <CommandBar.Content>
                 <Grid Background="White" BorderBrush="Black" BorderThickness="0,2,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+                    <AppBarButton Icon="Setting" ToolTipService.ToolTip="Settings" Command="{Binding DisplaySettingsCommand}" HorizontalAlignment="Left" LabelPosition="Collapsed" Width="50" Click="CloseAppBar" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <AppBarButton Icon="Add" ToolTipService.ToolTip="Create Game" Command="{Binding DisplayCreateGameCommand}" Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}" Background="White" LabelPosition="Collapsed" Width="50" />
+                        <AppBarButton Icon="Add" ToolTipService.ToolTip="Create Game" Command="{Binding DisplayCreateGameCommand}" Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}" Background="White" LabelPosition="Collapsed" Width="50" Click="CloseAppBar" />
                         <AppBarButton Icon="Cancel" ToolTipService.ToolTip="Cancel Game" Command="{Binding CancelGameCommand}" Visibility="{Binding IsGameInProgress}" Background="White" LabelPosition="Collapsed" Width="50" />
                         <Line Y1="10" Y2="40" X1="0" X2="0" Width="1" Stroke="Black" />
                         <AppBarButton Icon="Undo" ToolTipService.ToolTip="Undo Move" Command="{Binding UndoMoveCommand}" Background="White" LabelPosition="Collapsed" Width="50" />

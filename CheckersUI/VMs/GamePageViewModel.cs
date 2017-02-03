@@ -349,6 +349,21 @@ namespace CheckersUI.VMs
             }
         }
 
+        private DelegateCommand _hideCreateGameCommand;
+        public DelegateCommand HideCreateGameCommand
+        {
+            get
+            {
+                if (_hideCreateGameCommand != null)
+                {
+                    return _hideCreateGameCommand;
+                }
+
+                _hideCreateGameCommand = new DelegateCommand(sender => DisplayCreateGameGrid = false);
+                return _hideCreateGameCommand;
+            }
+        }
+
         private DelegateCommand _createGameCommand;
         public DelegateCommand CreateGameCommand
         {
