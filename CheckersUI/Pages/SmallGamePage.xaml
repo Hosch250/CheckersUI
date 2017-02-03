@@ -178,7 +178,7 @@
                         Margin="0,10,25,25"
                         Command="{Binding HideSettingsCommand}"
                         CommandParameter="{Binding ElementName=FenBox, Path=Text}"
-                        Content="Cancel" />
+                        Content="Close" />
             </StackPanel>
         </Grid>
     </Grid>
