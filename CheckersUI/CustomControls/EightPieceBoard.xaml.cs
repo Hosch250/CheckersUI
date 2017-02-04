@@ -192,14 +192,14 @@ namespace CheckersUI.CustomControls
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (!_adjustSize) { return; }
-            if (Math.Abs(ActualWidth - ActualHeight) < 1)
+            if (Math.Abs(BoardGrid.ActualWidth - DesiredSize.Width) < 1)
             {
                 return;
             }
             
             _adjustSize = false;
-            BoardGrid.MaxHeight = DesiredSize.Width;
-            BoardGrid.MaxWidth = DesiredSize.Height;
+            BoardGrid.Height = DesiredSize.Width - (Margin.Left + Margin.Right);
+            BoardGrid.Width = DesiredSize.Height - (Margin.Top + Margin.Bottom);
             _adjustSize = true;
         }
 

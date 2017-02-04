@@ -33,5 +33,8 @@ namespace CheckersUI.Pages
 
         private void CloseAppBar(object sender, RoutedEventArgs e) =>
             BottomAppBar.IsOpen = false;
+
+        private void Main_SizeChanged(object sender, SizeChangedEventArgs e) =>
+            Board.MaxHeight = ActualHeight - 168;
     }
 }

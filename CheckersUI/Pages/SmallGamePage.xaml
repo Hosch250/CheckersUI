@@ -7,6 +7,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vms="using:CheckersUI.VMs"
+      SizeChanged="Main_SizeChanged"
       mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:SmallGamePageViewModel}">
     <Page.Resources>
         <converters:PlayerToFontWeightConverter x:Key="PlayerToFontWeight" />
@@ -40,7 +41,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Bold"
@@ -54,10 +55,12 @@
                     Margin="10, 0"
                     Tapped="TextBlock_Tapped" />
         <controls:EightPieceBoard VerticalAlignment="Top"
-                                    Grid.Row="2"
-                                    Orientation="{Binding BoardOrientation}"
-                                    Board="{Binding Controller.Board, Mode=OneWay}"
-                                    Selection="{Binding Selection, Mode=TwoWay}" />
+                                  Margin="10"
+                                  x:Name="Board"
+                                  Grid.Row="2"
+                                  Orientation="{Binding BoardOrientation}"
+                                  Board="{Binding Controller.Board, Mode=OneWay}"
+                                  Selection="{Binding Selection, Mode=TwoWay}" />
         <Grid Grid.Row="3"
                 Padding="10,5"
                 Height="60"
