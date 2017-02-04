@@ -40,28 +40,28 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
-            <RowDefinition Height="auto" />
+            <RowDefinition />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Bold"
-                   FontSize="18"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   Text="{Binding Variant, Converter={StaticResource VariantToDisplayString}}" />
+                    FontSize="18"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Text="{Binding Variant, Converter={StaticResource VariantToDisplayString}}" />
         <TextBlock Grid.Row="1"
-                   Text="{Binding LastTurn, Converter={StaticResource TurnToMenu}}"
-                   FontSize="20"
-                   Margin="10, 0"
-                   Tapped="TextBlock_Tapped" />
+                    Text="{Binding LastTurn, Converter={StaticResource TurnToMenu}}"
+                    FontSize="20"
+                    Margin="10, 0"
+                    Tapped="TextBlock_Tapped" />
         <controls:EightPieceBoard VerticalAlignment="Top"
-                                  Grid.Row="2"
-                                  Orientation="{Binding BoardOrientation}"
-                                  Board="{Binding Controller.Board, Mode=OneWay}"
-                                  Selection="{Binding Selection, Mode=TwoWay}" />
+                                    Grid.Row="2"
+                                    Orientation="{Binding BoardOrientation}"
+                                    Board="{Binding Controller.Board, Mode=OneWay}"
+                                    Selection="{Binding Selection, Mode=TwoWay}" />
         <Grid Grid.Row="3"
-                  Padding="10,5"
-                  Height="60"
-                  VerticalAlignment="Top">
+                Padding="10,5"
+                Height="60"
+                VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -69,23 +69,23 @@
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5,0,0">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/WhiteCircle.png" />
                 <TextBlock VerticalAlignment="Center"
-                           Margin="5,0,0,0"
-                           Text="{Binding WhiteOpponentText}"
-                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=White}" />
+                            Margin="5,0,0,0"
+                            Text="{Binding WhiteOpponentText}"
+                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=White}" />
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/BlackCircle.png" />
                 <TextBlock VerticalAlignment="Center"
-                           Margin="5,0,0,0"
-                           Text="{Binding BlackOpponentText}"
-                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
+                            Margin="5,0,0,0"
+                            Text="{Binding BlackOpponentText}"
+                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
         </Grid>
         <Grid Background="White" Grid.RowSpan="4" Name="MoveHistory" Visibility="Collapsed">
             <ListView ItemsSource="{Binding Controller.MoveHistory}"
-                      Width="220"
-                      HorizontalAlignment="Left"
-                      SelectionMode="None">
+                        Width="220"
+                        HorizontalAlignment="Left"
+                        SelectionMode="None">
                 <ListView.ItemContainerTransitions>
                     <TransitionCollection/>
                 </ListView.ItemContainerTransitions>
@@ -103,22 +103,22 @@
                                 <ColumnDefinition Width="80" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding MoveNumber, Converter={StaticResource IntegerToListItem}}"
-                                       Padding="0,0,5,0"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Right" />
+                                        Padding="0,0,5,0"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right" />
                             <RadioButton Grid.Column="1"
-                                         GroupName="Move"
-                                         Style="{StaticResource RadioToggleButton}"
-                                         Width="80"
-                                         Background="White"
-                                         BorderThickness="0"
-                                         Content="{Binding BlackMove, Converter={StaticResource PdnMoveToDisplayString}}"
-                                         HorizontalContentAlignment="Left"
-                                         ToolTipService.ToolTip="{Binding BlackMove.DisplayString}"
-                                         Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
-                                         CommandParameter="{Binding BlackMove.ResultingFen}"
-                                         RightTapped="RadioButton_RightTapped"
-                                         Tapped="RadioButton_Click">
+                                            GroupName="Move"
+                                            Style="{StaticResource RadioToggleButton}"
+                                            Width="80"
+                                            Background="White"
+                                            BorderThickness="0"
+                                            Content="{Binding BlackMove, Converter={StaticResource PdnMoveToDisplayString}}"
+                                            HorizontalContentAlignment="Left"
+                                            ToolTipService.ToolTip="{Binding BlackMove.DisplayString}"
+                                            Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
+                                            CommandParameter="{Binding BlackMove.ResultingFen}"
+                                            RightTapped="RadioButton_RightTapped"
+                                            Tapped="RadioButton_Click">
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Copy FEN"
@@ -128,19 +128,19 @@
                                 </FlyoutBase.AttachedFlyout>
                             </RadioButton>
                             <RadioButton Grid.Column="2"
-                                         GroupName="Move"
-                                         Style="{StaticResource RadioToggleButton}"
-                                         Width="80"
-                                         Background="White"
-                                         BorderThickness="0"
-                                         Content="{Binding WhiteMove, Converter={StaticResource PdnMoveToDisplayString}}"
-                                         Visibility="{Binding WhiteMove, Converter={StaticResource PdnMoveToVisibility}}"
-                                         HorizontalContentAlignment="Left"
-                                         ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}"
-                                         Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
-                                         CommandParameter="{Binding WhiteMove.ResultingFen}"
-                                         RightTapped="RadioButton_RightTapped"
-                                         Tapped="RadioButton_Click">
+                                            GroupName="Move"
+                                            Style="{StaticResource RadioToggleButton}"
+                                            Width="80"
+                                            Background="White"
+                                            BorderThickness="0"
+                                            Content="{Binding WhiteMove, Converter={StaticResource PdnMoveToDisplayString}}"
+                                            Visibility="{Binding WhiteMove, Converter={StaticResource PdnMoveToVisibility}}"
+                                            HorizontalContentAlignment="Left"
+                                            ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}"
+                                            Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
+                                            CommandParameter="{Binding WhiteMove.ResultingFen}"
+                                            RightTapped="RadioButton_RightTapped"
+                                            Tapped="RadioButton_Click">
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Copy FEN"
@@ -155,21 +155,21 @@
             </ListView>
         </Grid>
         <Grid Background="MintCream"
-              Grid.RowSpan="4"
-              Visibility="{Binding DisplayCreateGameGrid}"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center"
-              BorderBrush="Black"
-              BorderThickness="2">
+                Grid.RowSpan="4"
+                Visibility="{Binding DisplayCreateGameGrid}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                BorderBrush="Black"
+                BorderThickness="2">
             <controls:NewGameControl />
         </Grid>
         <Grid Background="MintCream"
-              Grid.RowSpan="4"
-              Visibility="{Binding DisplaySettingsGrid}"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center"
-              BorderBrush="Black"
-              BorderThickness="2">
+                Grid.RowSpan="4"
+                Visibility="{Binding DisplaySettingsGrid}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                BorderBrush="Black"
+                BorderThickness="2">
             <StackPanel>
                 <controls:SettingsControl />
                 <Button VerticalAlignment="Bottom"

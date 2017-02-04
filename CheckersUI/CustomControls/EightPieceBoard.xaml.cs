@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -195,17 +196,17 @@ namespace CheckersUI.CustomControls
             {
                 return;
             }
-
+            
             _adjustSize = false;
-            if (Width > Height)
-            {
-                Width = ActualHeight;
-            }
-            else
-            {
-                Height = ActualWidth;
-            }
+            BoardGrid.MaxHeight = DesiredSize.Width;
+            BoardGrid.MaxWidth = DesiredSize.Height;
             _adjustSize = true;
+        }
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            var minAvailableSize = Math.Min(availableSize.Width, availableSize.Height);
+            return new Size(minAvailableSize, minAvailableSize);
         }
     }
 }
