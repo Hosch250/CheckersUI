@@ -45,16 +45,17 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Bold"
-                    FontSize="18"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Text="{Binding Variant, Converter={StaticResource VariantToDisplayString}}" />
+                   FontSize="18"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Text="{Binding Variant, Converter={StaticResource VariantToDisplayString}}" />
         <TextBlock Grid.Row="1"
-                    Text="{Binding LastTurn, Converter={StaticResource TurnToMenu}}"
-                    FontSize="20"
-                    Margin="10, 0"
-                    Tapped="TextBlock_Tapped" />
+                   Text="{Binding LastTurn, Converter={StaticResource TurnToMenu}}"
+                   FontSize="20"
+                   Margin="10, 0"
+                   Tapped="TextBlock_Tapped" />
         <controls:EightPieceBoard VerticalAlignment="Top"
+                                  HorizontalAlignment="Center"
                                   Margin="10"
                                   x:Name="Board"
                                   Grid.Row="2"
@@ -62,9 +63,12 @@
                                   Board="{Binding Controller.Board, Mode=OneWay}"
                                   Selection="{Binding Selection, Mode=TwoWay}" />
         <Grid Grid.Row="3"
-                Padding="10,5"
-                Height="60"
-                VerticalAlignment="Top">
+              Padding="10,5"
+              Height="60"
+              Width="{Binding ElementName=Board, Path=ActualWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Center"
+              Name="GameStatus">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -72,16 +76,16 @@
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5,0,0">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/WhiteCircle.png" />
                 <TextBlock VerticalAlignment="Center"
-                            Margin="5,0,0,0"
-                            Text="{Binding WhiteOpponentText}"
-                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=White}" />
+                           Margin="5,0,0,0"
+                           Text="{Binding WhiteOpponentText}"
+                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=White}" />
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/BlackCircle.png" />
                 <TextBlock VerticalAlignment="Center"
-                            Margin="5,0,0,0"
-                            Text="{Binding BlackOpponentText}"
-                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
+                           Margin="5,0,0,0"
+                           Text="{Binding BlackOpponentText}"
+                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
         </Grid>
         <Grid Background="White" Grid.RowSpan="4" Name="MoveHistory" Visibility="Collapsed">
