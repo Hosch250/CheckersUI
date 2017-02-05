@@ -6,33 +6,33 @@ using CheckersUI.VMs;
 
 namespace CheckersUI.Pages
 {
-    public sealed partial class MainPage
+    public sealed partial class SmallMainPage
     {
-        public MainPage(Page initialView)
+        public SmallMainPage(Page initialView)
         {
             InitializeComponent();
             Frame.Content = initialView;
-            CoreWindow.GetForCurrentThread().PointerPressed += MainPage_PointerPressed;
+            CoreWindow.GetForCurrentThread().PointerPressed += SmallMainPage_PointerPressed;
 
-            DataContextChanged += MainPage_DataContextChanged;
+            DataContextChanged += SmallMainPage_DataContextChanged;
         }
 
-        private MainPageViewModel ViewModel => (MainPageViewModel) DataContext;
+        private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
 
-        private void MainPage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void SmallMainPage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            ((MainPageViewModel)args.NewValue).Navigate += MainPage_Navigate;
+            ((MainPageViewModel)args.NewValue).Navigate += SmallMainPage_Navigate;
         }
 
-        private void MainPage_Navigate(object sender, string pageName)
+        private void SmallMainPage_Navigate(object sender, string pageName)
         {
             switch (pageName)
             {
                 case "Board Editor":
-                    Frame.Content = ViewModel.BoardEditor;
+                    Frame.Content = ViewModel.SmallBoardEditor;
                     break;
                 case "Game Page":
-                    Frame.Content = ViewModel.GamePage;
+                    Frame.Content = ViewModel.SmallGamePage;
                     break;
                 default:
                     throw new System.ArgumentException(nameof(pageName));
@@ -54,9 +54,9 @@ namespace CheckersUI.Pages
             return true;
         }
 
-        private void MainPage_PointerPressed(CoreWindow sender, PointerEventArgs args)
+        private void SmallMainPage_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            if (SettingsGrid.Visibility == Visibility.Collapsed ||
+            /*if (SettingsGrid.Visibility == Visibility.Collapsed ||
                 SettingsToggleButton.IsChecked != true)
             {
                 return;
@@ -68,7 +68,12 @@ namespace CheckersUI.Pages
                 return;
             }
 
-            SettingsToggleButton.IsChecked = false;
+            SettingsToggleButton.IsChecked = false;*/
+        }
+
+        private void BoardEditorNavigation(object sender, RoutedEventArgs e)
+        {
+            Frame.Content = ((MainPageViewModel)DataContext).SmallBoardEditor;
         }
     }
 }

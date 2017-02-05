@@ -10,14 +10,11 @@
     xmlns:vms="using:CheckersUI.VMs"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:GamePageViewModel}">
     <Page.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
-        <converters:SetupToVisibilityConverter x:Key="SetupToVisibility" />
         <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
-        <converters:VariantsToDisplayStringsConverter x:Key="VariantsToDisplayStrings" />
 
         <Style x:Key="RadioToggleButton" TargetType="RadioButton">
             <Setter Property="Template">
@@ -180,80 +177,20 @@
                     <Image Source="../Assets/undo.png" />
                 </Button>
                 <Button Background="Transparent"
-                            Grid.Column="2"
-                            Command="{Binding DisplayCreateGameCommand}"
-                            Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
+                        Grid.Column="2"
+                        Command="{Binding DisplayCreateGameCommand}"
+                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}"
+                        Click="NewGameButton_Click">
                     <Image Source="../Assets/plus.png" />
                 </Button>
                 <Button Background="Transparent"
                             Grid.Column="2"
                             Command="{Binding CancelGameCommand}"
-                            Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToVisibility}}">
+                            Visibility="{Binding IsGameInProgress}">
                     <Image Source="../Assets/cancel.png" />
                 </Button>
             </Grid>
         </Grid>
-        <Grid Grid.RowSpan="2"
-              Grid.ColumnSpan="3"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center"
-              Width="500"
-              Background="MintCream"
-              BorderBrush="Black"
-              BorderThickness="2"
-              Padding="20"
-              Visibility="{Binding DisplayCreateGameGrid}">
-            <StackPanel>
-                <StackPanel>
-                    <TextBlock FontWeight="Medium">Variant:</TextBlock>
-                    <ComboBox ItemsSource="{Binding Variants, Mode=OneTime, Converter={StaticResource VariantsToDisplayStrings}}"
-                              SelectedItem="{Binding Variant, Mode=TwoWay, Converter={StaticResource VariantToDisplayString}}"
-                              Width="200" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock FontWeight="Medium">Black:</TextBlock>
-                    <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
-                              SelectedItem="{Binding BlackOpponent, Mode=TwoWay}"
-                              Width="200" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock FontWeight="Medium">White:</TextBlock>
-                    <ComboBox ItemsSource="{Binding Opponents, Mode=OneTime}"
-                              SelectedItem="{Binding WhiteOpponent, Mode=TwoWay}"
-                              Width="200" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock FontWeight="Medium">Setup:</TextBlock>
-                    <ComboBox ItemsSource="{Binding SetupOptions, Mode=OneTime}"
-                              SelectedItem="{Binding SetupOption, Mode=TwoWay}"
-                              Width="200" />
-                    <TextBlock FontWeight="Medium"
-                               Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}"
-                               Text="FEN:" />
-                    <TextBox Name="FenBox"
-                             Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock FontWeight="Medium">Level:</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <Slider Value="{Binding Level, Mode=TwoWay}"
-                                Name="LevelSlider"
-                                Minimum="2"
-                                Maximum="9"
-                                Width="200"
-                                HorizontalAlignment="Left" />
-                        <TextBlock Text="{Binding ElementName=LevelSlider, Path=Value}"
-                                   Margin="5,10,0,0" />
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-            <Button VerticalAlignment="Bottom"
-                    HorizontalAlignment="Right"
-                    Margin="5"
-                    Command="{Binding CreateGameCommand}"
-                    CommandParameter="{Binding ElementName=FenBox, Path=Text}">
-                Start
-            </Button>
-        </Grid>
+        <controls:NewGameControl Grid.RowSpan="2" Grid.ColumnSpan="3" />
     </Grid>
 </Page>

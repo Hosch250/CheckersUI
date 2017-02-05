@@ -126,6 +126,7 @@ namespace CheckersUI.VMs
 
             _selection = move.Last();
             Controller = Controller.WithBoard(LastMove()).Move(move);
+            OnPropertyChanged(nameof(LastTurn));
         }
 
         private bool IsFenLastMove(string fen)
@@ -219,6 +220,8 @@ namespace CheckersUI.VMs
             return pdnMove.WhiteMove?.ResultingFen ?? pdnMove.BlackMove.ResultingFen;
         }
 
+        public PdnTurn LastTurn => Controller.MoveHistory.LastOrDefault();
+
         public string Status
         {
             get
@@ -282,6 +285,7 @@ namespace CheckersUI.VMs
                 {
                     _whiteOpponent = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(AreBothOpponentsHuman));
                 }
             }
         }
@@ -299,12 +303,16 @@ namespace CheckersUI.VMs
                 {
                     _blackOpponent = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(AreBothOpponentsHuman));
                 }
             }
         }
 
         public string BlackOpponentText =>
             GetOpponentText(BlackOpponent);
+
+        public bool AreBothOpponentsHuman =>
+            WhiteOpponent == Opponent.Human && BlackOpponent == Opponent.Human;
         
         private bool GameCancelled { get; set; }
         public bool IsGameInProgress
@@ -338,6 +346,21 @@ namespace CheckersUI.VMs
 
                 _displayCreateGameCommand = new DelegateCommand(sender => DisplayCreateGameGrid = true);
                 return _displayCreateGameCommand;
+            }
+        }
+
+        private DelegateCommand _hideCreateGameCommand;
+        public DelegateCommand HideCreateGameCommand
+        {
+            get
+            {
+                if (_hideCreateGameCommand != null)
+                {
+                    return _hideCreateGameCommand;
+                }
+
+                _hideCreateGameCommand = new DelegateCommand(sender => DisplayCreateGameGrid = false);
+                return _hideCreateGameCommand;
             }
         }
 

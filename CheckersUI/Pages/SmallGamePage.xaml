@@ -1,0 +1,218 @@
+﻿<Page Name="Main"
+      x:Class="CheckersUI.Pages.SmallGamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CheckersUI.CustomControls"
+      xmlns:converters="using:CheckersUI.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:vms="using:CheckersUI.VMs"
+      SizeChanged="Main_SizeChanged"
+      mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:SmallGamePageViewModel}">
+    <Page.Resources>
+        <converters:PlayerToFontWeightConverter x:Key="PlayerToFontWeight" />
+        <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
+        <converters:PdnTurnToMenuConverter x:Key="TurnToMenu" />
+        <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
+        <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
+        <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
+        <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
+
+        <Style x:Key="RadioToggleButton" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ToggleButton IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <TextBlock FontWeight="Bold"
+                   FontSize="18"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Text="{Binding Variant, Converter={StaticResource VariantToDisplayString}}" />
+        <TextBlock Grid.Row="1"
+                   Text="{Binding LastTurn, Converter={StaticResource TurnToMenu}}"
+                   FontSize="20"
+                   Margin="10, 0"
+                   Tapped="TextBlock_Tapped" />
+        <controls:EightPieceBoard VerticalAlignment="Top"
+                                  HorizontalAlignment="Center"
+                                  Margin="10"
+                                  x:Name="Board"
+                                  Grid.Row="2"
+                                  Orientation="{Binding BoardOrientation}"
+                                  Board="{Binding Controller.Board, Mode=OneWay}"
+                                  Selection="{Binding Selection, Mode=TwoWay}" />
+        <Grid Grid.Row="3"
+              Padding="10,5"
+              Height="60"
+              Width="{Binding ElementName=Board, Path=ActualWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Center"
+              Name="GameStatus">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5,0,0">
+                <Image VerticalAlignment="Center" Height="15" Source="../Assets/WhiteCircle.png" />
+                <TextBlock VerticalAlignment="Center"
+                           Margin="5,0,0,0"
+                           Text="{Binding WhiteOpponentText}"
+                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=White}" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Image VerticalAlignment="Center" Height="15" Source="../Assets/BlackCircle.png" />
+                <TextBlock VerticalAlignment="Center"
+                           Margin="5,0,0,0"
+                           Text="{Binding BlackOpponentText}"
+                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
+            </StackPanel>
+        </Grid>
+        <Grid Background="White" Grid.RowSpan="4" Name="MoveHistory" Visibility="Collapsed">
+            <ListView ItemsSource="{Binding Controller.MoveHistory}"
+                        Width="220"
+                        HorizontalAlignment="Left"
+                        SelectionMode="None">
+                <ListView.ItemContainerTransitions>
+                    <TransitionCollection/>
+                </ListView.ItemContainerTransitions>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0,-8" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding MoveNumber, Converter={StaticResource IntegerToListItem}}"
+                                        Padding="0,0,5,0"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right" />
+                            <RadioButton Grid.Column="1"
+                                            GroupName="Move"
+                                            Style="{StaticResource RadioToggleButton}"
+                                            Width="80"
+                                            Background="White"
+                                            BorderThickness="0"
+                                            Content="{Binding BlackMove, Converter={StaticResource PdnMoveToDisplayString}}"
+                                            HorizontalContentAlignment="Left"
+                                            ToolTipService.ToolTip="{Binding BlackMove.DisplayString}"
+                                            Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
+                                            CommandParameter="{Binding BlackMove.ResultingFen}"
+                                            RightTapped="RadioButton_RightTapped"
+                                            Tapped="RadioButton_Click">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Copy FEN"
+                                                        Command="{Binding ElementName=Main, Path=DataContext.CopyFenCommand}"
+                                                        CommandParameter="{Binding BlackMove}" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </RadioButton>
+                            <RadioButton Grid.Column="2"
+                                            GroupName="Move"
+                                            Style="{StaticResource RadioToggleButton}"
+                                            Width="80"
+                                            Background="White"
+                                            BorderThickness="0"
+                                            Content="{Binding WhiteMove, Converter={StaticResource PdnMoveToDisplayString}}"
+                                            Visibility="{Binding WhiteMove, Converter={StaticResource PdnMoveToVisibility}}"
+                                            HorizontalContentAlignment="Left"
+                                            ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}"
+                                            Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
+                                            CommandParameter="{Binding WhiteMove.ResultingFen}"
+                                            RightTapped="RadioButton_RightTapped"
+                                            Tapped="RadioButton_Click">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Copy FEN"
+                                                        Command="{Binding ElementName=Main, Path=DataContext.CopyFenCommand}"
+                                                        CommandParameter="{Binding WhiteMove}" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </RadioButton>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Background="MintCream"
+                Grid.RowSpan="4"
+                Visibility="{Binding DisplayCreateGameGrid}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                BorderBrush="Black"
+                BorderThickness="2">
+            <controls:NewGameControl />
+        </Grid>
+        <Grid Background="MintCream"
+                Grid.RowSpan="4"
+                Visibility="{Binding DisplaySettingsGrid}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                BorderBrush="Black"
+                BorderThickness="2">
+            <StackPanel>
+                <controls:SettingsControl />
+                <Button VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Width="100"
+                        Margin="0,10,25,25"
+                        Command="{Binding HideSettingsCommand}"
+                        CommandParameter="{Binding ElementName=FenBox, Path=Text}"
+                        Content="Close" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar Style="{StaticResource CustomCommandBar}" ClosedDisplayMode="Minimal">
+            <CommandBar.Content>
+                <Grid Background="White" BorderBrush="Black" BorderThickness="0,2,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <AppBarButton Icon="Setting" ToolTipService.ToolTip="Settings" Command="{Binding DisplaySettingsCommand}" HorizontalAlignment="Left" LabelPosition="Collapsed" Width="50" Click="CloseAppBar" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <AppBarButton Icon="Add" ToolTipService.ToolTip="Create Game" Command="{Binding DisplayCreateGameCommand}" Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}" Background="White" LabelPosition="Collapsed" Width="50" Click="CloseAppBar" />
+                        <AppBarButton Icon="Cancel" ToolTipService.ToolTip="Cancel Game" Command="{Binding CancelGameCommand}" Visibility="{Binding IsGameInProgress}" Background="White" LabelPosition="Collapsed" Width="50" />
+                        <Line Y1="10" Y2="40" X1="0" X2="0" Width="1" Stroke="Black" />
+                        <AppBarButton Icon="Undo" ToolTipService.ToolTip="Undo Move" Command="{Binding UndoMoveCommand}" Background="White" LabelPosition="Collapsed" Width="50" />
+                    </StackPanel>
+                    
+                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Height="40" Background="White" BorderBrush="Black" BorderThickness="0,1,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="10,0,0,0" Padding="8,0,0,0" Text="Go to:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Pages}" SelectedItem="{Binding NavigationElement, Mode=TwoWay}" Margin="10,0,0,0" Width="130" SelectionChanged="ComboBox_SelectionChanged" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

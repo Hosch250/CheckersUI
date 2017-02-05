@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -186,5 +187,26 @@ namespace CheckersUI.CustomControls
 
         private int AdjustedIndex(int index) =>
             Orientation == Player.White ? index : 7 - index;
+
+        private bool _adjustSize = true;
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!_adjustSize) { return; }
+            if (Math.Abs(BoardGrid.ActualWidth - DesiredSize.Width) < 1)
+            {
+                return;
+            }
+            
+            _adjustSize = false;
+            BoardGrid.Height = DesiredSize.Width - (Margin.Left + Margin.Right);
+            BoardGrid.Width = DesiredSize.Height - (Margin.Top + Margin.Bottom);
+            _adjustSize = true;
+        }
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            var minAvailableSize = Math.Min(availableSize.Width, availableSize.Height);
+            return new Size(minAvailableSize, minAvailableSize);
+        }
     }
 }

@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -98,6 +98,8 @@
     </Compile>
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converters\PdnTurnToMenuConverter.cs" />
+    <Compile Include="Converters\PlayerToFontWeightConverter.cs" />
     <Compile Include="Converters\VariantsToDisplayStrings.cs" />
     <Compile Include="Converters\VariantToDisplayString.cs" />
     <Compile Include="Converters\PdnMoveToVisibility.cs" />
@@ -105,7 +107,15 @@
     <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Converters\PdnMoveToDisplayString.cs" />
     <Compile Include="Converters\IntegerToListItemConverter.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="CustomControls\SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\NewGameControl.xaml.cs">
+      <DependentUpon>NewGameControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\AppBarMenu.xaml.cs">
+      <DependentUpon>AppBarMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
       <DependentUpon>EightPieceBoard.xaml</DependentUpon>
     </Compile>
@@ -116,6 +126,18 @@
     <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
+    <Compile Include="Pages\SmallBoardEditor.xaml.cs">
+      <DependentUpon>SmallBoardEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SmallMainPage.xaml.cs">
+      <DependentUpon>SmallMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SmallGamePage.xaml.cs">
+      <DependentUpon>SmallGamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VMs\SettingsViewModel.cs" />
+    <Compile Include="VMs\SmallGamePageViewModel.cs" />
+    <Compile Include="VMs\SmallBoardEditorViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
     <Compile Include="VMs\MainPageViewModel.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
@@ -163,12 +185,6 @@
     <Content Include="Assets\plus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\ShellTheme\BlackChecker.png" />
-    <Content Include="Assets\ShellTheme\BlackKing.png" />
-    <Content Include="Assets\ShellTheme\CheckerBoard.png" />
-    <Content Include="Assets\ShellTheme\CheckerClick.mp3" />
-    <Content Include="Assets\ShellTheme\WhiteChecker.png" />
-    <Content Include="Assets\ShellTheme\WhiteKing.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\SteelTheme\BlackChecker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -219,9 +235,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CustomControls\SettingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControls\NewGameControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControls\AppBarMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControls\EightPieceBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SmallBoardEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SmallMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SmallGamePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\GamePage.xaml">
       <Generator>MSBuild:Compile</Generator>

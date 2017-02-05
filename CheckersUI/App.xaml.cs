@@ -46,13 +46,20 @@ namespace CheckersUI
             var gamePage = _container.Resolve<GamePage>();
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
 
+            var smallGamePage = _container.Resolve<SmallGamePage>();
+            smallGamePage.DataContext = _container.Resolve<SmallGamePageViewModel>();
+
             var boardEditor = _container.Resolve<BoardEditor>();
+            var smallBoardEditor = _container.Resolve<SmallBoardEditor>();
 
             var parameterInjection = new ParameterOverride("board", Board.DefaultBoard(Variant.AmericanCheckers));
             boardEditor.DataContext = _container.Resolve<BoardEditorViewModel>(parameterInjection);
+            smallBoardEditor.DataContext = _container.Resolve<SmallBoardEditorViewModel>(parameterInjection);
 
             var mainPage = _container.Resolve<MainPage>(new ParameterOverride("initialView", gamePage));
+            var smallMainPage = _container.Resolve<SmallMainPage>(new ParameterOverride("initialView", smallGamePage));
             mainPage.DataContext = _container.Resolve<MainPageViewModel>();
+            smallMainPage.DataContext = _container.Resolve<MainPageViewModel>();
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -84,7 +91,7 @@ namespace CheckersUI
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Content = mainPage;
+                    rootFrame.Content = smallMainPage;
                 }
 
                 Window.Current.Activate();
