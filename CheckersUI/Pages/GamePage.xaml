@@ -179,8 +179,7 @@
                 <Button Background="Transparent"
                         Grid.Column="2"
                         Command="{Binding DisplayCreateGameCommand}"
-                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}"
-                        Click="NewGameButton_Click">
+                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
                     <Image Source="../Assets/plus.png" />
                 </Button>
                 <Button Background="Transparent"
@@ -191,6 +190,17 @@
                 </Button>
             </Grid>
         </Grid>
-        <controls:NewGameControl Grid.RowSpan="2" Grid.ColumnSpan="3" />
+        <Grid Grid.RowSpan="2"
+              Grid.ColumnSpan="3"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              MaxWidth="500"
+              Background="MintCream"
+              BorderBrush="Black"
+              BorderThickness="2"
+              Padding="20"
+              Visibility="{Binding DisplayCreateGameGrid}">
+            <controls:NewGameControl />
+        </Grid>
     </Grid>
 </Page>

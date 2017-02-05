@@ -17,10 +17,5 @@ namespace CheckersUI.Pages
             var flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
             flyoutBase.ShowAt(senderElement);
         }
-
-        private void NewGameButton_Click(object sender, RoutedEventArgs e)
-        {
-            BottomAppBar.IsOpen = false;
-        }
     }
 }

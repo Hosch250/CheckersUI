@@ -91,7 +91,7 @@ namespace CheckersUI
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Content = smallMainPage;
+                    rootFrame.Content = Window.Current.Bounds.Width >= 1005 ? (Page)mainPage : (Page)smallMainPage;
                 }
 
                 Window.Current.Activate();
@@ -102,10 +102,17 @@ namespace CheckersUI
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
+            var frame = (Frame)Window.Current.Content;
+
             // random width that looks good
-            if (e.Size.Width >= 1005)
+            if (e.Size.Width >= 1005 && frame.Content is SmallMainPage)
             {
-                
+                frame.Content = _container.Resolve<MainPage>();
+            }
+
+            if (e.Size.Width < 1005 && frame.Content is MainPage)
+            {
+                frame.Content = _container.Resolve<SmallMainPage>();
             }
         }
 

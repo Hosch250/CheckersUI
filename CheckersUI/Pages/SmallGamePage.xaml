@@ -162,12 +162,12 @@
             </ListView>
         </Grid>
         <Grid Background="MintCream"
-                Grid.RowSpan="4"
-                Visibility="{Binding DisplayCreateGameGrid}"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                BorderBrush="Black"
-                BorderThickness="2">
+              Grid.RowSpan="4"
+              Visibility="{Binding DisplayCreateGameGrid}"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              BorderBrush="Black"
+              BorderThickness="2">
             <controls:NewGameControl />
         </Grid>
         <Grid Background="MintCream"
