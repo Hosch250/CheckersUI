@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="806" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal"
@@ -73,8 +73,7 @@
         </Grid>
         <Frame Name="Frame"
                Grid.Row="1"
-               Grid.Column="1"
-               Grid.ColumnSpan="2" />
+               Grid.Column="1" />
 
         <ad:AdControl Grid.Row="1"
                       Grid.Column="0"

@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Reflection;
+using Windows.UI.Core;
 using CheckersUI.Facade;
 using CheckersUI.Pages;
 using CheckersUI.VMs;
@@ -87,6 +88,17 @@ namespace CheckersUI
                 }
 
                 Window.Current.Activate();
+            }
+
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            // random width that looks good
+            if (e.Size.Width >= 1005)
+            {
+                
             }
         }
 
