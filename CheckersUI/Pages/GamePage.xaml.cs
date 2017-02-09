@@ -10,6 +10,18 @@ namespace CheckersUI.Pages
         public GamePage()
         {
             InitializeComponent();
+
+            DataContextChanged += GamePage_DataContextChanged;
+        }
+
+        private void GamePage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            ViewModel.MoveUndone += ViewModel_MoveUndone;
+        }
+
+        private void ViewModel_MoveUndone(object sender, System.EventArgs e)
+        {
+            Board.Selection = null;
         }
 
         private GamePageViewModel ViewModel => (GamePageViewModel) DataContext;

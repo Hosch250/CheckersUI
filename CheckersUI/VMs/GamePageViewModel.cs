@@ -471,6 +471,7 @@ namespace CheckersUI.VMs
                 Controller = Controller.TakebackMove();
             }
 
+            OnMoveUndone();
             OnPlayerTurn(Controller.CurrentPlayer);
         }
 
@@ -484,6 +485,10 @@ namespace CheckersUI.VMs
         public event EventHandler<Player> PlayerTurn;
         protected virtual void OnPlayerTurn(Player e) =>
             PlayerTurn?.Invoke(this, e);
+
+        public event EventHandler MoveUndone;
+        protected virtual void OnMoveUndone() =>
+            MoveUndone?.Invoke(this, EventArgs.Empty);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

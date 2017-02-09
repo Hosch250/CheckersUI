@@ -57,10 +57,12 @@
         <controls:EightPieceBoard VerticalAlignment="Top"
                                   HorizontalAlignment="Center"
                                   Margin="10"
+                                  SelectionChanged="EightPieceBoard_SelectionChanged"
                                   x:Name="Board"
                                   Grid.Row="2"
                                   Orientation="{Binding BoardOrientation}"
-                                  Board="{Binding Controller.Board, Mode=OneWay}" />
+                                  Board="{Binding Controller.Board, Mode=OneWay}"
+                                  Move="{Binding MoveCommand}" />
         <Grid Grid.Row="3"
               Padding="10,5"
               Height="60"
