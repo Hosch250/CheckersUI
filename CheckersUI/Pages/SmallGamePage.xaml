@@ -60,8 +60,7 @@
                                   x:Name="Board"
                                   Grid.Row="2"
                                   Orientation="{Binding BoardOrientation}"
-                                  Board="{Binding Controller.Board, Mode=OneWay}"
-                                  Selection="{Binding Selection, Mode=TwoWay}" />
+                                  Board="{Binding Controller.Board, Mode=OneWay}" />
         <Grid Grid.Row="3"
               Padding="10,5"
               Height="60"

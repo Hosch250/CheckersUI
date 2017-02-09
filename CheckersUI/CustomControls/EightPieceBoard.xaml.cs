@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Media.Imaging;
 using CheckersUI.Facade;
 using Windows.Storage;
 using Windows.UI.Core;
+using System.Windows.Input;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace CheckersUI.CustomControls
 {
@@ -19,19 +22,20 @@ namespace CheckersUI.CustomControls
             DependencyProperty.Register(nameof(Board), typeof(Board), typeof(EightPieceBoard),
                 new PropertyMetadata(null, (sender, e) => ((EightPieceBoard)sender).LoadPieces(e.OldValue as Board, e.NewValue as Board)));
 
-        public static readonly DependencyProperty SelectionProperty =
-            DependencyProperty.Register(nameof(Selection), typeof(Coord), typeof(EightPieceBoard), null);
-
         public static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(nameof(Orientation), typeof(Player), typeof(EightPieceBoard),
                 new PropertyMetadata(null, (sender, e) => ((EightPieceBoard)sender).LoadPieces(null, ((EightPieceBoard)sender).Board)));
 
+        public static readonly DependencyProperty MoveCommand =
+            DependencyProperty.Register(nameof(Move), typeof(ICommand), typeof(EightPieceBoard), null);
+
         public EightPieceBoard()
         {
             InitializeComponent();
+            Orientation = Player.Black;
 
             _currentTheme = (string)_roamingSettings.Values["Theme"];
-            ApplicationData.Current.DataChanged += Current_DataChanged;
+            ApplicationData.Current.DataChanged += DataChanged;
 
             LoadBoard();
         }
@@ -42,16 +46,68 @@ namespace CheckersUI.CustomControls
             set { SetValue(BoardProperty, value); }
         }
 
+        private Coord _selection;
         public Coord Selection
         {
-            get { return (Coord)GetValue(SelectionProperty); }
-            set { SetValue(SelectionProperty, value); }
+            get { return _selection; }
+            set
+            {
+                if (_selection != value)
+                {
+                    _selection = value;
+                    OnSelectionChanged(value);
+                }
+            }
         }
 
         public Player Orientation
         {
             get { return (Player)GetValue(OrientationProperty); }
             set { SetValue(OrientationProperty, value); }
+        }
+
+        public ICommand Move
+        {
+            get { return (ICommand)GetValue(MoveCommand); }
+            set { SetValue(MoveCommand, value); }
+        }
+
+        private SolidColorBrush GetBorderBrush()
+        {
+            var theme = (Theme)Enum.Parse(typeof(Theme), _currentTheme);
+            switch (theme)
+            {
+                case Theme.Wood:
+                    return new SolidColorBrush(Colors.OrangeRed);
+                case Theme.Steel:
+                    return new SolidColorBrush(Colors.Blue);
+                case Theme.Plastic:
+                    return new SolidColorBrush(Colors.LightGreen);
+                default:
+                    throw new ArgumentException(nameof(theme));
+            }
+        }
+
+        public void SetBorder(Coord value)
+        {
+            var pieceBorder = new Border
+            {
+                BorderBrush = GetBorderBrush(),
+                BorderThickness = new Thickness(2)
+            };
+            Grid.SetRow(pieceBorder, AdjustedIndex(value.Row));
+            Grid.SetColumn(pieceBorder, AdjustedIndex(value.Column));
+            Canvas.SetZIndex(pieceBorder, 1);
+
+            BoardGrid.Children.Add(pieceBorder);
+        }
+
+        public void ClearBorders()
+        {
+            foreach (var border in BoardGrid.Children.OfType<Border>().ToList())
+            {
+                BoardGrid.Children.Remove(border);
+            }
         }
 
         private string GetPieceUriPath(Piece piece)
@@ -112,7 +168,7 @@ namespace CheckersUI.CustomControls
         }
 
         private string _currentTheme;
-        private void Current_DataChanged(ApplicationData sender, object args)
+        private void DataChanged(ApplicationData sender, object args)
         {
             if ((string)_roamingSettings.Values["Theme"] == _currentTheme)
             {
@@ -124,22 +180,39 @@ namespace CheckersUI.CustomControls
                 _currentTheme = (string)_roamingSettings.Values["Theme"];
                 LoadBoard();
                 LoadPieces(null, Board);
+                RecolorBorders();
             });
         }
 
-        private void BoardGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void RecolorBorders()
+        {
+            foreach (var border in BoardGrid.Children.OfType<Border>().ToList())
+            {
+                border.BorderBrush = GetBorderBrush();
+            }
+        }
+
+        private void BoardGridPointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var point = e.GetCurrentPoint((Grid)sender).Position;
 
             var row = (int)Math.Floor(point.Y / (BoardGrid.ActualHeight / 8));
             var column = (int)Math.Floor(point.X / (BoardGrid.ActualWidth / 8));
 
-            Selection = new Coord(AdjustedIndex(row), AdjustedIndex(column));
+            var fromCoord = Selection;
+            var toCoord = new Coord(AdjustedIndex(row), AdjustedIndex(column));
+
+            Selection = toCoord;
+
+            if (fromCoord != null && Move != null && Move.CanExecute(null))
+            {
+                Move.Execute(new { fromCoord, toCoord});
+            }
         }
 
         private void ClearPieces()
         {
-            foreach (Image element in BoardGrid.Children.ToList())
+            foreach (var element in BoardGrid.Children.OfType<Image>().ToList())
             {
                 if (element.Name == "BoardImage") { continue; }
 
@@ -189,7 +262,7 @@ namespace CheckersUI.CustomControls
             Orientation == Player.White ? index : 7 - index;
 
         private bool _adjustSize = true;
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void ControlSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (!_adjustSize) { return; }
             if (Math.Abs(BoardGrid.ActualWidth - DesiredSize.Width) < 1)
@@ -208,5 +281,8 @@ namespace CheckersUI.CustomControls
             var minAvailableSize = Math.Min(availableSize.Width, availableSize.Height);
             return new Size(minAvailableSize, minAvailableSize);
         }
+
+        public event EventHandler<Coord> SelectionChanged;
+        private void OnSelectionChanged(Coord arg) => SelectionChanged?.Invoke(this, arg);
     }
 }

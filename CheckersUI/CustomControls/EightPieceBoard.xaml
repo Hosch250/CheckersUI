@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    SizeChanged="UserControl_SizeChanged">
+    SizeChanged="ControlSizeChanged">
     <Grid Name="BoardGrid"
-          PointerPressed="BoardGrid_PointerPressed">
+          PointerPressed="BoardGridPointerPressed">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />

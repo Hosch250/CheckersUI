@@ -123,8 +123,7 @@ namespace CheckersUI.VMs
             {
                 PlayEffectAsync();
             }
-
-            _selection = move.Last();
+            
             Controller = Controller.WithBoard(LastMove()).Move(move);
             OnPropertyChanged(nameof(LastTurn));
         }
@@ -149,41 +148,6 @@ namespace CheckersUI.VMs
                 return isContinuedMove
                     ? Controller.MoveHistory.Last().WhiteMove.ResultingFen == fen
                     : Controller.MoveHistory.Last().BlackMove.ResultingFen == fen;
-            }
-        }
-
-        private Coord _selection;
-        public Coord Selection
-        {
-            get
-            {
-                return _selection;
-            }
-            set
-            {
-                if (Controller.CurrentPlayer == Player.Black && BlackOpponent == Opponent.Computer ||
-                    Controller.CurrentPlayer == Player.White && WhiteOpponent == Opponent.Computer)
-                {
-                    return;
-                }
-
-                if (!IsFenLastMove(Controller.Fen)) { return; }
-
-                if (_selection != null && Controller.IsValidMove(_selection, value))
-                {
-                    MovePiece(new List<Coord> {_selection, value});
-
-                    var piece = Controller.Board[_selection];
-                    OnPlayerTurn(OtherPlayer(piece.Player));
-                }
-                else if (Controller.Board.GameBoard[value.Row, value.Column] == null)
-                {
-                    _selection = null;
-                }
-                else
-                {
-                    _selection = value;
-                }
             }
         }
 
@@ -425,6 +389,41 @@ namespace CheckersUI.VMs
 
                 _moveHistoryCommand = new DelegateCommand(param => Controller = Controller.WithBoard((string)param));
                 return _moveHistoryCommand;
+            }
+        }
+
+        private DelegateCommand _moveCommand;
+        public DelegateCommand MoveCommand
+        {
+            get
+            {
+                if (_moveCommand != null)
+                {
+                    return _moveCommand;
+                }
+
+                _moveCommand = new DelegateCommand(param =>
+                {
+                    if (Controller.CurrentPlayer == Player.Black && BlackOpponent == Opponent.Computer ||
+                        Controller.CurrentPlayer == Player.White && WhiteOpponent == Opponent.Computer)
+                    {
+                        return;
+                    }
+
+                    if (!IsFenLastMove(Controller.Fen)) { return; }
+
+                    var fromCoord = ((dynamic) param).fromCoord;
+                    var toCoord = ((dynamic)param).toCoord;
+
+                    if (fromCoord != null && Controller.IsValidMove(fromCoord, toCoord))
+                    {
+                        MovePiece(new List<Coord> { fromCoord, toCoord });
+
+                        var piece = Controller.Board[toCoord];
+                        OnPlayerTurn(OtherPlayer(piece.Player));
+                    }
+                });
+                return _moveCommand;
             }
         }
 
