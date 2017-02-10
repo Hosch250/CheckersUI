@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
@@ -58,8 +59,19 @@ namespace CheckersUI.Pages
             }
         }
 
+        private bool AreHintsEnabled()
+        {
+            var isMoveHintsEnabled = (string)ApplicationData.Current.RoamingSettings.Values["EnableMoveHints"];
+
+            if (string.IsNullOrEmpty(isMoveHintsEnabled)) { return false; }
+
+            return bool.Parse(isMoveHintsEnabled);
+        }
+
         private void SetBorders(Coord coord = null)
         {
+            if (!AreHintsEnabled()) { return; }
+
             var validstartingCoords = ViewModel.Controller.GetValidMoves().Select(c => c[0]).Distinct().ToList();
             if (coord == null ||
                 !validstartingCoords.Contains(coord))

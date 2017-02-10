@@ -25,6 +25,12 @@
                 <ToggleSwitch IsOn="{Binding EnableSoundEffects, Mode=TwoWay}"
                               Margin="0,-5,0,0" />
             </StackPanel>
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock FontWeight="Medium"
+                           Text="Move Hints:" />
+                <ToggleSwitch IsOn="{Binding EnableMoveHints, Mode=TwoWay}"
+                              Margin="0,-5,0,0" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

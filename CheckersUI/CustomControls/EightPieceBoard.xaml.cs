@@ -170,8 +170,21 @@ namespace CheckersUI.CustomControls
             BoardGrid.Children.Add(image);
         }
 
-        private string _currentTheme;
         private void DataChanged(ApplicationData sender, object args)
+        {
+            UpdateTheme();
+
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if ((string)_roamingSettings.Values["EnableMoveHints"] == bool.FalseString)
+                {
+                    ClearBorders();
+                }
+            });
+        }
+
+        private string _currentTheme;
+        private void UpdateTheme()
         {
             if ((string)_roamingSettings.Values["Theme"] == _currentTheme)
             {

@@ -24,7 +24,8 @@ namespace CheckersUI.VMs
                     return new PropertySet
                     {
                         {"Theme", "Wood"},
-                        {"EnableSoundEffects", bool.FalseString},
+                        {"EnableSoundEffects", bool.TrueString},
+                        {"EnableMoveHints", bool.FalseString},
                     };
                 }
             }
@@ -37,6 +38,9 @@ namespace CheckersUI.VMs
 
             var tmpEnableSoundEffects = (string)RoamingSettings["EnableSoundEffects"];
             EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
+
+            var tmpEnableMoveHints= (string)RoamingSettings["EnableMoveHints"];
+            EnableMoveHints = !string.IsNullOrEmpty(tmpEnableMoveHints) && bool.Parse(tmpEnableMoveHints);
         }
 
         private void AssignRoamingSetting(string name, string value)
@@ -88,6 +92,22 @@ namespace CheckersUI.VMs
                 }
 
                 AssignRoamingSetting("EnableSoundEffects", value.ToString());
+            }
+        }
+
+        private bool _enableMoveHints;
+        public bool EnableMoveHints
+        {
+            get { return _enableMoveHints; }
+            set
+            {
+                if (_enableMoveHints != value)
+                {
+                    _enableMoveHints = value;
+                    OnPropertyChanged();
+                }
+
+                AssignRoamingSetting("EnableMoveHints", value.ToString());
             }
         }
 
