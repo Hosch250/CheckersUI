@@ -69,7 +69,10 @@ namespace CheckersUI.CustomControls
         public ICommand Move
         {
             get { return (ICommand)GetValue(MoveCommand); }
-            set { SetValue(MoveCommand, value); }
+            set
+            {
+                SetValue(MoveCommand, value);
+            }
         }
 
         private SolidColorBrush GetBorderBrush()
@@ -202,11 +205,14 @@ namespace CheckersUI.CustomControls
             var fromCoord = Selection;
             var toCoord = new Coord(AdjustedIndex(row), AdjustedIndex(column));
 
-            Selection = toCoord;
-
-            if (fromCoord != null && Move != null && Move.CanExecute(null))
+            if (fromCoord != null && Move != null && Move.CanExecute(new { fromCoord, toCoord }))
             {
-                Move.Execute(new { fromCoord, toCoord});
+                Move.Execute(new {fromCoord, toCoord});
+                Selection = null;
+            }
+            else
+            {
+                Selection = toCoord;
             }
         }
 

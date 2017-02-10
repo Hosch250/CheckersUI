@@ -413,7 +413,7 @@ namespace CheckersUI.VMs
                     if (!IsFenLastMove(Controller.Fen)) { return; }
 
                     var fromCoord = ((dynamic) param).fromCoord;
-                    var toCoord = ((dynamic)param).toCoord;
+                    var toCoord = ((dynamic) param).toCoord;
 
                     if (fromCoord != null && Controller.IsValidMove(fromCoord, toCoord))
                     {
@@ -422,6 +422,20 @@ namespace CheckersUI.VMs
                         var piece = Controller.Board[toCoord];
                         OnPlayerTurn(OtherPlayer(piece.Player));
                     }
+                },
+                param => {
+                    if (Controller.CurrentPlayer == Player.Black && BlackOpponent == Opponent.Computer ||
+                        Controller.CurrentPlayer == Player.White && WhiteOpponent == Opponent.Computer)
+                    {
+                        return false;
+                    }
+
+                    if (!IsFenLastMove(Controller.Fen)) { return false; }
+
+                    var fromCoord = ((dynamic) param).fromCoord;
+                    var toCoord = ((dynamic) param).toCoord;
+
+                    return fromCoord != null && Controller.IsValidMove(fromCoord, toCoord);
                 });
                 return _moveCommand;
             }

@@ -91,9 +91,9 @@
         </Grid>
         <Grid Background="White" Grid.RowSpan="4" Name="MoveHistory" Visibility="Collapsed">
             <ListView ItemsSource="{Binding Controller.MoveHistory}"
-                        Width="220"
-                        HorizontalAlignment="Left"
-                        SelectionMode="None">
+                      Width="220"
+                      HorizontalAlignment="Left"
+                      SelectionMode="None">
                 <ListView.ItemContainerTransitions>
                     <TransitionCollection/>
                 </ListView.ItemContainerTransitions>

@@ -40,5 +40,18 @@ namespace CheckersUI.Facade
                 ? FSharpOption<Generic.Coord>.None
                 : FSharpOption<Generic.Coord>.Some(new Generic.Coord(coord.Row, coord.Column));
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || typeof(Coord) != obj.GetType())
+            {
+                return false;
+            }
+
+            var value = (Coord)obj;
+            return Row == value.Row && Column == value.Column;
+        }
+
+        public override int GetHashCode() => Row.GetHashCode() ^ Column.GetHashCode();
     }
 }

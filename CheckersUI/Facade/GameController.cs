@@ -94,6 +94,12 @@ namespace CheckersUI.Facade
         public GameController Move(IEnumerable<Coord> moves) =>
             Checkers.PublicAPI.move(moves.Select(item => (Checkers.Generic.Coord)item), this);
 
+        public List<List<Coord>> GetValidMoves()
+        {
+            var moves = Checkers.PublicAPI.getValidMoves(this);
+            return moves.Select(i => i.Select(c => (Coord)c).ToList()).ToList();
+        }
+
         public bool IsValidMove(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.isValidMove(startCoord, endCoord, this);
 

@@ -68,11 +68,7 @@
     <Rule Id="CA2241" Action="Warning" />
     <Rule Id="CA2242" Action="Warning" />
   </Rules>
-  <Rules AnalyzerId="WpfAnalyzers.Analyzers" RuleNamespace="WpfAnalyzers.Analyzers">
-    <Rule Id="WPF1011" Action="None" />
-    <Rule Id="WPF1012" Action="None" />
-    <Rule Id="WPF1010" Action="None" />
-  </Rules>
+  <Rules AnalyzerId="WpfAnalyzers.Analyzers" RuleNamespace="WpfAnalyzers.Analyzers" />
   <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers">
     <Rule Id="GU0020" Action="None" />
   </Rules>
