@@ -10,6 +10,7 @@
     xmlns:vms="using:CheckersUI.VMs"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:GamePageViewModel}">
     <Page.Resources>
+        <converters:PlayerToFontWeightConverter x:Key="PlayerToFontWeight" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
         <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
         <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
@@ -37,20 +38,22 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="640" />
+            <RowDefinition x:Name="Row1" Height="640" />
+            <RowDefinition x:Name="Row2" Height="0" />
+            <RowDefinition x:Name="Row3" Height="0" />
+            <RowDefinition x:Name="Row4" Height="0" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="176" />
-            <ColumnDefinition Width="640" />
-            <ColumnDefinition />
+            <ColumnDefinition x:Name="Column1" Width="190" />
+            <ColumnDefinition x:Name="Column2" Width="640" />
+            <ColumnDefinition x:Name="Column3" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="0"
               Grid.Column="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
               Height="80"
-              Width="160"
+              Width="175"
               Margin="0,0,15,0"
               Padding="10,5"
               BorderBrush="Black"
@@ -65,24 +68,24 @@
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/WhiteCircle.png" />
-                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding WhiteOpponentText}" />
+                <TextBlock VerticalAlignment="Center"
+                           Margin="5,0,0,0"
+                           Text="{Binding WhiteOpponentText}"
+                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=White}" />
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <Image VerticalAlignment="Center" Height="15" Source="../Assets/BlackCircle.png" />
-                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding BlackOpponentText}" />
+                <TextBlock VerticalAlignment="Center"
+                           Margin="5,0,0,0"
+                           Text="{Binding BlackOpponentText}"
+                           FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
         </Grid>
-        <TextBlock Text="{Binding Status}"
-                   HorizontalAlignment="Center"
-                   Margin="0,10"
-                   FontWeight="Black"
-                   FontSize="20"
-                   Grid.Column="1" />
         <Border MaxHeight="641"
                 MaxWidth="641"
                 BorderThickness="1"
                 BorderBrush="Black"
-                Grid.Row="1"
+                Grid.Row="0"
                 VerticalAlignment="Top"
                 Grid.Column="1">
             <controls:EightPieceBoard x:Name="Board"
@@ -92,7 +95,7 @@
                                       Move="{Binding MoveCommand}" />
         </Border>
         <Grid Grid.Column="2"
-              Grid.Row="1"
+              Grid.Row="0"
               Height="640">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -192,7 +195,7 @@
                 </Button>
             </Grid>
         </Grid>
-        <Grid Grid.RowSpan="2"
+        <Grid Grid.RowSpan="4"
               Grid.ColumnSpan="3"
               VerticalAlignment="Center"
               HorizontalAlignment="Center"
