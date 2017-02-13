@@ -11,6 +11,7 @@ using Windows.UI.Core;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace CheckersUI.CustomControls
 {
@@ -110,6 +111,32 @@ namespace CheckersUI.CustomControls
             foreach (var border in BoardGrid.Children.OfType<Border>().ToList())
             {
                 BoardGrid.Children.Remove(border);
+            }
+        }
+
+        private double GetPromptSize() => (ActualHeight / 8) * .25;
+
+        public void SetPrompt(Coord value)
+        {
+            var prompt = new Ellipse
+            {
+                Fill = new SolidColorBrush(Colors.Gray),
+                Opacity = 80,
+                Height = GetPromptSize(),
+                Width = GetPromptSize()
+            };
+            Grid.SetRow(prompt, AdjustedIndex(value.Row));
+            Grid.SetColumn(prompt, AdjustedIndex(value.Column));
+            Canvas.SetZIndex(prompt, 1);
+
+            BoardGrid.Children.Add(prompt);
+        }
+
+        public void ClearPrompts()
+        {
+            foreach (var prompt in BoardGrid.Children.OfType<Ellipse>().ToList())
+            {
+                BoardGrid.Children.Remove(prompt);
             }
         }
 
@@ -293,6 +320,12 @@ namespace CheckersUI.CustomControls
             BoardGrid.Height = DesiredSize.Width - (Margin.Left + Margin.Right);
             BoardGrid.Width = DesiredSize.Height - (Margin.Top + Margin.Bottom);
             _adjustSize = true;
+
+            foreach (var prompt in BoardGrid.Children.OfType<Ellipse>().ToList())
+            {
+                prompt.Height = GetPromptSize();
+                prompt.Width = GetPromptSize();
+            }
         }
 
         protected override Size MeasureOverride(Size availableSize)

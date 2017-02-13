@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,11 +27,12 @@ namespace CheckersUI.Pages
         private void ViewModel_PlayerTurn(object sender, Player e)
         {
             Board.ClearBorders();
+            Board.ClearPrompts();
 
             if (e == Player.White && ViewModel.WhiteOpponent == Opponent.Human ||
                 e == Player.Black && ViewModel.BlackOpponent == Opponent.Human)
             {
-                SetBorders();
+                SetMoveHints();
             }
         }
 
@@ -51,11 +53,12 @@ namespace CheckersUI.Pages
         private void EightPieceBoard_SelectionChanged(object sender, Coord e)
         {
             Board.ClearBorders();
+            Board.ClearPrompts();
 
             if (ViewModel.Controller.CurrentPlayer == Player.White && ViewModel.WhiteOpponent == Opponent.Human ||
                 ViewModel.Controller.CurrentPlayer == Player.Black && ViewModel.BlackOpponent == Opponent.Human)
             {
-                SetBorders(e);
+                SetMoveHints(e);
             }
         }
 
@@ -68,17 +71,20 @@ namespace CheckersUI.Pages
             return bool.Parse(isMoveHintsEnabled);
         }
 
-        private void SetBorders(Coord coord = null)
+        private void SetMoveHints(Coord coord = null)
         {
-            if (!AreHintsEnabled()) { return; }
+            var areHintsEnabled = AreHintsEnabled();
 
-            var validstartingCoords = ViewModel.Controller.GetValidMoves().Select(c => c[0]).Distinct().ToList();
-            if (coord == null ||
-                !validstartingCoords.Contains(coord))
+            var validMoves = ViewModel.Controller.GetValidMoves();
+            var validstartingCoords = validMoves.Select(c => c[0]).Distinct().ToList();
+            if (coord == null || !validstartingCoords.Contains(coord))
             {
-                foreach (var move in validstartingCoords)
+                if (areHintsEnabled)
                 {
-                    Board.SetBorder(move);
+                    foreach (var move in validstartingCoords)
+                    {
+                        Board.SetBorder(move);
+                    }
                 }
 
                 if (validstartingCoords.Count == 1)
@@ -92,13 +98,32 @@ namespace CheckersUI.Pages
             if (ViewModel.Controller.CurrentCoord != null)
             {
                 Board.Selection = ViewModel.Controller.CurrentCoord;
-                Board.SetBorder(ViewModel.Controller.CurrentCoord);
+
+                if (areHintsEnabled)
+                {
+                    Board.SetBorder(ViewModel.Controller.CurrentCoord);
+                    SetPrompts(coord, validMoves);
+                }
+
                 return;
             }
 
             if (ViewModel.Controller.Board[coord] != null)
             {
-                Board.SetBorder(coord);
+                if (areHintsEnabled)
+                {
+                    Board.SetBorder(coord);
+                    SetPrompts(coord, validMoves);
+                }
+            }
+        }
+
+        private void SetPrompts(Coord coord, List<List<Coord>> moves)
+        {
+            foreach (var move in moves)
+            {
+                if (!Equals(move[0], coord)) { continue; }
+                Board.SetPrompt(move[1]);
             }
         }
     }
