@@ -2,7 +2,6 @@
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using CheckersUI.VMs;
 using CheckersUI.Facade;
@@ -41,16 +40,6 @@ namespace CheckersUI.Pages
         }
 
         private GamePageViewModel ViewModel => (GamePageViewModel)DataContext;
-
-        private void RadioButton_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var senderElement = sender as FrameworkElement;
-            var flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
-            flyoutBase.ShowAt(senderElement);
-        }
-
-        private void RadioButton_Click(object sender, RoutedEventArgs e) =>
-            MoveHistory.Visibility = Visibility.Collapsed;
 
         private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e) =>
             MoveHistory.Visibility = Visibility.Visible;
@@ -123,5 +112,8 @@ namespace CheckersUI.Pages
                 Board.SetBorder(coord);
             }
         }
+
+        private void MoveHistory_OnMoveSelection(object sender, System.EventArgs e) =>
+            MoveHistory.Visibility = Visibility.Collapsed;
     }
 }

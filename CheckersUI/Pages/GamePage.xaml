@@ -12,44 +12,23 @@
     <Page.Resources>
         <converters:PlayerToFontWeightConverter x:Key="PlayerToFontWeight" />
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
-        <converters:IntegerToListItemConverter x:Key="IntegerToListItem" />
-        <converters:PdnMoveToDisplayStringConverter x:Key="PdnMoveToDisplayString" />
-        <converters:PdnMoveToVisibilityConverter x:Key="PdnMoveToVisibility" />
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
-
-        <Style x:Key="RadioToggleButton" TargetType="RadioButton">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ToggleButton IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                      CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="Row1" Height="640" />
-            <RowDefinition x:Name="Row2" Height="0" />
-            <RowDefinition x:Name="Row3" Height="0" />
-            <RowDefinition x:Name="Row4" Height="0" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="0" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="Column1" Width="190" />
-            <ColumnDefinition x:Name="Column2" Width="640" />
-            <ColumnDefinition x:Name="Column3" />
+            <ColumnDefinition Width="190" />
+            <ColumnDefinition Width="640" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0"
               Grid.Column="0"
+              x:Name="GameStatus"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
               Height="80"
@@ -82,12 +61,12 @@
             </StackPanel>
         </Grid>
         <Border MaxHeight="641"
-                MaxWidth="641"
-                BorderThickness="1"
-                BorderBrush="Black"
-                Grid.Row="0"
-                VerticalAlignment="Top"
-                Grid.Column="1">
+              MaxWidth="641"
+              BorderThickness="1"
+              BorderBrush="Black"
+              VerticalAlignment="Top"
+              Grid.Row="0"
+              Grid.Column="1">
             <controls:EightPieceBoard x:Name="Board"
                                       Orientation="{Binding BoardOrientation}"
                                       Board="{Binding Controller.Board, Mode=OneWay}"
@@ -101,75 +80,7 @@
                 <RowDefinition />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-            <ListView ItemsSource="{Binding Controller.MoveHistory}"
-                      Width="220"
-                      HorizontalAlignment="Left"
-                      SelectionMode="None">
-                <ListView.ItemContainerTransitions>
-                    <TransitionCollection/>
-                </ListView.ItemContainerTransitions>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Margin" Value="0,-8" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="25" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="80" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding MoveNumber, Converter={StaticResource IntegerToListItem}}"
-                                       Padding="0,0,5,0"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Right" />
-                            <RadioButton Grid.Column="1"
-                                         GroupName="Move"
-                                         Style="{StaticResource RadioToggleButton}"
-                                         Width="80"
-                                         Background="White"
-                                         BorderThickness="0"
-                                         Content="{Binding BlackMove, Converter={StaticResource PdnMoveToDisplayString}}"
-                                         HorizontalContentAlignment="Left"
-                                         ToolTipService.ToolTip="{Binding BlackMove.DisplayString}"
-                                         Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
-                                         CommandParameter="{Binding BlackMove.ResultingFen}"
-                                         RightTapped="RadioButton_RightTapped">
-                                <FlyoutBase.AttachedFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem Text="Copy FEN"
-                                                        Command="{Binding ElementName=Main, Path=DataContext.CopyFenCommand}"
-                                                        CommandParameter="{Binding BlackMove}" />
-                                    </MenuFlyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </RadioButton>
-                            <RadioButton Grid.Column="2"
-                                         GroupName="Move"
-                                         Style="{StaticResource RadioToggleButton}"
-                                         Width="80"
-                                         Background="White"
-                                         BorderThickness="0"
-                                         Content="{Binding WhiteMove, Converter={StaticResource PdnMoveToDisplayString}}"
-                                         Visibility="{Binding WhiteMove, Converter={StaticResource PdnMoveToVisibility}}"
-                                         HorizontalContentAlignment="Left"
-                                         ToolTipService.ToolTip="{Binding WhiteMove.DisplayString}"
-                                         Command="{Binding ElementName=Main, Path=DataContext.MoveHistoryCommand}"
-                                         CommandParameter="{Binding WhiteMove.ResultingFen}"
-                                         RightTapped="RadioButton_RightTapped">
-                                <FlyoutBase.AttachedFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem Text="Copy FEN"
-                                                        Command="{Binding ElementName=Main, Path=DataContext.CopyFenCommand}"
-                                                        CommandParameter="{Binding WhiteMove}" />
-                                    </MenuFlyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </RadioButton>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <controls:MoveHistoryControl />
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
@@ -208,4 +119,21 @@
             <controls:NewGameControl />
         </Grid>
     </Grid>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="Layouts">
+            <VisualState x:Name="DefaultLayout">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="1005" />
+                </VisualState.StateTriggers>
+            </VisualState>
+            <VisualState x:Name="SmallLayout">
+                <VisualState.Setters>
+                    <Setter Target="GameStatus.Visibility" Value="Collapsed" />
+                </VisualState.Setters>
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="0" />
+                </VisualState.StateTriggers>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 </Page>

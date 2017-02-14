@@ -43,13 +43,6 @@ namespace CheckersUI.Pages
 
         private GamePageViewModel ViewModel => (GamePageViewModel) DataContext;
 
-        private void RadioButton_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var senderElement = sender as FrameworkElement;
-            var flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
-            flyoutBase.ShowAt(senderElement);
-        }
-
         private void EightPieceBoard_SelectionChanged(object sender, Coord e)
         {
             Board.ClearBorders();
