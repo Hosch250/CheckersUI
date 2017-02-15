@@ -11,69 +11,69 @@ namespace CheckersUI.Pages
         public SmallMainPage(Page initialView)
         {
             InitializeComponent();
-            Frame.Content = initialView;
+            /*Frame.Content = initialView;
             CoreWindow.GetForCurrentThread().PointerPressed += SmallMainPage_PointerPressed;
 
-            DataContextChanged += SmallMainPage_DataContextChanged;
+            DataContextChanged += SmallMainPage_DataContextChanged;*/
         }
 
-        private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
+        //private MainPageViewModel ViewModel => (MainPageViewModel)DataContext;
 
-        private void SmallMainPage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            ((MainPageViewModel)args.NewValue).Navigate += SmallMainPage_Navigate;
-        }
+        //private void SmallMainPage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        //{
+        //    ((MainPageViewModel)args.NewValue).Navigate += SmallMainPage_Navigate;
+        //}
 
-        private void SmallMainPage_Navigate(object sender, string pageName)
-        {
-            switch (pageName)
-            {
-                case "Board Editor":
-                    Frame.Content = ViewModel.SmallBoardEditor;
-                    break;
-                case "Game Page":
-                    Frame.Content = ViewModel.SmallGamePage;
-                    break;
-                default:
-                    throw new System.ArgumentException(nameof(pageName));
-            }
-        }
+        //private void SmallMainPage_Navigate(object sender, string pageName)
+        //{
+        //    switch (pageName)
+        //    {
+        //        case "Board Editor":
+        //            Frame.Content = ViewModel.SmallBoardEditor;
+        //            break;
+        //        case "Game Page":
+        //            Frame.Content = ViewModel.SmallGamePage;
+        //            break;
+        //        default:
+        //            throw new System.ArgumentException(nameof(pageName));
+        //    }
+        //}
 
-        private bool ElementCapturesClick(FrameworkElement element, Point mousePosition)
-        {
-            var transform = element.TransformToVisual(this);
-            var startPoint = transform.TransformPoint(new Point(0, 0));
-            var endPoint = new Point(startPoint.X + element.ActualWidth, startPoint.Y + element.ActualHeight);
+        //private bool ElementCapturesClick(FrameworkElement element, Point mousePosition)
+        //{
+        //    var transform = element.TransformToVisual(this);
+        //    var startPoint = transform.TransformPoint(new Point(0, 0));
+        //    var endPoint = new Point(startPoint.X + element.ActualWidth, startPoint.Y + element.ActualHeight);
 
-            if (mousePosition.X < startPoint.X || mousePosition.X > endPoint.X ||
-                mousePosition.Y < startPoint.Y || mousePosition.Y > endPoint.Y)
-            {
-                return false;
-            }
+        //    if (mousePosition.X < startPoint.X || mousePosition.X > endPoint.X ||
+        //        mousePosition.Y < startPoint.Y || mousePosition.Y > endPoint.Y)
+        //    {
+        //        return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        private void SmallMainPage_PointerPressed(CoreWindow sender, PointerEventArgs args)
-        {
-            /*if (SettingsGrid.Visibility == Visibility.Collapsed ||
-                SettingsToggleButton.IsChecked != true)
-            {
-                return;
-            }
+        //private void SmallMainPage_PointerPressed(CoreWindow sender, PointerEventArgs args)
+        //{
+        //    /*if (SettingsGrid.Visibility == Visibility.Collapsed ||
+        //        SettingsToggleButton.IsChecked != true)
+        //    {
+        //        return;
+        //    }
 
-            if (ElementCapturesClick(SettingsToggleButton, args.CurrentPoint.Position) ||
-                ElementCapturesClick(SettingsGrid, args.CurrentPoint.Position))
-            {
-                return;
-            }
+        //    if (ElementCapturesClick(SettingsToggleButton, args.CurrentPoint.Position) ||
+        //        ElementCapturesClick(SettingsGrid, args.CurrentPoint.Position))
+        //    {
+        //        return;
+        //    }
 
-            SettingsToggleButton.IsChecked = false;*/
-        }
+        //    SettingsToggleButton.IsChecked = false;*/
+        //}
 
-        private void BoardEditorNavigation(object sender, RoutedEventArgs e)
-        {
-            Frame.Content = ((MainPageViewModel)DataContext).SmallBoardEditor;
-        }
+        //private void BoardEditorNavigation(object sender, RoutedEventArgs e)
+        //{
+        //    Frame.Content = ((MainPageViewModel)DataContext).SmallBoardEditor;
+        //}
     }
 }

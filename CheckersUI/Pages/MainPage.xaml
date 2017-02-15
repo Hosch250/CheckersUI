@@ -14,9 +14,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0"
               Grid.Column="1"
@@ -64,7 +63,7 @@
         <Frame Name="Frame"
                Grid.Row="1"
                Grid.Column="1"
-               Padding="10,0,0,0" />
+               Padding="10,0" />
 
         <ad:AdControl Grid.Row="1"
                       Grid.Column="0"

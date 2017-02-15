@@ -2,7 +2,7 @@
 using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using CheckersUI.Facade;
 using CheckersUI.VMs;
@@ -13,7 +13,7 @@ namespace CheckersUI.Pages
     {
         public GamePage()
         {
-            InitializeComponent();
+            InitializeComponent();  
 
             DataContextChanged += GamePage_DataContextChanged;
         }
@@ -118,6 +118,80 @@ namespace CheckersUI.Pages
                 if (!Equals(move[0], coord)) { continue; }
                 Board.SetPrompt(move[1]);
             }
+        }
+
+        private void MoveMenu_Tapped(object sender, TappedRoutedEventArgs e) =>
+            SmallMoveHistory.Visibility = Visibility.Visible;
+
+        private void MoveHistory_OnMoveSelection(object sender, System.EventArgs e) =>
+            SmallMoveHistory.Visibility = Visibility.Collapsed;
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BottomAppBar.IsOpen = false;
+            ((ComboBox)sender).SelectedIndex = 0;
+        }
+
+        private void CloseAppBar(object sender, RoutedEventArgs e) =>
+            BottomAppBar.IsOpen = false;
+
+        private string _currentState = "DefaultLayout";
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width <= 1005 && _currentState != "SmallLayout")
+            {
+                LoadSmallLayout();
+                _currentState = "SmallLayout";
+            }
+            if (e.NewSize.Width > 1005 && _currentState != "DefaultLayout")
+            {
+                LoadDefaultLayout();
+                _currentState = "DefaultLayout";
+            }
+        }
+
+        private void LoadSmallLayout()
+        {
+            MasterGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+            MasterGrid.ColumnDefinitions[1].Width = new GridLength(0);
+            MasterGrid.ColumnDefinitions[2].Width = new GridLength(0);
+
+            MasterGrid.RowDefinitions[0].Height = new GridLength(30);
+            MasterGrid.RowDefinitions[1].Height = new GridLength(30);
+            MasterGrid.RowDefinitions[2].Height = GridLength.Auto;
+            MasterGrid.RowDefinitions[3].Height = new GridLength(60);
+
+            GameStatus.Visibility = Visibility.Collapsed;
+            SmallGameStatus.Visibility = Visibility.Visible;
+            GameStatus_Variant.Visibility = Visibility.Visible;
+            MoveMenu.Visibility = Visibility.Visible;
+
+            Grid.SetRow(Board, 2);
+            Grid.SetColumn(Board, 0);
+
+            BottomAppBar.ClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
+        }
+
+        private void LoadDefaultLayout()
+        {
+            MasterGrid.ColumnDefinitions[0].Width = new GridLength(190);
+            MasterGrid.ColumnDefinitions[1].Width = new GridLength(640);
+            MasterGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+
+            MasterGrid.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
+            MasterGrid.RowDefinitions[1].Height = new GridLength(0);
+            MasterGrid.RowDefinitions[2].Height = new GridLength(0);
+            MasterGrid.RowDefinitions[3].Height = new GridLength(0);
+
+            GameStatus.Visibility = Visibility.Visible;
+            SmallGameStatus.Visibility = Visibility.Collapsed;
+            GameStatus_Variant.Visibility = Visibility.Collapsed;
+            MoveMenu.Visibility = Visibility.Collapsed;
+
+            Grid.SetRow(Board, 0);
+            Grid.SetColumn(Board, 1);
+
+            BottomAppBar.ClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
         }
     }
 }

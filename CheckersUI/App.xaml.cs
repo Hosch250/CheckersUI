@@ -6,7 +6,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Reflection;
-using Windows.UI.Core;
 using CheckersUI.Facade;
 using CheckersUI.Pages;
 using CheckersUI.VMs;
@@ -46,20 +45,12 @@ namespace CheckersUI
             var gamePage = _container.Resolve<GamePage>();
             gamePage.DataContext = _container.Resolve<GamePageViewModel>();
 
-            var smallGamePage = _container.Resolve<SmallGamePage>();
-            smallGamePage.DataContext = _container.Resolve<SmallGamePageViewModel>();
-
             var boardEditor = _container.Resolve<BoardEditor>();
-            var smallBoardEditor = _container.Resolve<SmallBoardEditor>();
 
             var parameterInjection = new ParameterOverride("board", Board.DefaultBoard(Variant.AmericanCheckers));
             boardEditor.DataContext = _container.Resolve<BoardEditorViewModel>(parameterInjection);
-            smallBoardEditor.DataContext = _container.Resolve<SmallBoardEditorViewModel>(parameterInjection);
 
             var mainPage = _container.Resolve<MainPage>(new ParameterOverride("initialView", gamePage));
-            var smallMainPage = _container.Resolve<SmallMainPage>(new ParameterOverride("initialView", smallGamePage));
-            mainPage.DataContext = _container.Resolve<MainPageViewModel>();
-            smallMainPage.DataContext = _container.Resolve<MainPageViewModel>();
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -91,28 +82,10 @@ namespace CheckersUI
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Content = Window.Current.Bounds.Width >= 1005 ? (Page)mainPage : (Page)smallMainPage;
+                    rootFrame.Content = mainPage;
                 }
 
                 Window.Current.Activate();
-            }
-
-            Window.Current.SizeChanged += Current_SizeChanged;
-        }
-
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            var frame = (Frame)Window.Current.Content;
-
-            // random width that looks good
-            if (e.Size.Width >= 1005 && frame.Content is SmallMainPage)
-            {
-                frame.Content = _container.Resolve<MainPage>();
-            }
-
-            if (e.Size.Width < 1005 && frame.Content is MainPage)
-            {
-                frame.Content = _container.Resolve<SmallMainPage>();
             }
         }
 

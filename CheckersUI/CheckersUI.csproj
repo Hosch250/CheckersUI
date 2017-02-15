@@ -139,17 +139,11 @@
     <Compile Include="Pages\SmallBoardEditor.xaml.cs">
       <DependentUpon>SmallBoardEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SmallMainPage.xaml.cs">
-      <DependentUpon>SmallMainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SmallGamePage.xaml.cs">
-      <DependentUpon>SmallGamePage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Pages\SmallMainPage.xaml.cs" />
+    <Compile Include="VMs\INavigatable.cs" />
     <Compile Include="VMs\SettingsViewModel.cs" />
-    <Compile Include="VMs\SmallGamePageViewModel.cs" />
     <Compile Include="VMs\SmallBoardEditorViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
-    <Compile Include="VMs\MainPageViewModel.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
@@ -269,14 +263,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SmallMainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SmallGamePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\GamePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -288,6 +274,10 @@
     <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SmallMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
