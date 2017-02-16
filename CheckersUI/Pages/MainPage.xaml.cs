@@ -10,13 +10,13 @@ namespace CheckersUI.Pages
         public MainPage(GamePage gamePage, BoardEditor boardEditor)
         {
             InitializeComponent();
-            Frame.Content = gamePage;
+            Frame.Content = boardEditor;
 
             _gamePage = gamePage;
             _boardEditor = boardEditor;
 
             ((INavigatable)_gamePage.DataContext).NavigationRequest += NavigationHandler;
-            //((INavigatable)_boardEditor.DataContext).NavigationRequest += NavigationHandler;
+            ((INavigatable)_boardEditor.DataContext).NavigationRequest += NavigationHandler;
         }
 
         private void NavigationHandler(object sender, string pageName)

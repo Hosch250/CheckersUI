@@ -7,7 +7,8 @@
     xmlns:vms="using:CheckersUI.VMs"
     xmlns:customControls="using:CheckersUI.CustomControls"
     xmlns:converters="using:CheckersUI.Converters"
-    mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:BoardEditorViewModel}">
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:BoardEditorViewModel}"
+    SizeChanged="Page_SizeChanged">
     <Page.Resources>
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
         <converters:VariantsToDisplayStringsConverter x:Key="VariantsToDisplayStrings" />
@@ -86,8 +87,9 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid Margin="0,10,0,0">
+    <Grid Margin="0,10,0,0" Name="MasterGrid" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="640" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -96,29 +98,33 @@
             <ColumnDefinition Width="640" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Width="640" 
-              Height="640"
+        <Grid MaxWidth="640" 
+              MaxHeight="640"
               Grid.Column="1"
               Grid.Row="0"
               VerticalAlignment="Top"
               Name="BoardGrid"
               PointerPressed="Canvas_PointerPressed">
-            <customControls:EightPieceBoard Orientation="{Binding Orientation}" Board="{Binding Board}" />
+            <customControls:EightPieceBoard x:Name="BoardControl" Orientation="{Binding Orientation}" Board="{Binding Board}" VerticalAlignment="Top" />
         </Grid>
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,20,0,0">
+        <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Name="FenContainer">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
             <TextBlock FontWeight="Medium"
                        FontSize="18"
                        VerticalAlignment="Center"
                        Text="FEN:" />
-            <TextBox Width="560"
+            <TextBox Grid.Column="1"
                      IsReadOnly="True"
                      Margin="5,0,0,0"
                      BorderThickness="1"
                      AcceptsReturn="False"
                      Background="#CCCCCC"
-                     Text="{Binding FenString}"
-                     Style="{StaticResource UnlimitedSizeTextBoxs}" />
-            <Border BorderThickness="1" BorderBrush="Black">
+                     Text="{Binding FenString}" />
+            <Border Grid.Column="2" BorderThickness="1" BorderBrush="Black">
                 <Button Content="&#xe16f;"
                         Background="White"
                         FontFamily="Segoe UI Symbol"
@@ -129,10 +135,11 @@
                         Height="30"
                         Command="{Binding CopyFenCommand}" />
             </Border>
-        </StackPanel>
+        </Grid>
         <Grid Grid.Row="0"
               Grid.Column="2"
-              Margin="10,0,0,0">
+              Margin="10,0,0,0"
+              Name="OptionsPane">
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
                 <RowDefinition Height="75" />
@@ -173,41 +180,133 @@
                 PointerReleased="Canvas_PointerReleased"
                 PointerMoved="Canvas_PointerMoved" />
         <Grid HorizontalAlignment="Right"
-              Margin="0,0,10,0">
+              Margin="0,0,10,10"
+              Name="PieceContainer">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0" />
+                <ColumnDefinition Width="0" />
+                <ColumnDefinition Width="0" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Name="BlackCheckerGroup">
                 <Image Name="BlackChecker"
                        Source="../Assets/SteelTheme/BlackChecker.png"
-                       Width="80"
+                       MaxWidth="80"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">Black Checker</TextBlock>
+                <TextBlock HorizontalAlignment="Center" Name="BlackCheckerLabel" Text="Black Checker" />
             </StackPanel>
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="1" Name="BlackKingGroup">
                 <Image Name="BlackKing"
                        Source="../Assets/SteelTheme/BlackKing.png"
-                       Width="80"
+                       MaxWidth="80"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">Black King</TextBlock>
+                <TextBlock HorizontalAlignment="Center" Name="BlackKingLabel" Text="Black King" />
             </StackPanel>
-            <StackPanel Grid.Row="2">
+            <StackPanel Grid.Row="2" Name="WhiteCheckerGroup">
                 <Image Name="WhiteChecker"
                        Source="../Assets/SteelTheme/WhiteChecker.png"
-                       Width="80"
+                       MaxWidth="80"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">White Checker</TextBlock>
+                <TextBlock HorizontalAlignment="Center" Name="WhiteCheckerLabel" Text="White Checker" />
             </StackPanel>
-            <StackPanel Grid.Row="3">
+            <StackPanel Grid.Row="3" Name="WhiteKingGroup">
                 <Image Name="WhiteKing"
                        Source="../Assets/SteelTheme/WhiteKing.png"
-                       Width="80"
+                       MaxWidth="80"
                        PointerPressed="Image_PointerPressed" />
-                <TextBlock HorizontalAlignment="Center">White King</TextBlock>
+                <TextBlock HorizontalAlignment="Center" Name="WhiteKingLabel" Text="White King" />
             </StackPanel>
         </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal"
+                    Style="{StaticResource CustomCommandBar}"
+                    Closed="CommandBar_Closed">
+            <CommandBar.Content>
+                <Grid Background="White" BorderBrush="Black" BorderThickness="0,2,0,0">
+                    <StackPanel Visibility="{Binding IsAppBarVisible}">
+                        <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <customControls:AppBarMenu Text="Variant" Command="{Binding DisplayVariantOptionsCommand}" Background="White" />
+                        </Border>
+                        <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <customControls:AppBarMenu Text="Starting Player" Command="{Binding DisplayPlayerOptionsCommand}" Background="White" />
+                        </Border>
+                        <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <customControls:AppBarMenu Text="Board Position" Command="{Binding DisplayBuiltinBoardPositionOptionsCommand}" Background="White" />
+                        </Border>
+
+                        <Grid HorizontalAlignment="Stretch" Height="40" Background="White">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="10,0,0,0" Padding="8,0,0,0" Text="Go to:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Pages}" SelectedItem="{Binding NavigationElement, Mode=TwoWay}" Margin="10,0,0,0" Width="130" SelectionChanged="ComboBox_SelectionChanged" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid Height="150" Visibility="{Binding IsVariantOptionsVisible}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal">
+                                <AppBarButton Icon="Back" LabelPosition="Collapsed" Width="50" Command="{Binding DisplayAppBarCommand}" />
+                                <Line Y1="10" Y2="40" X1="1" X2="1" Width="1" Stroke="Black" />
+                                <TextBlock Text="Variant" VerticalAlignment="Center" FontSize="24" Margin="10,-4,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <ComboBox Grid.Row="1"
+                                    Margin="10"
+                                    Width="200"
+                                    ItemsSource="{Binding Variants, Mode=OneTime, Converter={StaticResource VariantsToDisplayStrings}}"
+                                    SelectedItem="{Binding Variant, Mode=TwoWay, Converter={StaticResource VariantToDisplayString}}" />
+                    </Grid>
+
+                    <Grid Height="150" Visibility="{Binding IsPlayerOptionsVisible}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal">
+                                <AppBarButton Icon="Back" LabelPosition="Collapsed" Width="50" Command="{Binding DisplayAppBarCommand}" />
+                                <Line Y1="10" Y2="40" X1="1" X2="1" Width="1" Stroke="Black" />
+                                <TextBlock Text="Starting Player" VerticalAlignment="Center" FontSize="24" Margin="10,-4,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <ComboBox Grid.Row="1"
+                                    Margin="10"
+                                    Width="200"
+                                    ItemsSource="{Binding Players, Mode=OneTime}"
+                                    SelectedItem="{Binding Player, Mode=TwoWay}" />
+                    </Grid>
+
+                    <Grid Height="150" Visibility="{Binding IsBuiltinBoardPositionOptionsVisible}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal">
+                                <AppBarButton Icon="Back" LabelPosition="Collapsed" Width="50" Command="{Binding DisplayAppBarCommand}" />
+                                <Line Y1="10" Y2="40" X1="1" X2="1" Width="1" Stroke="Black" />
+                                <TextBlock Text="Board Position" VerticalAlignment="Center" FontSize="24" Margin="10,-4,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <ComboBox Grid.Row="1"
+                                  Margin="10"
+                                  Width="200"
+                                  ItemsSource="{Binding Positions, Mode=OneTime}"
+                                  SelectedItem="{Binding Position, Mode=TwoWay}" />
+                    </Grid>
+                </Grid>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

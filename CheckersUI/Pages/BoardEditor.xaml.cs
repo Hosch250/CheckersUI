@@ -2,6 +2,7 @@
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
@@ -25,6 +26,8 @@ namespace CheckersUI.Pages
             _currentTheme = (string)_roamingSettings.Values["Theme"];
             ApplicationData.Current.DataChanged += Current_DataChanged;
             LoadImages();
+
+            Loaded += (sender, e) => AdjustLayout(new Size(), false);
         }
 
         private string _currentTheme;
@@ -171,6 +174,154 @@ namespace CheckersUI.Pages
             ViewModel.RemovePiece(row, column);
             Canvas.Children.Add(_draggedImage);
             SetPosition(point);
+        }
+
+        private void CommandBar_Closed(object sender, object e) =>
+            ViewModel.DisplayAppBarCommand.Execute(null);
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BottomAppBar.IsOpen = false;
+            ((ComboBox)sender).SelectedIndex = 1;
+        }
+        
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            AdjustLayout(e.NewSize, e.PreviousSize.Width == 0);
+        }
+
+        private string _currentState = "DefaultLayout";
+        private void AdjustLayout(Size newSize, bool isLoading)
+        {
+            if (newSize.Width <= 1005 && _currentState != "SmallLayout")
+            {
+                LoadSmallLayout();
+                _currentState = "SmallLayout";
+                isLoading = true;
+            }
+            if (newSize.Width > 1005 && _currentState != "DefaultLayout")
+            {
+                LoadDefaultLayout();
+                _currentState = "DefaultLayout";
+            }
+
+            if (!isLoading && _currentState == "SmallLayout")
+            {
+                SetPieceWidth();
+
+                var pieceContainerHeight = MasterGrid.RowDefinitions[0].ActualHeight;
+                var fenHeight = MasterGrid.RowDefinitions[2].ActualHeight;
+                var appBarHeight = BottomAppBar.ActualHeight;
+                var marginHeight = MasterGrid.Margin.Top + MasterGrid.Margin.Bottom;
+                var maxBoardHeight = ActualHeight - pieceContainerHeight - fenHeight - appBarHeight - marginHeight;
+
+                if (BoardGrid.ActualHeight > maxBoardHeight)
+                {
+                    BoardGrid.MaxHeight = maxBoardHeight;
+                    FenContainer.MaxWidth = maxBoardHeight;
+                }
+            }
+        }
+        
+        private void SetPieceWidth()
+        {
+            // adjust for size 10 margins
+            var pieceWidth = (ActualWidth - 20) / 8;
+
+            WhiteChecker.Width = pieceWidth;
+            WhiteKing.Width = pieceWidth;
+            BlackChecker.Width = pieceWidth;
+            BlackKing.Width = pieceWidth;
+        }
+
+        private void LoadSmallLayout()
+        {
+            foreach (var row in MasterGrid.RowDefinitions)
+            {
+                row.Height = GridLength.Auto;
+            }
+
+            MasterGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+            MasterGrid.ColumnDefinitions[1].Width = new GridLength(0);
+            MasterGrid.ColumnDefinitions[2].Width = new GridLength(0);
+
+            foreach (var col in PieceContainer.ColumnDefinitions)
+            {
+                col.Width = new GridLength(1, GridUnitType.Star);
+            }
+
+            PieceContainer.RowDefinitions[1].Height = new GridLength(0);
+            PieceContainer.RowDefinitions[2].Height = new GridLength(0);
+            PieceContainer.RowDefinitions[3].Height = new GridLength(0);
+            PieceContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
+            PieceContainer.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(BlackKingGroup, 0);
+            Grid.SetColumn(BlackKingGroup, 1);
+            Grid.SetRow(WhiteCheckerGroup, 0);
+            Grid.SetColumn(WhiteCheckerGroup, 2);
+            Grid.SetRow(WhiteKingGroup, 0);
+            Grid.SetColumn(WhiteKingGroup, 3);
+
+            BlackCheckerLabel.Text = "B. Checker";
+            BlackKingLabel.Text = "B. King";
+            WhiteCheckerLabel.Text = "W. Checker";
+            WhiteKingLabel.Text = "W. King";
+
+            Grid.SetRow(BoardGrid, 1);
+            Grid.SetColumn(BoardGrid, 0);
+
+            Grid.SetRow(FenContainer, 2);
+            Grid.SetColumn(FenContainer, 0);
+
+            OptionsPane.Visibility = Visibility.Collapsed;
+
+            BottomAppBar.ClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
+        }
+
+        private void LoadDefaultLayout()
+        {
+            PieceContainer.RowDefinitions[0].Height = GridLength.Auto;
+            PieceContainer.RowDefinitions[1].Height = new GridLength(640);
+            PieceContainer.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
+
+            MasterGrid.ColumnDefinitions[0].Width = new GridLength(110);
+            MasterGrid.ColumnDefinitions[1].Width = new GridLength(640);
+            MasterGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+
+            foreach (var row in PieceContainer.RowDefinitions)
+            {
+                row.Height = new GridLength(1, GridUnitType.Star);
+            }
+
+            PieceContainer.ColumnDefinitions[1].Width = new GridLength(0);
+            PieceContainer.ColumnDefinitions[2].Width = new GridLength(0);
+            PieceContainer.ColumnDefinitions[3].Width = new GridLength(0);
+            PieceContainer.HorizontalAlignment = HorizontalAlignment.Right;
+
+            Grid.SetRow(BlackKingGroup, 1);
+            Grid.SetColumn(BlackKingGroup, 0);
+            Grid.SetRow(WhiteCheckerGroup, 2);
+            Grid.SetColumn(WhiteCheckerGroup, 0);
+            Grid.SetRow(WhiteKingGroup, 3);
+            Grid.SetColumn(WhiteKingGroup, 0);
+
+            BlackCheckerLabel.Text = "Black Checker";
+            BlackKingLabel.Text = "Black King";
+            WhiteCheckerLabel.Text = "White Checker";
+            WhiteKingLabel.Text = "White King";
+
+            Grid.SetRow(BoardGrid, 0);
+            Grid.SetColumn(BoardGrid, 1);
+            BoardGrid.MaxHeight = 640;
+
+            Grid.SetRow(FenContainer, 1);
+            Grid.SetColumn(FenContainer, 1);
+            FenContainer.MaxWidth = 640;
+
+            OptionsPane.Visibility = Visibility.Visible;
+
+            BottomAppBar.ClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
         }
     }
 }

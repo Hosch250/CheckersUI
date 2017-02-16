@@ -166,6 +166,9 @@ namespace CheckersUI.Pages
             GameStatus_Variant.Visibility = Visibility.Visible;
             MoveMenu.Visibility = Visibility.Visible;
 
+            Board.MaxHeight = double.NaN;
+            Board.MaxWidth = double.NaN;
+
             Grid.SetRow(Board, 2);
             Grid.SetColumn(Board, 0);
 
@@ -187,6 +190,9 @@ namespace CheckersUI.Pages
             SmallGameStatus.Visibility = Visibility.Collapsed;
             GameStatus_Variant.Visibility = Visibility.Collapsed;
             MoveMenu.Visibility = Visibility.Collapsed;
+
+            Board.MaxHeight = 642;
+            Board.MaxWidth = 642;
 
             Grid.SetRow(Board, 0);
             Grid.SetColumn(Board, 1);

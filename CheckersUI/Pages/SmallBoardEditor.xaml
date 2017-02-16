@@ -1,6 +1,4 @@
-﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-
-<!--<Page
+﻿<Page
     x:Class="CheckersUI.Pages.SmallBoardEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,8 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vms="using:CheckersUI.VMs"
     xmlns:customControls="using:CheckersUI.CustomControls"
-    xmlns:converters="using:CheckersUI.Converters"
-    mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:SmallBoardEditorViewModel}">
+    xmlns:converters="using:CheckersUI.Converters">
     <Page.Resources>
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
         <converters:VariantsToDisplayStringsConverter x:Key="VariantsToDisplayStrings" />
@@ -179,4 +176,4 @@
             </CommandBar.Content>
         </CommandBar>
     </Page.BottomAppBar>
-</Page>-->
+</Page>

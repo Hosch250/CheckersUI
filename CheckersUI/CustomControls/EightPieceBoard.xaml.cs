@@ -39,6 +39,8 @@ namespace CheckersUI.CustomControls
             ApplicationData.Current.DataChanged += DataChanged;
 
             LoadBoard();
+
+            BoardGrid.Loaded += (sender, e) => ControlSizeChanged(null, null);
         }
 
         public Board Board
@@ -317,8 +319,9 @@ namespace CheckersUI.CustomControls
             }
             
             _adjustSize = false;
-            BoardGrid.Height = DesiredSize.Width - (Margin.Left + Margin.Right);
-            BoardGrid.Width = DesiredSize.Height - (Margin.Top + Margin.Bottom);
+            var size = MeasureOverride(DesiredSize);
+            BoardGrid.Height = size.Width - (Margin.Left + Margin.Right);
+            BoardGrid.Width = size.Height - (Margin.Top + Margin.Bottom);
             _adjustSize = true;
 
             foreach (var prompt in BoardGrid.Children.OfType<Ellipse>().ToList())

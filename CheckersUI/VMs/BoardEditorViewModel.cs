@@ -11,7 +11,7 @@ namespace CheckersUI.VMs
 {
     public enum BoardPosition { Initial, Empty }
 
-    public class BoardEditorViewModel : INotifyPropertyChanged
+    public class BoardEditorViewModel : INotifyPropertyChanged, INavigatable
     {
         public BoardEditorViewModel(Board board)
         {
@@ -19,6 +19,7 @@ namespace CheckersUI.VMs
             Board = board;
 
             Player = Player.Black;
+            IsAppBarVisible = true;
         }
 
         public void AddPiece(Piece piece, int row, int column)
@@ -133,6 +134,186 @@ namespace CheckersUI.VMs
             }
         }
 
+        private bool _isAppBarVisible;
+        public bool IsAppBarVisible
+        {
+            get
+            {
+                return _isAppBarVisible;
+            }
+            set
+            {
+                if (value != _isAppBarVisible)
+                {
+                    _isAppBarVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isVariantOptionsVisible;
+        public bool IsVariantOptionsVisible
+        {
+            get
+            {
+                return _isVariantOptionsVisible;
+            }
+            set
+            {
+                if (value != _isVariantOptionsVisible)
+                {
+                    _isVariantOptionsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isPlayerOptionsVisible;
+        public bool IsPlayerOptionsVisible
+        {
+            get
+            {
+                return _isPlayerOptionsVisible;
+            }
+            set
+            {
+                if (value != _isPlayerOptionsVisible)
+                {
+                    _isPlayerOptionsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isBuiltinBoardPositionOptionsVisible;
+        public bool IsBuiltinBoardPositionOptionsVisible
+        {
+            get
+            {
+                return _isBuiltinBoardPositionOptionsVisible;
+            }
+            set
+            {
+                if (value != _isBuiltinBoardPositionOptionsVisible)
+                {
+                    _isBuiltinBoardPositionOptionsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<string> Pages { get; } = new List<string> { "Game Page", "Board Editor" };
+        public string NavigationElement
+        {
+            get { return "Board Editor"; }
+            set
+            {
+                if (value != "Board Editor")
+                {
+                    OnNavigationRequest(value);
+                }
+            }
+        }
+
+        private DelegateCommand _hideAppBarCommand;
+        public DelegateCommand HideAppBarCommand
+        {
+            get
+            {
+                if (_hideAppBarCommand != null)
+                {
+                    return _hideAppBarCommand;
+                }
+
+                _hideAppBarCommand = new DelegateCommand(param =>
+                {
+                    IsVariantOptionsVisible = false;
+                    IsPlayerOptionsVisible = false;
+                    IsBuiltinBoardPositionOptionsVisible = false;
+                    IsAppBarVisible = false;
+                });
+                return _hideAppBarCommand;
+            }
+        }
+
+        private DelegateCommand _displayAppBarCommand;
+        public DelegateCommand DisplayAppBarCommand
+        {
+            get
+            {
+                if (_displayAppBarCommand != null)
+                {
+                    return _displayAppBarCommand;
+                }
+
+                _displayAppBarCommand = new DelegateCommand(param =>
+                {
+                    IsVariantOptionsVisible = false;
+                    IsPlayerOptionsVisible = false;
+                    IsBuiltinBoardPositionOptionsVisible = false;
+                    IsAppBarVisible = true;
+                });
+                return _displayAppBarCommand;
+            }
+        }
+
+        private DelegateCommand _displayVariantOptionsCommand;
+        public DelegateCommand DisplayVariantOptionsCommand
+        {
+            get
+            {
+                if (_displayVariantOptionsCommand != null)
+                {
+                    return _displayVariantOptionsCommand;
+                }
+
+                _displayVariantOptionsCommand = new DelegateCommand(param =>
+                {
+                    IsVariantOptionsVisible = true;
+                    IsAppBarVisible = false;
+                });
+                return _displayVariantOptionsCommand;
+            }
+        }
+
+        private DelegateCommand _displayPlayerOptionsCommand;
+        public DelegateCommand DisplayPlayerOptionsCommand
+        {
+            get
+            {
+                if (_displayPlayerOptionsCommand != null)
+                {
+                    return _displayPlayerOptionsCommand;
+                }
+
+                _displayPlayerOptionsCommand = new DelegateCommand(param =>
+                {
+                    IsPlayerOptionsVisible = true;
+                    IsAppBarVisible = false;
+                });
+                return _displayPlayerOptionsCommand;
+            }
+        }
+
+        private DelegateCommand _displayBuiltinBoardPositionOptionsCommand;
+        public DelegateCommand DisplayBuiltinBoardPositionOptionsCommand
+        {
+            get
+            {
+                if (_displayBuiltinBoardPositionOptionsCommand != null)
+                {
+                    return _displayBuiltinBoardPositionOptionsCommand;
+                }
+
+                _displayBuiltinBoardPositionOptionsCommand = new DelegateCommand(param =>
+                {
+                    IsBuiltinBoardPositionOptionsVisible = true;
+                    IsAppBarVisible = false;
+                });
+                return _displayBuiltinBoardPositionOptionsCommand;
+            }
+        }
+
         private DelegateCommand _copyFenCommand;
         public DelegateCommand CopyFenCommand
         {
@@ -154,6 +335,10 @@ namespace CheckersUI.VMs
             dataPackage.SetText(content);
             Clipboard.SetContent(dataPackage);
         }
+
+        public event EventHandler<string> NavigationRequest;
+        protected virtual void OnNavigationRequest(string target) =>
+            NavigationRequest?.Invoke(this, target);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

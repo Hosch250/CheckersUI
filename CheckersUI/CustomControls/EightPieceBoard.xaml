@@ -7,7 +7,8 @@
     mc:Ignorable="d"
     SizeChanged="ControlSizeChanged">
     <Grid Name="BoardGrid"
-          PointerPressed="BoardGridPointerPressed">
+          PointerPressed="BoardGridPointerPressed"
+          SizeChanged="ControlSizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
