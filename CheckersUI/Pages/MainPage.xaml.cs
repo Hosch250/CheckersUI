@@ -10,7 +10,7 @@ namespace CheckersUI.Pages
         public MainPage(GamePage gamePage, BoardEditor boardEditor)
         {
             InitializeComponent();
-            Frame.Content = boardEditor;
+            Frame.Content = gamePage;
 
             _gamePage = gamePage;
             _boardEditor = boardEditor;
