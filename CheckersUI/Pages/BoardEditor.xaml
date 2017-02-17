@@ -87,14 +87,14 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid Margin="0,10,0,0" Name="MasterGrid" HorizontalAlignment="Center">
+    <Grid Name="MasterGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="640" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="110" />
+            <ColumnDefinition Width="190" />
             <ColumnDefinition Width="640" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>

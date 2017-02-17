@@ -193,6 +193,8 @@ namespace CheckersUI.Pages
         private string _currentState = "DefaultLayout";
         private void AdjustLayout(Size newSize, bool isLoading)
         {
+            if (newSize.Width == 0) { return; }
+
             if (newSize.Width <= 1005 && _currentState != "SmallLayout")
             {
                 LoadSmallLayout();

@@ -1,4 +1,8 @@
-﻿using CheckersUI.VMs;
+﻿using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using CheckersUI.VMs;
 
 namespace CheckersUI.Pages
 {
@@ -34,36 +38,53 @@ namespace CheckersUI.Pages
             }
         }
 
-        //private bool ElementCapturesClick(FrameworkElement element, Point mousePosition)
-        //{
-        //    var transform = element.TransformToVisual(this);
-        //    var startPoint = transform.TransformPoint(new Point(0, 0));
-        //    var endPoint = new Point(startPoint.X + element.ActualWidth, startPoint.Y + element.ActualHeight);
+        private bool ElementCapturesClick(FrameworkElement element, Point mousePosition)
+        {
+            var transform = element.TransformToVisual(this);
+            var startPoint = transform.TransformPoint(new Point(0, 0));
+            var endPoint = new Point(startPoint.X + element.ActualWidth, startPoint.Y + element.ActualHeight);
 
-        //    if (mousePosition.X < startPoint.X || mousePosition.X > endPoint.X ||
-        //        mousePosition.Y < startPoint.Y || mousePosition.Y > endPoint.Y)
-        //    {
-        //        return false;
-        //    }
+            if (mousePosition.X < startPoint.X || mousePosition.X > endPoint.X ||
+                mousePosition.Y < startPoint.Y || mousePosition.Y > endPoint.Y)
+            {
+                return false;
+            }
 
-        //    return true;
-        //}
+            return true;
+        }
 
-        //private void MainPage_PointerPressed(CoreWindow sender, PointerEventArgs args)
-        //{
-        //    if (SettingsGrid.Visibility == Visibility.Collapsed ||
-        //        SettingsToggleButton.IsChecked != true)
-        //    {
-        //        return;
-        //    }
+        private void MainPage_PointerPressed(object sender, PointerRoutedEventArgs args)
+        {
+            if (SettingsGrid.Visibility == Visibility.Collapsed ||
+                SettingsToggleButton.IsChecked != true)
+            {
+                return;
+            }
 
-        //    if (ElementCapturesClick(SettingsToggleButton, args.CurrentPoint.Position) ||
-        //        ElementCapturesClick(SettingsGrid, args.CurrentPoint.Position))
-        //    {
-        //        return;
-        //    }
+            if (ElementCapturesClick(SettingsToggleButton, args.GetCurrentPoint(this).Position) ||
+                ElementCapturesClick(SettingsGrid, args.GetCurrentPoint(this).Position))
+            {
+                return;
+            }
 
-        //    SettingsToggleButton.IsChecked = false;
-        //}
+            SettingsToggleButton.IsChecked = false;
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            var caller = (HyperlinkButton)sender;
+            if (caller == GamePageButton)
+            {
+                NavigationHandler(sender, "Game Page");
+            }
+            else if (caller == BoardEditorButton)
+            {
+                NavigationHandler(sender, "Board Editor");
+            }
+            else if (caller == RulesButton)
+            {
+                NavigationHandler(sender, "Rules");
+            }
+        }
     }
 }

@@ -136,13 +136,9 @@
     <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
-    <Compile Include="Pages\SmallBoardEditor.xaml.cs">
-      <DependentUpon>SmallBoardEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\SmallMainPage.xaml.cs" />
     <Compile Include="VMs\INavigatable.cs" />
     <Compile Include="VMs\SettingsViewModel.cs" />
-    <Compile Include="VMs\SmallBoardEditorViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
@@ -258,10 +254,6 @@
     <Page Include="CustomControls\EightPieceBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SmallBoardEditor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\GamePage.xaml">
       <Generator>MSBuild:Compile</Generator>
