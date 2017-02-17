@@ -100,12 +100,12 @@
                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
         </Grid>
-        <controls:EightPieceBoard MaxHeight="642"
-                                  MaxWidth="642"
+        <controls:EightPieceBoard MaxHeight="640"
+                                  MaxWidth="640"
                                   BorderThickness="1"
                                   BorderBrush="Black"
                                   VerticalAlignment="Top"
-                                  HorizontalAlignment="Left"
+                                  HorizontalAlignment="Center"
                                   Grid.Row="0"
                                   Grid.Column="1"
                                   x:Name="Board"

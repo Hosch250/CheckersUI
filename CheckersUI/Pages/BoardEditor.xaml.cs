@@ -11,7 +11,7 @@ using CheckersUI.VMs;
 
 namespace CheckersUI.Pages
 {
-    public sealed partial class BoardEditor
+    public sealed partial class BoardEditor : IResizable
     {
         private Image _draggedImage;
         private Piece _piece;
@@ -227,9 +227,13 @@ namespace CheckersUI.Pages
                 row.Height = GridLength.Auto;
             }
 
+            MasterGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+
             MasterGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
             MasterGrid.ColumnDefinitions[1].Width = new GridLength(0);
             MasterGrid.ColumnDefinitions[2].Width = new GridLength(0);
+
+            MasterGrid.Margin = new Thickness(10, 0, 10, 0);
 
             foreach (var col in PieceContainer.ColumnDefinitions)
             {
@@ -274,6 +278,8 @@ namespace CheckersUI.Pages
             MasterGrid.ColumnDefinitions[0].Width = new GridLength(190);
             MasterGrid.ColumnDefinitions[1].Width = new GridLength(640);
             MasterGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+
+            MasterGrid.Margin = new Thickness(0);
 
             foreach (var row in PieceContainer.RowDefinitions)
             {

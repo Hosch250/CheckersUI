@@ -13,31 +13,37 @@ namespace CheckersUI.Pages
     {
         private readonly GamePage _gamePage;
         private readonly BoardEditor _boardEditor;
+        private readonly Rules _rules;
 
-        public MainPage(GamePage gamePage, BoardEditor boardEditor)
+        public MainPage(GamePage gamePage, BoardEditor boardEditor, Rules rules)
         {
             InitializeComponent();
             Frame.Content = gamePage;
 
             _gamePage = gamePage;
             _boardEditor = boardEditor;
+            _rules = rules;
 
             ((INavigatable)_gamePage.DataContext).NavigationRequest += NavigationHandler;
             ((INavigatable)_boardEditor.DataContext).NavigationRequest += NavigationHandler;
+            ((INavigatable)_rules.DataContext).NavigationRequest += NavigationHandler;
         }
 
         private void NavigationHandler(object sender, string pageName)
         {
             switch (pageName)
             {
-                case "Board Editor":
-                    Frame.Content = _boardEditor;
-                    break;
                 case "Game Page":
                     Frame.Content = _gamePage;
                     break;
+                case "Board Editor":
+                    Frame.Content = _boardEditor;
+                    break;
+                case "Rules":
+                    Frame.Content = _rules;
+                    break;
                 default:
-                    throw new System.ArgumentException(nameof(pageName));
+                    throw new ArgumentException(nameof(pageName));
             }
         }
 
@@ -123,6 +129,7 @@ namespace CheckersUI.Pages
 
             _gamePage.LoadLayout(_currentState);
             _boardEditor.LoadLayout(_currentState);
+            _rules.LoadLayout(_currentState);
         }
 
         private void LoadSmallLayout()

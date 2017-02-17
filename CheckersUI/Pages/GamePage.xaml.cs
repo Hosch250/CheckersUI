@@ -10,7 +10,7 @@ using CheckersUI.VMs;
 
 namespace CheckersUI.Pages
 {
-    public sealed partial class GamePage
+    public sealed partial class GamePage : IResizable
     {
         public GamePage()
         {
@@ -124,7 +124,7 @@ namespace CheckersUI.Pages
         private void MoveMenu_Tapped(object sender, TappedRoutedEventArgs e) =>
             SmallMoveHistory.Visibility = Visibility.Visible;
 
-        private void MoveHistory_OnMoveSelection(object sender, System.EventArgs e) =>
+        private void MoveHistory_OnMoveSelection(object sender, EventArgs e) =>
             SmallMoveHistory.Visibility = Visibility.Collapsed;
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,16 +159,15 @@ namespace CheckersUI.Pages
 
             MasterGrid.RowDefinitions[0].Height = new GridLength(30);
             MasterGrid.RowDefinitions[1].Height = new GridLength(30);
-            MasterGrid.RowDefinitions[2].Height = GridLength.Auto;
+            MasterGrid.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
             MasterGrid.RowDefinitions[3].Height = new GridLength(60);
+
+            MasterGrid.Margin = new Thickness(10, 0, 10, 0);
 
             GameStatus.Visibility = Visibility.Collapsed;
             SmallGameStatus.Visibility = Visibility.Visible;
             GameStatus_Variant.Visibility = Visibility.Visible;
             MoveMenu.Visibility = Visibility.Visible;
-
-            Board.MaxHeight = 642;
-            Board.MaxWidth = 642;
 
             Grid.SetRow(Board, 2);
             Grid.SetColumn(Board, 0);
@@ -182,18 +181,17 @@ namespace CheckersUI.Pages
             MasterGrid.ColumnDefinitions[1].Width = new GridLength(640);
             MasterGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
 
-            MasterGrid.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
+            MasterGrid.RowDefinitions[0].Height = new GridLength(640);
             MasterGrid.RowDefinitions[1].Height = new GridLength(0);
             MasterGrid.RowDefinitions[2].Height = new GridLength(0);
             MasterGrid.RowDefinitions[3].Height = new GridLength(0);
+
+            MasterGrid.Margin = new Thickness(0);
 
             GameStatus.Visibility = Visibility.Visible;
             SmallGameStatus.Visibility = Visibility.Collapsed;
             GameStatus_Variant.Visibility = Visibility.Collapsed;
             MoveMenu.Visibility = Visibility.Collapsed;
-
-            Board.MaxHeight = 642;
-            Board.MaxWidth = 642;
 
             Grid.SetRow(Board, 0);
             Grid.SetColumn(Board, 1);

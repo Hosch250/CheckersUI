@@ -50,6 +50,9 @@ namespace CheckersUI
             var parameterInjection = new ParameterOverride("board", Board.DefaultBoard(Variant.AmericanCheckers));
             boardEditor.DataContext = _container.Resolve<BoardEditorViewModel>(parameterInjection);
 
+            var rules = _container.Resolve<Rules>();
+            rules.DataContext = _container.Resolve<RulesViewModel>();
+
             var mainPage = _container.Resolve<MainPage>(new ParameterOverride("initialView", gamePage));
 
 #if DEBUG

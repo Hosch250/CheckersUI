@@ -136,6 +136,11 @@
     <Compile Include="Facade\PdnTurn.cs" />
     <Compile Include="Facade\Piece.cs" />
     <Compile Include="Facade\GeneralTypes.cs" />
+    <Compile Include="Pages\IResizable.cs" />
+    <Compile Include="Pages\Rules.xaml.cs">
+      <DependentUpon>Rules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VMs\RulesViewModel.cs" />
     <Compile Include="VMs\INavigatable.cs" />
     <Compile Include="VMs\SettingsViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
@@ -263,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Rules.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

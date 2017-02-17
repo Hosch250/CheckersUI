@@ -202,7 +202,7 @@ namespace CheckersUI.VMs
             }
         }
 
-        public List<string> Pages { get; } = new List<string> { "Game Page", "Board Editor" };
+        public List<string> Pages { get; } = new List<string> { "Game Page", "Board Editor", "Rules" };
         public string NavigationElement
         {
             get { return "Board Editor"; }
