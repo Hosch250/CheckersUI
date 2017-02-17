@@ -26,8 +26,6 @@ namespace CheckersUI.Pages
             _currentTheme = (string)_roamingSettings.Values["Theme"];
             ApplicationData.Current.DataChanged += Current_DataChanged;
             LoadImages();
-
-            Loaded += (sender, e) => AdjustLayout(new Size(), false);
         }
 
         private string _currentTheme;
@@ -184,47 +182,33 @@ namespace CheckersUI.Pages
             BottomAppBar.IsOpen = false;
             ((ComboBox)sender).SelectedIndex = 1;
         }
-        
+
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            AdjustLayout(e.NewSize, e.PreviousSize.Width == 0);
-        }
-
-        private string _currentState = "DefaultLayout";
-        private void AdjustLayout(Size newSize, bool isLoading)
-        {
-            if (newSize.Width == 0) { return; }
-
-            if (newSize.Width <= 1005 && _currentState != "SmallLayout")
-            {
-                LoadSmallLayout();
-                _currentState = "SmallLayout";
-                isLoading = true;
-            }
-            if (newSize.Width > 1005 && _currentState != "DefaultLayout")
-            {
-                LoadDefaultLayout();
-                _currentState = "DefaultLayout";
-            }
-
-            if (!isLoading && _currentState == "SmallLayout")
+            if (e.PreviousSize.Width != 0 && _currentLayout == PageLayout.Small)
             {
                 SetPieceWidth();
-
-                var pieceContainerHeight = MasterGrid.RowDefinitions[0].ActualHeight;
-                var fenHeight = MasterGrid.RowDefinitions[2].ActualHeight;
-                var appBarHeight = BottomAppBar.ActualHeight;
-                var marginHeight = MasterGrid.Margin.Top + MasterGrid.Margin.Bottom;
-                var maxBoardHeight = ActualHeight - pieceContainerHeight - fenHeight - appBarHeight - marginHeight;
-
-                if (BoardGrid.ActualHeight > maxBoardHeight)
-                {
-                    BoardGrid.MaxHeight = maxBoardHeight;
-                    FenContainer.MaxWidth = maxBoardHeight;
-                }
             }
         }
-        
+
+        private PageLayout _currentLayout;
+        public void LoadLayout(PageLayout layout)
+        {
+            _currentLayout = layout;
+
+            switch (layout)
+            {
+                case PageLayout.Default:
+                    LoadDefaultLayout();
+                    break;
+                case PageLayout.Small:
+                    LoadSmallLayout();
+                    break;
+                default:
+                    throw new ArgumentException(nameof(layout));
+            }
+        }
+
         private void SetPieceWidth()
         {
             // adjust for size 10 margins
@@ -287,7 +271,7 @@ namespace CheckersUI.Pages
             PieceContainer.RowDefinitions[1].Height = new GridLength(640);
             PieceContainer.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
 
-            MasterGrid.ColumnDefinitions[0].Width = new GridLength(110);
+            MasterGrid.ColumnDefinitions[0].Width = new GridLength(190);
             MasterGrid.ColumnDefinitions[1].Width = new GridLength(640);
             MasterGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
 

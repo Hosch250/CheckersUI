@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -6,6 +7,8 @@ using CheckersUI.VMs;
 
 namespace CheckersUI.Pages
 {
+    public enum PageLayout { Default, Small }
+
     public sealed partial class MainPage
     {
         private readonly GamePage _gamePage;
@@ -85,6 +88,69 @@ namespace CheckersUI.Pages
             {
                 NavigationHandler(sender, "Rules");
             }
+        }
+
+        private PageLayout _currentState = PageLayout.Default;
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width == 0) { return; }
+
+            if (e.NewSize.Width <= 1180 && _currentState != PageLayout.Small)
+            {
+                _currentState = PageLayout.Small;
+                LoadLayout();
+            }
+            if (e.NewSize.Width > 1180 && _currentState != PageLayout.Default)
+            {
+                _currentState = PageLayout.Default;
+                LoadLayout();
+            }
+        }
+
+        private void LoadLayout()
+        {
+            switch (_currentState)
+            {
+                case PageLayout.Default:
+                    LoadDefaultLayout();
+                    break;
+                case PageLayout.Small:
+                    LoadSmallLayout();
+                    break;
+                default:
+                    throw new ArgumentException(nameof(_currentState));
+            }
+
+            _gamePage.LoadLayout(_currentState);
+            _boardEditor.LoadLayout(_currentState);
+        }
+
+        private void LoadSmallLayout()
+        {
+            MasterGrid.RowDefinitions[0].Height = new GridLength(50);
+            MasterGrid.ColumnDefinitions[0].Width = new GridLength(0);
+
+            NavigationControls.Visibility = Visibility.Collapsed;
+
+            Frame.Padding = new Thickness(0);
+
+            Grid.SetRow(AdControl, 0);
+            AdControl.Height = 50;
+            AdControl.Width = 320;
+        }
+
+        private void LoadDefaultLayout()
+        {
+            MasterGrid.RowDefinitions[0].Height = new GridLength(30);
+            MasterGrid.ColumnDefinitions[0].Width = new GridLength(160);
+
+            NavigationControls.Visibility = Visibility.Visible;
+
+            Frame.Padding = new Thickness(10, 0, 10, 0);
+            AdControl.Height = 600;
+            AdControl.Width = 160;
+
+            Grid.SetRow(AdControl, 1);
         }
     }
 }

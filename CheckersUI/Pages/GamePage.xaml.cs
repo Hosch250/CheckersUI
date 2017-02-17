@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -134,19 +135,19 @@ namespace CheckersUI.Pages
 
         private void CloseAppBar(object sender, RoutedEventArgs e) =>
             BottomAppBar.IsOpen = false;
-
-        private string _currentState = "DefaultLayout";
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        
+        public void LoadLayout(PageLayout layout)
         {
-            if (e.NewSize.Width <= 1005 && _currentState != "SmallLayout")
+            switch (layout)
             {
-                LoadSmallLayout();
-                _currentState = "SmallLayout";
-            }
-            if (e.NewSize.Width > 1005 && _currentState != "DefaultLayout")
-            {
-                LoadDefaultLayout();
-                _currentState = "DefaultLayout";
+                case PageLayout.Default:
+                    LoadDefaultLayout();
+                    break;
+                case PageLayout.Small:
+                    LoadSmallLayout();
+                    break;
+                default:
+                    throw new ArgumentException(nameof(layout));
             }
         }
 
