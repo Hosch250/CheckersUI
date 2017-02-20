@@ -13,15 +13,51 @@
             <ColumnDefinition MaxWidth="640" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1">
-            <TextBlock FontWeight="Medium" FontSize="14" Text="American Checkers" HorizontalAlignment="Center" />
-            <TextBlock TextWrapping="WrapWholeWords">
-                Checkers move forward one hop.  Kings same, except backwards too.  Checkers can jump forward over enemy piece onto empty square. Kings same, except backwards too.  Cannot continue after being crowned.
-            </TextBlock>
+            <TextBlock FontWeight="Medium" FontSize="16" Text="American Checkers" HorizontalAlignment="Center" Margin="0,0,0,5" />
+            <TextBlock FontWeight="Medium" FontSize="16" Text="Moving" HorizontalAlignment="Left" />
+            <RichTextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,4">
+                <Paragraph Margin="0,0,0,3">
+                    Checkers move forward diagonally one square.
+                </Paragraph>
+                <Paragraph>
+                    Kings move diagonally one square in any direction.
+                </Paragraph>
+            </RichTextBlock>
+            <TextBlock FontWeight="Medium" FontSize="16" Text="Capturing" HorizontalAlignment="Left" />
+            <RichTextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,4">
+                <Paragraph Margin="0,0,0,5">
+                    <Italic>Capturing is required in this variant.</Italic>
+                </Paragraph>
+                <Paragraph Margin="0,0,0,3">
+                    Checkers jump forward diagonally two squares; they may only jump over an opponent's piece onto a blank square and continue jumping until there are no more pieces to jump, or until they reach the king row.
+                </Paragraph>
+                <Paragraph>
+                    King jumps follow the same pattern as checkers jumps, but do not have the restriction on moving forward.
+                </Paragraph>
+            </RichTextBlock>
             <Border BorderBrush="Gray" BorderThickness="0,.5,0,0" Margin="0,20" />
-            <TextBlock FontWeight="Medium" FontSize="14" Text="Pool Checkers" HorizontalAlignment="Center" />
-            <TextBlock TextWrapping="WrapWholeWords">
-                Checkers move forward one hop.  Kings same, except backwards too.  Checkers can jump forward or backwards over enemy piece onto empty square. Checker remains checker until it finally lands in back row. King is flying king, but can only land on square immediately after piece.
-            </TextBlock>
+            <TextBlock FontWeight="Medium" FontSize="16" Text="Pool Checkers" HorizontalAlignment="Center" Margin="0,0,0,5" />
+            <TextBlock FontWeight="Medium" FontSize="16" Text="Moving" HorizontalAlignment="Left" />
+            <RichTextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,4">
+                <Paragraph Margin="0,0,0,3">
+                    Checkers move forward diagonally one square.
+                </Paragraph>
+                <Paragraph>
+                    Kings move diagonally one square in any direction.
+                </Paragraph>
+            </RichTextBlock>
+            <TextBlock FontWeight="Medium" FontSize="16" Text="Capturing" HorizontalAlignment="Left" />
+            <RichTextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,4">
+                <Paragraph Margin="0,0,0,5">
+                    <Italic>Capturing is required in this variant.</Italic>
+                </Paragraph>
+                <Paragraph Margin="0,0,0,3">
+                Checkers jump diagonally two squares in any direction; they may only jump over an opponent's piece onto a blank square and continue jumping until there are no more pieces to jump. They are not crowned during a jump unless the ending square is the king row.
+                </Paragraph>
+                <Paragraph>
+                    King jumps follow the same pattern as checkers jumps, and can also make a flying jump. A flying jump in this variant allows the king to jump over any blank squares in a diagonal path, over a single opponent's piece, and and onto a blank square directly behind the jumped piece.
+                </Paragraph>
+            </RichTextBlock>
         </StackPanel>
     </Grid>
     <Page.BottomAppBar>
