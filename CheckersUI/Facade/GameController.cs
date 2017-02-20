@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
@@ -103,8 +104,8 @@ namespace CheckersUI.Facade
         public bool IsValidMove(Coord startCoord, Coord endCoord) =>
             Checkers.PublicAPI.isValidMove(startCoord, endCoord, this);
 
-        public IEnumerable<Coord> GetMove(int searchDepth) =>
-            Checkers.PublicAPI.getMove(searchDepth, this).Select(coord => (Coord)coord);
+        public IEnumerable<Coord> GetMove(int searchDepth, CancellationToken token) =>
+            Checkers.PublicAPI.getMove(searchDepth, this, token).Select(coord => (Coord)coord);
 
         public GameController TakebackMove() =>
             Checkers.PublicAPI.takeBackMove(this);

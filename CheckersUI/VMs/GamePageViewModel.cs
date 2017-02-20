@@ -68,10 +68,10 @@ namespace CheckersUI.VMs
                 List<Coord> move;
                 await Task.Run(async () =>
                 {
-                    move = Controller.GetMove(Level).ToList();
+                    move = Controller.GetMove(Level, _cancelComputerMoveTokenSource.Token).ToList();
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         MovePiece(move));
-                }, _cancelComputerMoveTokenSource.Token);
+                });
 
                 if (!_cancelComputerMoveTokenSource.IsCancellationRequested)
                 {
@@ -301,8 +301,18 @@ namespace CheckersUI.VMs
 
         public bool AreBothOpponentsHuman =>
             WhiteOpponent == Opponent.Human && BlackOpponent == Opponent.Human;
-        
-        private bool GameCancelled { get; set; }
+
+        private bool _gameCancelled;
+        private bool GameCancelled
+        {
+            get { return _gameCancelled; }
+            set
+            {
+                _gameCancelled = value;
+                _cancelComputerMoveTokenSource?.Cancel();
+            }
+        }
+
         public bool IsGameInProgress
         {
             get
