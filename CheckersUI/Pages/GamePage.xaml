@@ -120,7 +120,7 @@
                 <RowDefinition />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-            <controls:MoveHistoryControl x:Name="MoveHistory" />
+            <controls:MoveHistoryControl />
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
@@ -128,21 +128,27 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <Button Background="Transparent"
-                            IsEnabled="{Binding CanTakeback}"
-                            Command="{Binding UndoMoveCommand}">
-                    <Image Source="../Assets/undo.png" />
+                        IsEnabled="{Binding CanTakeback}"
+                        Command="{Binding UndoMoveCommand}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch">
+                    <TextBlock Text="&#xE10E;" FontFamily="Segoe UI Symbol" FontSize="24" />
                 </Button>
                 <Button Background="Transparent"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Command="{Binding DisplayCreateGameCommand}"
-                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}">
-                    <Image Source="../Assets/plus.png" />
+                        Visibility="{Binding IsGameInProgress, Converter={StaticResource BoolToHiddenVisibility}}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch">
+                    <TextBlock Text="&#xE109;" FontFamily="Segoe UI Symbol" FontSize="24" />
                 </Button>
                 <Button Background="Transparent"
-                            Grid.Column="2"
-                            Command="{Binding CancelGameCommand}"
-                            Visibility="{Binding IsGameInProgress}">
-                    <Image Source="../Assets/cancel.png" />
+                        Grid.Column="1"
+                        Command="{Binding CancelGameCommand}"
+                        Visibility="{Binding IsGameInProgress}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch">
+                    <TextBlock Text="&#xE10A;" FontFamily="Segoe UI Symbol" FontSize="24" />
                 </Button>
             </Grid>
         </Grid>

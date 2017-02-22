@@ -69,8 +69,11 @@ namespace CheckersUI.VMs
                 await Task.Run(async () =>
                 {
                     move = Controller.GetMove(Level, _cancelComputerMoveTokenSource.Token).ToList();
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                        MovePiece(move));
+                    if (move.Any())
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                            MovePiece(move));
+                    }
                 });
 
                 if (!_cancelComputerMoveTokenSource.IsCancellationRequested)
@@ -93,8 +96,8 @@ namespace CheckersUI.VMs
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Status));
-                OnPropertyChanged(nameof(CanTakeback));
                 OnPropertyChanged(nameof(IsGameInProgress));
+                OnPropertyChanged(nameof(UndoMoveCommand));
             }
         }
 
@@ -322,14 +325,21 @@ namespace CheckersUI.VMs
             }
         }
         
-        public bool CanTakeback
+        public bool CanTakeback()
         {
-            get
+            var isHumanPlaying = BlackOpponent == Opponent.Human || WhiteOpponent == Opponent.Human;
+
+            bool hasMoveHistory;
+            if (BlackOpponent == Opponent.Human && WhiteOpponent == Opponent.Human)
             {
-                return Controller.MoveHistory.Any() &&
-                       Controller.GetWinningPlayer() == null &&
-                       (BlackOpponent == Opponent.Human || WhiteOpponent == Opponent.Human);
+                hasMoveHistory = Controller.MoveHistory.Any();
             }
+            else
+            {
+                hasMoveHistory = Controller.MoveHistory.Count >= 2;
+            }
+
+            return isHumanPlaying && hasMoveHistory && !GameCancelled && Controller.GetWinningPlayer() == null;
         }
 
         private DelegateCommand _displaySettingsCommand;
@@ -417,7 +427,7 @@ namespace CheckersUI.VMs
                     return _undoMoveCommand;
                 }
 
-                _undoMoveCommand = new DelegateCommand(sender => TakebackMove());
+                _undoMoveCommand = new DelegateCommand(param => TakebackMove(), param => CanTakeback());
                 return _undoMoveCommand;
             }
         }
@@ -541,6 +551,7 @@ namespace CheckersUI.VMs
 
         private void TakebackMove()
         {
+            _cancelComputerMoveTokenSource.Cancel();
             Controller = Controller.TakebackMove();
 
             if (Controller.CurrentPlayer == Player.Black && BlackOpponent == Opponent.Computer ||
