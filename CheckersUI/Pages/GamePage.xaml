@@ -78,7 +78,7 @@
               Padding="10,5"
               Height="60"
               VerticalAlignment="Top"
-              HorizontalAlignment="Left"
+              HorizontalAlignment="Center"
               Name="SmallGameStatus"
               Visibility="Collapsed">
             <Grid.RowDefinitions>
@@ -102,8 +102,6 @@
         </Grid>
         <controls:EightPieceBoard MaxHeight="640"
                                   MaxWidth="640"
-                                  BorderThickness="1"
-                                  BorderBrush="Black"
                                   VerticalAlignment="Top"
                                   HorizontalAlignment="Center"
                                   Grid.Row="0"

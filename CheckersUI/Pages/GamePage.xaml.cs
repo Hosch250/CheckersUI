@@ -17,6 +17,7 @@ namespace CheckersUI.Pages
             InitializeComponent();  
 
             DataContextChanged += GamePage_DataContextChanged;
+            Board.SizeChanged += (sender, e) => SmallGameStatus.Width = Board.ActualWidth;
         }
 
         private void GamePage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
