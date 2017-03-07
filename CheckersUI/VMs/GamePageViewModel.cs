@@ -98,6 +98,8 @@ namespace CheckersUI.VMs
                 OnPropertyChanged(nameof(Status));
                 OnPropertyChanged(nameof(IsGameInProgress));
                 OnPropertyChanged(nameof(UndoMoveCommand));
+
+                WinningPlayer = value.GetWinningPlayer();
             }
         }
 
@@ -251,6 +253,17 @@ namespace CheckersUI.VMs
 
         public Player BoardOrientation =>
             BlackOpponent == Opponent.Human ? Player.Black : Player.White;
+
+        private Player? _winningPlayer;
+        public Player? WinningPlayer
+        {
+            get { return _winningPlayer; }
+            set
+            {
+                _winningPlayer = value;
+                OnPropertyChanged();
+            }
+        }
 
         public List<Opponent> Opponents =>
             Enum.GetValues(typeof(Opponent)).Cast<Opponent>().ToList();
@@ -445,6 +458,7 @@ namespace CheckersUI.VMs
                 _cancelGameCommand = new DelegateCommand(sender =>
                 {
                     GameCancelled = true;
+                    WinningPlayer = Controller.CurrentPlayer == Player.Black ? Player.White : Player.Black;
                     OnPropertyChanged(nameof(IsGameInProgress));
                 });
                 return _cancelGameCommand;

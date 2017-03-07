@@ -13,6 +13,7 @@
         <converters:BooleanToHiddenVisibilityConverter x:Key="BoolToHiddenVisibility" />
         <converters:VariantToDisplayStringConverter x:Key="VariantToDisplayString" />
         <converters:PdnTurnToMenuConverter x:Key="TurnToMenu" />
+        <converters:PlayerToWinNotationConverter x:Key="PlayerToWinNotation" />
     </Page.Resources>
     <Grid Name="MasterGrid">
         <Grid.RowDefinitions>
@@ -45,13 +46,14 @@
               x:Name="GameStatus"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
-              Height="80"
+              Height="auto"
               Width="175"
               Margin="0,0,15,0"
               Padding="10,5"
               BorderBrush="Black"
               BorderThickness="1">
             <Grid.RowDefinitions>
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -73,15 +75,17 @@
                            Text="{Binding BlackOpponentText}"
                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
+            <TextBlock Grid.Row="3" Text="{Binding WinningPlayer, Converter={StaticResource PlayerToWinNotation}}" HorizontalAlignment="Center" />
         </Grid>
         <Grid Grid.Row="3"
               Padding="10,5"
-              Height="60"
+              Height="auto"
               VerticalAlignment="Top"
               HorizontalAlignment="Center"
               Name="SmallGameStatus"
               Visibility="Collapsed">
             <Grid.RowDefinitions>
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -99,6 +103,7 @@
                            Text="{Binding BlackOpponentText}"
                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
+            <TextBlock Grid.Row="2" Text="{Binding WinningPlayer, Converter={StaticResource PlayerToWinNotation}}" />
         </Grid>
         <controls:EightPieceBoard MaxHeight="640"
                                   MaxWidth="640"

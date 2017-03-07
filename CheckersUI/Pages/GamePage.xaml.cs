@@ -161,7 +161,7 @@ namespace CheckersUI.Pages
             MasterGrid.RowDefinitions[0].Height = new GridLength(30);
             MasterGrid.RowDefinitions[1].Height = new GridLength(30);
             MasterGrid.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
-            MasterGrid.RowDefinitions[3].Height = new GridLength(60);
+            MasterGrid.RowDefinitions[3].Height = GridLength.Auto;
 
             MasterGrid.Margin = new Thickness(10, 0, 10, 0);
 
