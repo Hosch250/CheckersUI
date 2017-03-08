@@ -36,6 +36,12 @@
                         King jumps follow the same pattern as checkers jumps, but do not have the restriction on moving forward.
                     </Paragraph>
                 </RichTextBlock>
+                <TextBlock FontWeight="Medium" FontSize="16" Text="Winning" HorizontalAlignment="Left" />
+                <RichTextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,4">
+                    <Paragraph Margin="0,0,0,3">
+                        The game is won when one player has no more pieces or cannot make any more moves.
+                    </Paragraph>
+                </RichTextBlock>
                 <Border BorderBrush="Gray" BorderThickness="0,.5,0,0" Margin="0,20" />
                 <TextBlock FontWeight="Medium" FontSize="16" Text="Pool Checkers" HorizontalAlignment="Center" Margin="0,0,0,5" />
                 <TextBlock FontWeight="Medium" FontSize="16" Text="Moving" HorizontalAlignment="Left" />
@@ -57,6 +63,12 @@
                     </Paragraph>
                     <Paragraph>
                         King jumps follow the same pattern as checkers jumps, and can also make a flying jump. A flying jump in this variant allows the king to jump over any blank squares in a diagonal path, over a single opponent's piece, and and onto a blank square directly behind the jumped piece.
+                    </Paragraph>
+                </RichTextBlock>
+                <TextBlock FontWeight="Medium" FontSize="16" Text="Winning" HorizontalAlignment="Left" />
+                <RichTextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,4">
+                    <Paragraph Margin="0,0,0,3">
+                        The game is won when one player has no more pieces or cannot make any more moves.
                     </Paragraph>
                 </RichTextBlock>
             </StackPanel>
