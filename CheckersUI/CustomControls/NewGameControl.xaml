@@ -37,14 +37,19 @@
                           Width="200" />
             </StackPanel>
             <StackPanel Margin="0,5,0,0">
-                <TextBlock FontWeight="Medium" Margin="0,0,0,2">Setup:</TextBlock>
+                <TextBlock FontWeight="Medium"
+                           Margin="0,0,0,2"
+                           Text="Setup:" />
                 <ComboBox ItemsSource="{Binding SetupOptions, Mode=OneTime}"
                           SelectedItem="{Binding SetupOption, Mode=TwoWay}"
                           Width="200" />
                 <TextBlock FontWeight="Medium"
+                           Margin="0,5,0,2"
                            Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}"
                            Text="FEN:" />
                 <TextBox Name="FenBox"
+                         Width="200"
+                         HorizontalAlignment="Left"
                          Visibility="{Binding SetupOption, Converter={StaticResource SetupToVisibility}}" />
             </StackPanel>
             <StackPanel Visibility="{Binding AreBothOpponentsHuman, Converter={StaticResource BoolToHiddenVisibility}}" Margin="0,5,0,0">
