@@ -11,7 +11,7 @@ namespace CheckersUI.VMs
 {
     public enum BoardPosition { Initial, Empty }
 
-    public class BoardEditorViewModel : INotifyPropertyChanged, INavigatable
+    public class BoardEditorViewModel : NavigationViewModel, INotifyPropertyChanged
     {
         public BoardEditorViewModel(Board board)
         {
@@ -201,9 +201,8 @@ namespace CheckersUI.VMs
                 }
             }
         }
-
-        public List<string> Pages { get; } = new List<string> { "Game Page", "Board Editor", "Rules" };
-        public string NavigationElement
+        
+        public override string NavigationElement
         {
             get { return "Board Editor"; }
             set
@@ -335,10 +334,6 @@ namespace CheckersUI.VMs
             dataPackage.SetText(content);
             Clipboard.SetContent(dataPackage);
         }
-
-        public event EventHandler<string> NavigationRequest;
-        protected virtual void OnNavigationRequest(string target) =>
-            NavigationRequest?.Invoke(this, target);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

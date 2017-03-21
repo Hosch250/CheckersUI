@@ -142,7 +142,7 @@
       <DependentUpon>Rules.xaml</DependentUpon>
     </Compile>
     <Compile Include="VMs\RulesViewModel.cs" />
-    <Compile Include="VMs\INavigatable.cs" />
+    <Compile Include="VMs\NavigationViewModel.cs" />
     <Compile Include="VMs\SettingsViewModel.cs" />
     <Compile Include="VMs\BoardEditorViewModel.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">

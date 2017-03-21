@@ -24,9 +24,9 @@ namespace CheckersUI.Pages
             _boardEditor = boardEditor;
             _rules = rules;
 
-            ((INavigatable)_gamePage.DataContext).NavigationRequest += NavigationHandler;
-            ((INavigatable)_boardEditor.DataContext).NavigationRequest += NavigationHandler;
-            ((INavigatable)_rules.DataContext).NavigationRequest += NavigationHandler;
+            ((NavigationViewModel)_gamePage.DataContext).NavigationRequest += NavigationHandler;
+            ((NavigationViewModel)_boardEditor.DataContext).NavigationRequest += NavigationHandler;
+            ((NavigationViewModel)_rules.DataContext).NavigationRequest += NavigationHandler;
         }
 
         private void NavigationHandler(object sender, string pageName)

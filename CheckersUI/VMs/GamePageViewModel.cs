@@ -17,7 +17,7 @@ using Windows.UI.Core;
 
 namespace CheckersUI.VMs
 {
-    public class GamePageViewModel : INotifyPropertyChanged, INavigatable
+    public class GamePageViewModel : NavigationViewModel, INotifyPropertyChanged
     {
         private IPropertySet RoamingSettings
         {
@@ -201,9 +201,8 @@ namespace CheckersUI.VMs
                        : $"{Controller.CurrentPlayer}'s turn";
             }
         }
-
-        public List<string> Pages { get; } = new List<string> { "Game Page", "Board Editor", "Rules" };
-        public string NavigationElement
+        
+        public override string NavigationElement
         {
             get { return "Game Page"; }
             set
@@ -592,10 +591,6 @@ namespace CheckersUI.VMs
         public event EventHandler MoveUndone;
         protected virtual void OnMoveUndone() =>
             MoveUndone?.Invoke(this, EventArgs.Empty);
-
-        public event EventHandler<string> NavigationRequest;
-        protected virtual void OnNavigationRequest(string target) =>
-            NavigationRequest?.Invoke(this, target);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

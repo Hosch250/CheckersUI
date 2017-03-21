@@ -14,7 +14,7 @@ namespace CheckersUI.Pages
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BottomAppBar.IsOpen = false;
-            ((ComboBox)sender).SelectedIndex = 3;
+            ((ComboBox)sender).SelectedIndex = 2;
         }
 
         public void LoadLayout(PageLayout layout)
