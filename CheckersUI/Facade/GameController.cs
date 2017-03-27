@@ -28,33 +28,6 @@ namespace CheckersUI.Facade
         public GameController(Checkers.GameController.GameController gameController)
             : this(gameController.Variant.ToVariant(), gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PdnTurn)item).ToList(), gameController.CurrentCoord) { }
 
-        public GameController(Variant variant)
-            : this(variant, new Board(), Player.Black, Checkers.PublicAPI.createFen(variant.ToGameVariant().pdnMembers, Player.Black.ConvertBack(), new Board()), new List<PdnTurn>())
-        {
-            Variant = variant;
-
-            GameController gameController;
-            switch (variant)
-            {
-                case Variant.AmericanCheckers:
-                    gameController = Checkers.GameController.GameController.newAmericanCheckersGame;
-                    break;
-                case Variant.PoolCheckers:
-                    gameController = Checkers.GameController.GameController.newPoolCheckersGame;
-                    break;
-                default:
-                    throw new ArgumentException(nameof(variant));
-            }
-
-            Board = gameController.Board;
-            CurrentPlayer = gameController.CurrentPlayer;
-            InitialPosition = gameController.InitialPosition;
-            MoveHistory = gameController.MoveHistory;
-            CurrentCoord = gameController.CurrentCoord;
-
-            Fen = gameController.Fen;
-        }
-
         public GameController WithBoard(string fen) =>
             new GameController(Variant, FromPosition(Variant, fen).Board, CurrentPlayer, InitialPosition, MoveHistory, CurrentCoord);
         
@@ -72,6 +45,19 @@ namespace CheckersUI.Facade
             }
         }
 
+        public static GameController FromVariant(Variant variant)
+        {
+            switch (variant)
+            {
+                case Variant.AmericanCheckers:
+                    return Checkers.GameController.GameController.newAmericanCheckersGame;
+                case Variant.PoolCheckers:
+                    return Checkers.GameController.GameController.newPoolCheckersGame;
+                default:
+                    throw new ArgumentException(nameof(variant));
+            }
+        }
+
         public static bool TryFromPosition(Variant variant, string fenPosition, out GameController controller)
         {
             try
@@ -81,7 +67,7 @@ namespace CheckersUI.Facade
             }
             catch
             {
-                controller = new GameController(variant);
+                controller = FromVariant(variant);
                 return false;
             }
         }
