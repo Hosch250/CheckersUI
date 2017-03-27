@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.FSharp.Core;
+using System;
 
 namespace CheckersUI.Facade
 {
@@ -28,7 +29,31 @@ namespace CheckersUI.Facade
             : this(gameController.Variant.ToVariant(), gameController.Board, gameController.CurrentPlayer.Convert(), gameController.InitialPosition, gameController.MoveHistory.Select(item => (PdnTurn)item).ToList(), gameController.CurrentCoord) { }
 
         public GameController(Variant variant)
-            : this(variant, new Board(), Player.Black, Checkers.PublicAPI.createFen(variant.ToGameVariant().pdnMembers, Player.Black.ConvertBack(), new Board()), new List<PdnTurn>()) { }
+            : this(variant, new Board(), Player.Black, Checkers.PublicAPI.createFen(variant.ToGameVariant().pdnMembers, Player.Black.ConvertBack(), new Board()), new List<PdnTurn>())
+        {
+            Variant = variant;
+
+            GameController gameController;
+            switch (variant)
+            {
+                case Variant.AmericanCheckers:
+                    gameController = Checkers.GameController.GameController.newAmericanCheckersGame;
+                    break;
+                case Variant.PoolCheckers:
+                    gameController = Checkers.GameController.GameController.newPoolCheckersGame;
+                    break;
+                default:
+                    throw new ArgumentException(nameof(variant));
+            }
+
+            Board = gameController.Board;
+            CurrentPlayer = gameController.CurrentPlayer;
+            InitialPosition = gameController.InitialPosition;
+            MoveHistory = gameController.MoveHistory;
+            CurrentCoord = gameController.CurrentCoord;
+
+            Fen = gameController.Fen;
+        }
 
         public GameController WithBoard(string fen) =>
             new GameController(Variant, FromPosition(Variant, fen).Board, CurrentPlayer, InitialPosition, MoveHistory, CurrentCoord);

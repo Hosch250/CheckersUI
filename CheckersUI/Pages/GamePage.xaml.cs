@@ -71,7 +71,10 @@ namespace CheckersUI.Pages
             var areHintsEnabled = AreHintsEnabled();
 
             var validMoves = ViewModel.Controller.GetValidMoves();
-            var validstartingCoords = validMoves.Select(c => c[0]).Distinct().ToList();
+            var validstartingCoords =
+                ViewModel.Controller.CurrentCoord != null
+                ? new List<Coord> { ViewModel.Controller.CurrentCoord }
+                : validMoves.Select(c => c[0]).Distinct().ToList();
             if (coord == null || !validstartingCoords.Contains(coord))
             {
                 if (areHintsEnabled)
