@@ -41,7 +41,7 @@ namespace CheckersUI.VMs
 
         public GamePageViewModel()
         {
-            Controller = new GameController(Variant.AmericanCheckers);
+            Controller = GameController.FromVariant(Variant.AmericanCheckers);
 
             GameCancelled = false;
             BlackOpponent = Opponent.Human;
@@ -552,7 +552,7 @@ namespace CheckersUI.VMs
             DisplayCreateGameGrid = false;
             GameCancelled = false;
 
-            Controller = string.IsNullOrEmpty(param) ? new GameController(Variant) : GameController.FromPosition(Variant, param);
+            Controller = string.IsNullOrEmpty(param) ? GameController.FromVariant(Variant) : GameController.FromPosition(Variant, param);
 
             OnPropertyChanged(nameof(BoardOrientation));
             OnPropertyChanged(nameof(BlackOpponentText));

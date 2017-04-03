@@ -12,7 +12,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers)
+                Controller = GameController.FromVariant(Variant.AmericanCheckers)
                     .Move(new Coord(2, 1), new Coord(3, 0))
                     .Move(new Coord(5, 6), new Coord(4, 7)),
                 BlackOpponent = CheckersUI.Opponent.Human,
@@ -32,7 +32,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers)
+                Controller = GameController.FromVariant(Variant.AmericanCheckers)
                     .Move(new Coord(2, 1), new Coord(3, 0))
                     .Move(new Coord(5, 6), new Coord(4, 7)),
                 BlackOpponent = CheckersUI.Opponent.Human,
@@ -52,7 +52,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers),
+                Controller = GameController.FromVariant(Variant.AmericanCheckers),
                 DisplayCreateGameGrid = false
             };
 
@@ -66,7 +66,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers),
+                Controller = GameController.FromVariant(Variant.AmericanCheckers),
                 DisplayCreateGameGrid = true
             };
 
@@ -80,7 +80,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers)
+                Controller = GameController.FromVariant(Variant.AmericanCheckers)
                     .Move(new Coord(2, 1), new Coord(3, 0))
                     .Move(new Coord(5, 6), new Coord(4, 7))
             };
@@ -97,7 +97,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers),
+                Controller = GameController.FromVariant(Variant.AmericanCheckers),
                 SetupOption = CheckersUI.Setup.FromPosition
             };
 
@@ -112,7 +112,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers),
+                Controller = GameController.FromVariant(Variant.AmericanCheckers),
                 SetupOption = CheckersUI.Setup.FromPosition
             };
 
@@ -125,7 +125,7 @@ namespace TestLibrary.Tests
         [Fact]
         public void CancelGame()
         {
-            var vm = new GamePageViewModel {Controller = new GameController(Variant.AmericanCheckers)};
+            var vm = new GamePageViewModel {Controller = GameController.FromVariant(Variant.AmericanCheckers)};
 
             Assert.True(vm.IsGameInProgress);
 
@@ -138,7 +138,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers)
+                Controller = GameController.FromVariant(Variant.AmericanCheckers)
                     .Move(new Coord(2, 1), new Coord(3, 0))
                     .Move(new Coord(5, 6), new Coord(4, 7))
             };
@@ -156,7 +156,7 @@ namespace TestLibrary.Tests
         {
             var vm = new GamePageViewModel
             {
-                Controller = new GameController(Variant.AmericanCheckers)
+                Controller = GameController.FromVariant(Variant.AmericanCheckers)
                     .Move(new Coord(2, 1), new Coord(3, 0))
                     .Move(new Coord(5, 6), new Coord(4, 7))
                     .Move(new Coord(2, 3), new Coord(3, 2))
