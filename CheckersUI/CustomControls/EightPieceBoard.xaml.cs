@@ -406,6 +406,7 @@ namespace CheckersUI.CustomControls
             if (Move.CanExecute(new { fromCoord = AdjustedCoord(_fromCoord), toCoord = AdjustedCoord(new Coord(row, column)) }))
             {
                 Move.Execute(new { fromCoord = AdjustedCoord(_fromCoord), toCoord = AdjustedCoord(new Coord(row, column)) });
+                Selection = null;
             }
             else
             {
@@ -414,6 +415,7 @@ namespace CheckersUI.CustomControls
                 _draggedImage.PointerPressed += Image_PointerPressed;
 
                 BoardGrid.Children.Add(_draggedImage);
+                Selection = AdjustedCoord(_fromCoord);
             }
         }
 

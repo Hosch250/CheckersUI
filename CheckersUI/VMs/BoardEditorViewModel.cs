@@ -343,22 +343,13 @@ namespace CheckersUI.VMs
                     var fromCoord = ((dynamic)param).fromCoord;
                     var toCoord = ((dynamic)param).toCoord;
 
-                    if (!Facade.Board.IsValidSquare(Variant, toCoord.Row, toCoord.Column)) { return; }
-
-                    if (fromCoord != null && toCoord != null)
+                    if (fromCoord != null && toCoord != null && Facade.Board.IsValidSquare(Variant, toCoord.Row, toCoord.Column))
                     {
                         AddPiece(Board[fromCoord], toCoord.Row, toCoord.Column);
-                        RemovePiece(fromCoord.Row, fromCoord.Column);
                     }
-                },
-                param => {
-                    var fromCoord = ((dynamic)param).fromCoord;
-                    var toCoord = ((dynamic)param).toCoord;
 
-                    if (!Facade.Board.IsValidSquare(Variant, toCoord.Row, toCoord.Column)) { return false; }
-
-                    return fromCoord != null && toCoord != null;
-                });
+                    RemovePiece(fromCoord.Row, fromCoord.Column);
+                }, p => true);
                 return _moveCommand;
             }
         }
