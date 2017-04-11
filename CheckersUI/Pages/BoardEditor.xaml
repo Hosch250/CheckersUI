@@ -105,7 +105,7 @@
               VerticalAlignment="Top"
               Name="BoardGrid"
               PointerPressed="Canvas_PointerPressed">
-            <customControls:EightPieceBoard x:Name="BoardControl" Orientation="{Binding Orientation}" Board="{Binding Board}" VerticalAlignment="Top" />
+            <customControls:EightPieceBoard x:Name="BoardControl" Orientation="{Binding Orientation}" Move="{Binding MoveCommand}" Board="{Binding Board}" VerticalAlignment="Top" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Name="FenContainer">
             <Grid.ColumnDefinitions>

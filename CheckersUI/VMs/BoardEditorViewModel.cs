@@ -328,6 +328,41 @@ namespace CheckersUI.VMs
             }
         }
 
+        private DelegateCommand _moveCommand;
+        public DelegateCommand MoveCommand
+        {
+            get
+            {
+                if (_moveCommand != null)
+                {
+                    return _moveCommand;
+                }
+
+                _moveCommand = new DelegateCommand(param =>
+                {
+                    var fromCoord = ((dynamic)param).fromCoord;
+                    var toCoord = ((dynamic)param).toCoord;
+
+                    if (!Facade.Board.IsValidSquare(Variant, toCoord.Row, toCoord.Column)) { return; }
+
+                    if (fromCoord != null && toCoord != null)
+                    {
+                        AddPiece(Board[fromCoord], toCoord.Row, toCoord.Column);
+                        RemovePiece(fromCoord.Row, fromCoord.Column);
+                    }
+                },
+                param => {
+                    var fromCoord = ((dynamic)param).fromCoord;
+                    var toCoord = ((dynamic)param).toCoord;
+
+                    if (!Facade.Board.IsValidSquare(Variant, toCoord.Row, toCoord.Column)) { return false; }
+
+                    return fromCoord != null && toCoord != null;
+                });
+                return _moveCommand;
+            }
+        }
+
         private void SetClipboardContent(string content)
         {
             var dataPackage = new DataPackage();

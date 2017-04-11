@@ -110,9 +110,6 @@ namespace CheckersUI.Pages
             var row = (int)Math.Floor(point.Y / (BoardGrid.ActualHeight / 8));
             var column = (int)Math.Floor(point.X / (BoardGrid.ActualWidth / 8));
 
-            // todo let user set variant they are working with
-            if (!Board.IsValidSquare(ViewModel.Variant, row, column)) { return; }
-
             ViewModel.AddPiece(_piece, row, column);
         }
 

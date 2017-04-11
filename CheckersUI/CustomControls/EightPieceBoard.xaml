@@ -29,5 +29,14 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Canvas Name="Canvas"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.RowSpan="8"
+                Grid.ColumnSpan="8"
+                Canvas.ZIndex="99"
+                PointerPressed="Canvas_PointerPressed"
+                PointerReleased="Canvas_PointerReleased"
+                PointerMoved="Canvas_PointerMoved" />
     </Grid>
 </UserControl>
