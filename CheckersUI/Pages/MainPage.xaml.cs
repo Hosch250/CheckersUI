@@ -140,10 +140,6 @@ namespace CheckersUI.Pages
             NavigationControls.Visibility = Visibility.Collapsed;
 
             Frame.Padding = new Thickness(0);
-
-            Grid.SetRow(AdControl, 0);
-            AdControl.Height = 50;
-            AdControl.Width = 320;
         }
 
         private void LoadDefaultLayout()
@@ -152,12 +148,6 @@ namespace CheckersUI.Pages
             MasterGrid.ColumnDefinitions[0].Width = new GridLength(160);
 
             NavigationControls.Visibility = Visibility.Visible;
-
-            Frame.Padding = new Thickness(10, 0, 10, 0);
-            AdControl.Height = 600;
-            AdControl.Width = 160;
-
-            Grid.SetRow(AdControl, 1);
         }
     }
 }
