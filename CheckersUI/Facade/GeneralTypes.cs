@@ -1,4 +1,5 @@
-﻿using Checkers;
+﻿using System;
+using Checkers;
 using Microsoft.FSharp.Core;
 
 namespace CheckersUI.Facade
@@ -109,7 +110,35 @@ namespace CheckersUI.Facade
                 return Checkers.Piece.blackKing;
             }
 
-            return null;
+            return FSharpOption<Checkers.Piece.Piece>.None;
+        }
+
+        public static PieceType? Convert(this FSharpOption<Generic.PieceType> pieceType)
+        {
+            if (pieceType == null)
+            {
+                return null;
+            }
+
+            return pieceType.Value.IsChecker ? PieceType.Checker : PieceType.King;
+        }
+
+        public static FSharpOption<Generic.PieceType> ConvertBack(this PieceType? pieceType)
+        {
+            if (pieceType == null)
+            {
+                return FSharpOption<Generic.PieceType>.None;
+            }
+
+            switch (pieceType.Value)
+            {
+                case PieceType.Checker:
+                    return Generic.PieceType.Checker;
+                case PieceType.King:
+                    return Generic.PieceType.King;
+                default:
+                    throw new ArgumentException(nameof(pieceType));
+            }
         }
     }
 }

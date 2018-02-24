@@ -5,6 +5,7 @@ using Windows.Storage;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
+using CheckersUI.Enums;
 
 namespace CheckersUI.VMs
 {

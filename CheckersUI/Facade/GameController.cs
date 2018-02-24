@@ -108,6 +108,7 @@ namespace CheckersUI.Facade
 
         public List<List<Coord>> GetValidMoves()
         {
+            IsDrawn();
             var moves = Checkers.PublicAPI.getValidMoves(this);
             return moves.Select(i => i.Select(c => (Coord)c).ToList()).ToList();
         }
@@ -120,6 +121,9 @@ namespace CheckersUI.Facade
 
         public GameController TakebackMove() =>
             Checkers.PublicAPI.takeBackMove(this);
+
+        public bool IsDrawn()
+            => Checkers.PublicAPI.isDrawn(this);
 
         public Player? GetWinningPlayer()
         {

@@ -14,6 +14,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using CheckersUI.Enums;
 
 namespace CheckersUI.VMs
 {
@@ -60,7 +61,8 @@ namespace CheckersUI.VMs
             if ((e == Player.Black && BlackOpponent == Opponent.Computer ||
                 e == Player.White && WhiteOpponent == Opponent.Computer) &&
                 e == Controller.CurrentPlayer &&
-                Controller.GetWinningPlayer() == null)
+                Controller.GetWinningPlayer() == null &&
+                !Controller.IsDrawn())
             {
                 _cancelComputerMoveTokenSource?.Dispose();
                 _cancelComputerMoveTokenSource = new CancellationTokenSource();
@@ -191,14 +193,24 @@ namespace CheckersUI.VMs
 
         public PdnTurn LastTurn => Controller.MoveHistory.LastOrDefault();
 
-        public string Status
+        public Status Status
         {
             get
             {
-                var winningPlayer = Controller.WithBoard(LastMove()).GetWinningPlayer();
-                return winningPlayer.HasValue && winningPlayer.Value != Controller.CurrentPlayer
-                       ? $"{winningPlayer.Value} Won!"
-                       : $"{Controller.CurrentPlayer}'s turn";
+                var controller = Controller.WithBoard(LastMove());
+
+                if (controller.IsDrawn())
+                {
+                    return Status.Drawn;
+                }
+                
+                var winningPlayer = controller.GetWinningPlayer();
+                if (winningPlayer == null)
+                {
+                    return Status.InProgress;
+                }
+
+                return winningPlayer.Value == Player.Black ? Status.BlackWin : Status.WhiteWin;
             }
         }
         
@@ -332,8 +344,10 @@ namespace CheckersUI.VMs
         {
             get
             {
-                var winningPlayer = Controller.WithBoard(LastMove()).GetWinningPlayer();
-                return !GameCancelled && !(winningPlayer.HasValue && winningPlayer.Value != Controller.CurrentPlayer);
+                var controller = Controller.WithBoard(LastMove());
+
+                var winningPlayer = controller.GetWinningPlayer();
+                return !GameCancelled && !controller.IsDrawn() && !(winningPlayer.HasValue && winningPlayer.Value != Controller.CurrentPlayer);
             }
         }
         
@@ -351,7 +365,7 @@ namespace CheckersUI.VMs
                 hasMoveHistory = Controller.MoveHistory.Count >= 2;
             }
 
-            return isHumanPlaying && hasMoveHistory && !GameCancelled && Controller.GetWinningPlayer() == null;
+            return isHumanPlaying && hasMoveHistory && !GameCancelled && Controller.GetWinningPlayer() == null && !Controller.IsDrawn();
         }
 
         private DelegateCommand _displaySettingsCommand;
@@ -513,6 +527,11 @@ namespace CheckersUI.VMs
                 param => {
                     if (Controller.CurrentPlayer == Player.Black && BlackOpponent == Opponent.Computer ||
                         Controller.CurrentPlayer == Player.White && WhiteOpponent == Opponent.Computer)
+                    {
+                        return false;
+                    }
+
+                    if (Controller.IsDrawn())
                     {
                         return false;
                     }

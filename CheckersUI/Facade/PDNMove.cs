@@ -8,16 +8,18 @@ namespace CheckersUI.Facade
 {
     public class PdnMove
     {
-        public PdnMove(List<int> move, string resultingFen, string displayString)
+        public PdnMove(List<int> move, string resultingFen, string displayString, PieceType? pieceTypeMoved)
         {
             Move = move;
             ResultingFen = resultingFen;
             DisplayString = displayString;
+            PieceTypeMoved = pieceTypeMoved;
         }
 
         public List<int> Move { get; }
         public string ResultingFen { get; }
         public string DisplayString { get; }
+        public PieceType? PieceTypeMoved { get; }
 
         public bool IsJump()
         {
@@ -29,26 +31,26 @@ namespace CheckersUI.Facade
 
         public static implicit operator PdnMove(Generic.PdnMove value)
         {
-            return new PdnMove(value.Move.ToList(), value.ResultingFen, value.DisplayString);
+            return new PdnMove(value.Move.ToList(), value.ResultingFen, value.DisplayString, value.PieceTypeMoved.Convert());
         }
 
         public static implicit operator Generic.PdnMove(PdnMove value)
         {
-            return new Generic.PdnMove(Generic.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString);
+            return new Generic.PdnMove(Generic.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString, value.PieceTypeMoved.ConvertBack());
         }
 
         public static implicit operator PdnMove(FSharpOption<Generic.PdnMove> value)
         {
             return Equals(value, FSharpOption<Generic.PdnMove>.None)
                 ? null
-                : new PdnMove(value.Value.Move.ToList(), value.Value.ResultingFen, value.Value.DisplayString);
+                : new PdnMove(value.Value.Move.ToList(), value.Value.ResultingFen, value.Value.DisplayString, value.Value.PieceTypeMoved.Convert());
         }
 
         public static implicit operator FSharpOption<Generic.PdnMove>(PdnMove value)
         {
             return value == null
                 ? FSharpOption<Generic.PdnMove>.None
-                : new FSharpOption<Generic.PdnMove>(new Generic.PdnMove(Generic.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString));
+                : new FSharpOption<Generic.PdnMove>(new Generic.PdnMove(Generic.listFromSeq(value.Move).Value, value.ResultingFen, value.DisplayString, value.PieceTypeMoved.ConvertBack()));
         }
     }
 }

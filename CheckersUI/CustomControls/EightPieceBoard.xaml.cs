@@ -12,6 +12,7 @@ using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
+using CheckersUI.Enums;
 
 namespace CheckersUI.CustomControls
 {

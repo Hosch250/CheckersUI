@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using CheckersUI.Facade;
 using CheckersUI.VMs;
+using CheckersUI.Enums;
 
 namespace CheckersUI.Pages
 {

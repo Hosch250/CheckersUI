@@ -1,6 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
-using CheckersUI.Facade;
+using CheckersUI.Enums;
 
 namespace CheckersUI.Converters
 {
@@ -8,11 +8,20 @@ namespace CheckersUI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var player = (Player?)value;
-
-            if (!player.HasValue) { return "*"; }
-
-            return player.Value == Player.Black ? "0 - 1" : "1 - 0";
+            var status = (Status)value;
+            switch (status)
+            {
+                case Status.WhiteWin:
+                    return "1 - 0";
+                case Status.BlackWin:
+                    return "0 - 1";
+                case Status.Drawn:
+                    return "½ - ½";
+                case Status.InProgress:
+                    return "*";
+                default:
+                    throw new ArgumentException(nameof(status));
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

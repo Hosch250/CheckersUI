@@ -75,7 +75,7 @@
                            Text="{Binding BlackOpponentText}"
                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
-            <TextBlock Grid.Row="3" Text="{Binding WinningPlayer, Converter={StaticResource PlayerToWinNotation}}" HorizontalAlignment="Center" />
+            <TextBlock Grid.Row="3" Text="{Binding Status, Converter={StaticResource PlayerToWinNotation}}" HorizontalAlignment="Center" />
         </Grid>
         <Grid Grid.Row="3"
               Padding="10,5"
@@ -103,7 +103,7 @@
                            Text="{Binding BlackOpponentText}"
                            FontWeight="{Binding Controller.CurrentPlayer, Converter={StaticResource PlayerToFontWeight}, ConverterParameter=Black}" />
             </StackPanel>
-            <TextBlock Grid.Row="2" Text="{Binding WinningPlayer, Converter={StaticResource PlayerToWinNotation}}" />
+            <TextBlock Grid.Row="2" Text="{Binding Status, Converter={StaticResource PlayerToWinNotation}}" />
         </Grid>
         <controls:EightPieceBoard MaxHeight="640"
                                   MaxWidth="640"

@@ -1,4 +1,4 @@
-﻿namespace CheckersUI
+﻿namespace CheckersUI.Enums
 {
     public enum Setup
     {
